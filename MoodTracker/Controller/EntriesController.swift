@@ -33,8 +33,10 @@ extension EntriesController : ASTableDataSource, ASTableDelegate {
     }
     
     func tableNode(_ tableNode: ASTableNode, nodeForRowAt indexPath: IndexPath) -> ASCellNode {
-//        let cell = EntryCell(tagStrArray: MoodLogData.moodLogs[indexPath.row].tags)
-        let cell = EntryCell()
+        print(MoodLogData.moodLogs[indexPath.row].tags)
+        let cell = EntryCell(tagStrArray: MoodLogData.moodLogs[indexPath.row].tags)
+        cell.designCell()
+//        let cell = EntryCell()
         dateFormatter.dateFormat = "h:mm a"
         
         let timeLabelAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir-Black", size: 22)!,
