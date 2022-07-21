@@ -9,11 +9,12 @@ import Foundation
 import AsyncDisplayKit
 
 class NavController: UINavigationController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.viewControllers = [ASFirstController.create()]
+//        self.viewControllers = [NewEntryController(node: NewEntryNode())]
+        self.viewControllers = [EntriesController(node: EntriesNode())]
     }
 }
 
