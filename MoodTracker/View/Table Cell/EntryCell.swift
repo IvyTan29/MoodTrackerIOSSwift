@@ -42,27 +42,6 @@ class EntryCell : ASCellNode {
     
     override func didLoad() {
         super.didLoad()
-        
-        card.borderWidth = 1
-        card.borderColor = UIColor.lightGray.cgColor
-        card.style.flexGrow = 1
-        
-        moodSlider.style.height = .init(unit: .points, value: 20)
-        moodSlider.style.width = .init(unit: .fraction, value: 0.7)
-        print((moodSlider.view as? UISlider)?.value)
-        
-        for (index, element) in tagBtns.enumerated() {
-            element.setAttributedTitle(NSAttributedString(string: tagStrArray[index], attributes: AddTagNode.tagBtnNorAttr), for: .normal)
-        }
-        
-        tagBtns.forEach { (tagBtn) in
-            tagBtn.borderWidth = 1
-            tagBtn.borderColor = UIColor.lightGray.cgColor
-            tagBtn.cornerRadius = 15
-            tagBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
-        }
-            
-        showNoteBtn.setAttributedTitle(NSAttributedString(string: "Added Note", attributes: EntriesNode.noEntryAttr), for: .normal)
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
@@ -91,7 +70,7 @@ class EntryCell : ASCellNode {
                                                  spacing: 20,
                                                  justifyContent: .spaceBetween,
                                                  alignItems: .stretch,
-                                                 children: [timeSliderStack, tagBtnStack, showNoteBtn])
+                                                 children: [timeSliderStack, tagBtnStack, showNoteStack])
         
         let insetContent = ASInsetLayoutSpec(insets: .init(top: 15, left: 15, bottom: 15, right: 15), child: bigVerticalStack)
         
@@ -102,7 +81,27 @@ class EntryCell : ASCellNode {
     
     func designCell () {
         showNoteImage.image = UIImage(systemName: "note")
-        showNoteImage.style.height = .init(unit: .points, value: 15)
-        showNoteImage.style.width = .init(unit: .points, value: 15)
+//        showNoteImage.style.height = .init(unit: .points, value: 15)
+//        showNoteImage.style.width = .init(unit: .points, value: 15)
+        
+        card.borderWidth = 1
+        card.borderColor = UIColor.lightGray.cgColor
+        card.style.flexGrow = 1
+        
+        moodSlider.style.height = .init(unit: .points, value: 20)
+        moodSlider.style.width = .init(unit: .fraction, value: 0.7)
+        
+        for (index, element) in tagBtns.enumerated() {
+            element.setAttributedTitle(NSAttributedString(string: tagStrArray[index], attributes: AddTagNode.tagBtnNorAttr), for: .normal)
+        }
+        
+        tagBtns.forEach { (tagBtn) in
+            tagBtn.borderWidth = 1
+            tagBtn.borderColor = UIColor.lightGray.cgColor
+            tagBtn.cornerRadius = 15
+            tagBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
+        }
+            
+        showNoteBtn.setAttributedTitle(NSAttributedString(string: "Added Note", attributes: EntriesNode.noEntryAttr), for: .normal)
     }
 }

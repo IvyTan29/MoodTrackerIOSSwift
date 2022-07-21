@@ -72,6 +72,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F1494EAA288983540042C0E7 /* Attributes */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Attributes;
+			sourceTree = "<group>";
+		};
 		F1BBD0792889071300C290B7 /* Table Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -126,6 +133,7 @@
 		F1BC8A3E2887FC5A00604C23 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F1494EAA288983540042C0E7 /* Attributes */,
 				F1BC8A242887F5B500604C23 /* Main.storyboard */,
 				F1BC8A292887F5B800604C23 /* LaunchScreen.storyboard */,
 				F1BC8A272887F5B800604C23 /* Assets.xcassets */,
