@@ -33,7 +33,8 @@ extension EntriesController : ASTableDataSource, ASTableDelegate {
     }
     
     func tableNode(_ tableNode: ASTableNode, nodeForRowAt indexPath: IndexPath) -> ASCellNode {
-        let cell = EntryCell(tagStrArray: MoodLogData.moodLogs[indexPath.row].tags)
+//        let cell = EntryCell(tagStrArray: MoodLogData.moodLogs[indexPath.row].tags)
+        let cell = EntryCell()
         dateFormatter.dateFormat = "h:mm a"
         
         let timeLabelAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir-Black", size: 22)!,
@@ -42,8 +43,7 @@ extension EntriesController : ASTableDataSource, ASTableDelegate {
         cell.timeLabel.attributedText = NSAttributedString(string: dateFormatter.string(from: MoodLogData.moodLogs[indexPath.row].dateTime), attributes: timeLabelAttr)
         
         (cell.moodSlider.view as? UISlider)?.value = MoodLogData.moodLogs[indexPath.row].moodValue
-        print(cell)
-        print("here")
+
         return cell
     }
 }

@@ -18,29 +18,37 @@ class EntryCell : ASCellNode {
         slider.minimumValue = -3
         slider.maximumValue = 3
         slider.minimumTrackTintColor = UIColor.systemRed
+        slider.isEnabled = false
         
         return slider
     }
     
-    var tagStrArray: [String]
-    var tagBtns: [ASButtonNode] = []
+//    var tagStrArray: [String] = []
+//    var tagBtns: [ASButtonNode] = []
     
     var showNoteBtn = ASButtonNode()
     var showNoteImage = ASImageNode()
     
-    init(tagStrArray: [String]) {
-        self.tagStrArray = tagStrArray
-        
-        for _ in self.tagStrArray {
-            self.tagBtns.append(ASButtonNode())
-        }
-        
+    override init() {
         super.init()
         automaticallyManagesSubnodes = true
     }
     
+//    init(tagStrArray: [String]) {
+//        self.tagStrArray = tagStrArray
+//
+//        for _ in self.tagStrArray {
+//            self.tagBtns.append(ASButtonNode())
+//        }
+//
+//        super.init()
+//        automaticallyManagesSubnodes = true
+//    }
+    
     override func didLoad() {
         super.didLoad()
+        
+//        self.style.height = .init(unit: .points, value: 400)
         
         card.borderWidth = 1
         card.borderColor = UIColor.lightGray.cgColor
@@ -48,42 +56,45 @@ class EntryCell : ASCellNode {
         
         moodSlider.style.height = .init(unit: .points, value: 20)
         moodSlider.style.width = .init(unit: .fraction, value: 0.7)
-//        print((moodSlider.view as? UISlider)?.value)
+        print((moodSlider.view as? UISlider)?.value)
         
-        for (index, element) in tagBtns.enumerated() {
-            element.setAttributedTitle(NSAttributedString(string: tagStrArray[index], attributes: AddTagNode.tagBtnNorAttr), for: .normal)
-        }
+//        for (index, element) in tagBtns.enumerated() {
+//            element.setAttributedTitle(NSAttributedString(string: tagStrArray[index], attributes: AddTagNode.tagBtnNorAttr), for: .normal)
+//        }
         
-        tagBtns.forEach { (tagBtn) in
-            tagBtn.borderWidth = 1
-            tagBtn.borderColor = UIColor.lightGray.cgColor
-            tagBtn.cornerRadius = 15
-            tagBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
-        }
+//        tagBtns.forEach { (tagBtn) in
+//            tagBtn.borderWidth = 1
+//            tagBtn.borderColor = UIColor.lightGray.cgColor
+//            tagBtn.cornerRadius = 15
+//            tagBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
+//        }
         
-        showNoteImage.image = UIImage(systemName: "note")
+        showNoteImage.image = UIImage(systemName: "calendar")
+//        showNoteImage.style.height = .init(unit: .points, value: 10)
+//        showNoteImage.style.width = .init(unit: .points, value: 10)
+            
         showNoteBtn.setAttributedTitle(NSAttributedString(string: "Added Note", attributes: EntriesNode.noEntryAttr), for: .normal)
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         let timeSliderStack = ASStackLayoutSpec(direction: .horizontal,
-                                                spacing: 0,
+                                                spacing: 10,
                                                 justifyContent: .spaceBetween,
                                                 alignItems: .start,
                                                 children: [timeLabel, moodSlider])
         
-        let tagBtnStack = ASStackLayoutSpec(direction: .horizontal,
-                                            spacing: 0,
-                                            justifyContent: .center,
-                                            alignItems: .start,
-                                            flexWrap: .wrap,
-                                            alignContent: .center,
-                                            lineSpacing: 10,
-                                            children: tagBtns)
+//        let tagBtnStack = ASStackLayoutSpec(direction: .horizontal,
+//                                            spacing: 0,
+//                                            justifyContent: .center,
+//                                            alignItems: .start,
+//                                            flexWrap: .wrap,
+//                                            alignContent: .center,
+//                                            lineSpacing: 10,
+//                                            children: tagBtns)
         
         let showNoteStack = ASStackLayoutSpec(direction: .horizontal,
-                                              spacing: 0,
-                                              justifyContent: .start,
+                                              spacing: 10,
+                                              justifyContent: .spaceBetween,
                                               alignItems: .start,
                                               children: [showNoteImage, showNoteBtn])
         
@@ -91,12 +102,12 @@ class EntryCell : ASCellNode {
                                                  spacing: 10,
                                                  justifyContent: .spaceBetween,
                                                  alignItems: .stretch,
-                                                 children: [timeSliderStack, tagBtnStack, showNoteStack])
+                                                 children: [timeSliderStack, showNoteBtn])
         
         let insetContent = ASInsetLayoutSpec(insets: .init(top: 10, left: 10, bottom: 10, right: 10), child: bigVerticalStack)
         
         let carded = ASBackgroundLayoutSpec(child: insetContent, background: card)
         
-        return ASInsetLayoutSpec(insets: .zero, child: showNoteBtn)
+        return ASInsetLayoutSpec(insets: .init(top: 10, left: 10, bottom: 10, right: 10), child: carded)
     }
 }

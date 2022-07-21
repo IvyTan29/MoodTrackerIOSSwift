@@ -46,7 +46,7 @@ class EntriesNode: ASDisplayNode {
         todayImage.image = UIImage(systemName: "calendar")
         todayBtn.setAttributedTitle(NSAttributedString(string: "Today", attributes: todayBtnAttr), for: .normal)
         
-        entryTable.style.height = .init(unit: .fraction, value: 0.8)
+//        entryTable.style.height = .init(unit: .fraction, value: 0.8)
 //        entryTable.style.flexBasis = ASDimensionMake("60%")
         
         noEntriesLabel.attributedText = NSAttributedString(string: "_ Entries", attributes: EntriesNode.noEntryAttr)
@@ -62,7 +62,9 @@ class EntriesNode: ASDisplayNode {
                                               alignItems: .stretch,
                                               children: [calendarSegmentControl, todayStack, noEntriesLabel, entryTable])
         
-        return ASInsetLayoutSpec(insets: .init(top: 100, left: 10, bottom: 10, right: 10), child: verticalStack)
+        return ASInsetLayoutSpec(insets: UIEdgeInsets.init(top: 0, left: 0, bottom: safeAreaInsets.bottom, right: 0),
+                                 child: entryTable)
+//        return ASInsetLayoutSpec(insets: .init(top: 100, left: 10, bottom: 10, right: 10), child: entryTable)
     }
 }
 
