@@ -81,8 +81,6 @@ class EntryCell : ASCellNode {
     
     func designCell () {
         showNoteImage.image = UIImage(systemName: "note")
-//        showNoteImage.style.height = .init(unit: .points, value: 15)
-//        showNoteImage.style.width = .init(unit: .points, value: 15)
         
         card.borderWidth = 1
         card.borderColor = UIColor.lightGray.cgColor

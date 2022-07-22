@@ -110,11 +110,6 @@ class NewEntryNode : ASDisplayNode {
                                                 alignItems: .center,
                                                 children: [nextBtn, cancelBtn])
         
-//        let relative = ASRelativeLayoutSpec(horizontalPosition: .center,
-//                                            verticalPosition: .end,
-//                                            sizingOption: .minimumHeight,
-//                                            child: navigationStack)
-        
         let secondStack = ASStackLayoutSpec(direction: .vertical,
                                             spacing: 90,
                                             justifyContent: .start,
