@@ -28,6 +28,7 @@ class EntriesNode: ASDisplayNode {
         super.init()
         
         backgroundColor = .white
+        print("testing")
         automaticallyManagesSubnodes = true
     }
     

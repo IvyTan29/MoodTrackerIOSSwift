@@ -30,6 +30,7 @@ class NewEntryNode : ASDisplayNode {
         slider.minimumTrackTintColor = UIColor.systemRed
         return slider
     })
+    
     var titleLabel = ASTextNode()
     var lowLabel = ASTextNode()
     var highLabel = ASTextNode()
