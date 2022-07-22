@@ -9,7 +9,6 @@ import Foundation
 import AsyncDisplayKit
 
 class EntriesController : ASDKViewController<EntriesNode> {
-    let dateFormatter = DateFormatter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,13 +35,11 @@ extension EntriesController : ASTableDataSource, ASTableDelegate {
         print(MoodLogData.moodLogs[indexPath.row].tags)
         let cell = EntryCell(tagStrArray: MoodLogData.moodLogs[indexPath.row].tags)
         cell.designCell()
-
-        dateFormatter.dateFormat = "h:mm a"
         
         let timeLabelAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir-Black", size: 22)!,
                             NSAttributedString.Key.foregroundColor: UIColor(named: "BlueBase") as Any] as [NSAttributedString.Key : Any]
         
-        cell.timeLabel.attributedText = NSAttributedString(string: dateFormatter.string(from: MoodLogData.moodLogs[indexPath.row].dateTime), attributes: timeLabelAttr)
+        cell.timeLabel.attributedText = NSAttributedString(string: DateFormat.dateFormatToString(format: "h:mm a", date: MoodLogData.moodLogs[indexPath.row].dateTime), attributes: timeLabelAttr)
         
         (cell.moodSlider.view as? UISlider)?.value = MoodLogData.moodLogs[indexPath.row].moodValue
 
