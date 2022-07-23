@@ -11,8 +11,8 @@ import AsyncDisplayKit
 class AddTagsController : ASDKViewController<AddTagNode> {
     
     var indexPath: IndexPath?
-    
     var tagsSet: Set<String> = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,7 +41,6 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         
         // FIXME: - change this to delegate ba?
         if let indexPath = self.indexPath {
-            print("HERE")
             moodStore.dispatch(EditMoodAction.init(index: indexPath))
         } else {
             moodStore.dispatch(AddMoodAction.init())
@@ -69,14 +68,16 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         sender.isSelected = !sender.isSelected
         
         if sender.isSelected {
-            tagsSet.insert(sender.attributedTitle(for: .selected)?.string ?? "")
+            self.tagsSet.insert(sender.attributedTitle(for: .selected)?.string ?? "")
         } else {
-            tagsSet.remove(sender.attributedTitle(for: .selected)?.string ?? "")
+            self.tagsSet.remove(sender.attributedTitle(for: .selected)?.string ?? "")
         }
     }
     
     func load(_ indexPath: IndexPath) {
         self.indexPath = indexPath
+        
+        self.tagsSet = moodStore.state.moodList[indexPath.row].tags ?? []
         
         // assign values
         for button in self.node.tagBtns {

@@ -22,14 +22,21 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         
     case let editorNoteAction as EditorNoteAction:
         state?.editorMood?.note = editorNoteAction.note
+        if let index = editorNoteAction.index {
+            state?.moodList[index.row].note = editorNoteAction.note
+        }
         
     case let addAction as AddMoodAction:
         let moodLog = state?.editorMood ?? MoodLog()
+        
         state?.moodList.append(moodLog)
+        state?.editorMood = MoodLog()
         
     case let editAction as EditMoodAction:
         let moodLog = state?.editorMood ?? MoodLog()
+        
         state?.moodList[editAction.index.row] = moodLog
+        state?.editorMood = MoodLog()
         
     case let deleteAction as DeleteMoodAction:
         state?.moodList.remove(at: deleteAction.index.row)

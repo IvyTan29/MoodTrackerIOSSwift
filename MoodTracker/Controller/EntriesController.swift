@@ -52,14 +52,15 @@ extension EntriesController : ASTableDataSource {
     
     func tableNode(_ tableNode: ASTableNode, nodeForRowAt indexPath: IndexPath) -> ASCellNode {
         let cell = EntryCell(tagStrSet: moodStore.state.moodList[indexPath.row].tags ?? [])
-        cell.designCell()
-        
         let timeLabelAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir-Black", size: 22)!,
                             NSAttributedString.Key.foregroundColor: UIColor(named: "BlueBase") as Any] as [NSAttributedString.Key : Any]
         
-        cell.timeLabel.attributedText = NSAttributedString(string: DateFormat.dateFormatToString(format: "h:mm a", date: moodStore.state.moodList[indexPath.row].dateTime ?? Date()), attributes: timeLabelAttr)
+        cell.designCell()
         
+        cell.timeLabel.attributedText = NSAttributedString(string: DateFormat.dateFormatToString(format: "h:mm a", date: moodStore.state.moodList[indexPath.row].dateTime ?? Date()), attributes: timeLabelAttr)
         (cell.moodSlider.view as? UISlider)?.value = moodStore.state.moodList[indexPath.row].moodValue ?? 0
+        
+        cell.indexPathInCell = indexPath
 
         return cell
     }

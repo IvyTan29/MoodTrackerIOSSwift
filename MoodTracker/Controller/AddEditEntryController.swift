@@ -31,8 +31,8 @@ class AddEditEntryController : ASDKViewController<AddEditEntryNode> {
     }
     
     @objc func nextPressed() {
-        moodStore.dispatch(EditorDateLevelAction.init(dateTime: (self.node.dateTimePicker.view as? UIDatePicker)?.date,
-                                                      moodValue: (self.node.moodSlider.view as? UISlider)?.value))
+        moodStore.dispatch(EditorDateLevelAction.init(dateTime: (self.node.dateTimePicker.view as? UIDatePicker)?.date ?? Date(),
+                                                      moodValue: (self.node.moodSlider.view as? UISlider)?.value ?? 0))
         
         let editorTag = AddTagsController(node: AddTagNode())
         

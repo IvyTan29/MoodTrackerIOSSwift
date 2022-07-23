@@ -30,6 +30,8 @@ class EntryCell : ASCellNode {
     var showNoteBtn = ASButtonNode()
     var showNoteImage = ASImageNode()
     
+    var indexPathInCell : IndexPath?
+    
     init(tagStrSet: Set<String>) {
         self.tagStrSet = tagStrSet
         
@@ -43,6 +45,8 @@ class EntryCell : ASCellNode {
     
     override func didLoad() {
         super.didLoad()
+        
+        cell.showNoteBtn.addTarget(self, action: #selector(seeNotePressed), forControlEvents: .touchUpInside)
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
@@ -103,5 +107,9 @@ class EntryCell : ASCellNode {
         }
         
         showNoteBtn.setAttributedTitle(NSAttributedString(string: "Added Note", attributes: EntriesNode.noEntryAttr), for: .normal)
+    }
+    
+    @objc func seeNotePressed() {
+        // FIXME: - display the added note (maybe do the delegate thingy)
     }
 }
