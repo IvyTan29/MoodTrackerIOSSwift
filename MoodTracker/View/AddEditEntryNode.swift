@@ -8,7 +8,7 @@
 import Foundation
 import AsyncDisplayKit
 
-class NewEntryNode : ASDisplayNode {
+class AddEditEntryNode : ASDisplayNode {
     
     var dateTimePicker = ASDisplayNode(viewBlock: {() -> UIView in
         let picker = UIDatePicker()
@@ -63,13 +63,13 @@ class NewEntryNode : ASDisplayNode {
         
         highLabel.attributedText = NSAttributedString(string: "High", attributes: moodLevelAttr)
         
-        nextBtn.setAttributedTitle(NSAttributedString(string: "Next", attributes: NewEntryNode.mainBtnAttr), for: .normal)
+        nextBtn.setAttributedTitle(NSAttributedString(string: "Next", attributes: AddEditEntryNode.mainBtnAttr), for: .normal)
         nextBtn.backgroundColor = UIColor(named: "BlueBase")
         nextBtn.style.width = .init(unit: .points, value: 100)
         nextBtn.style.height = .init(unit: .points, value: 50)
         nextBtn.cornerRadius = 10
         
-        cancelBtn.setAttributedTitle(NSAttributedString(string: "Cancel", attributes: NewEntryNode.cancelBtnAttr), for: .normal)
+        cancelBtn.setAttributedTitle(NSAttributedString(string: "Cancel", attributes: AddEditEntryNode.cancelBtnAttr), for: .normal)
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {

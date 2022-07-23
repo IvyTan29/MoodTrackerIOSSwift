@@ -10,11 +10,20 @@ import AsyncDisplayKit
 
 class AddTagsController : ASDKViewController<AddTagNode> {
     
+    var indexPath: IndexPath?
+    
     var tagsSet: Set<String> = []
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = "Add Tags"
+        if indexPath != nil {
+            self.navigationItem.title = "Edit Tags"
+            self.node.setAddNoteBtnText(string: "Edit Note")
+        } else {
+            self.navigationItem.title = "Add Tags"
+            self.node.setAddNoteBtnText(string: "Add Note")
+        }
+        
         self.navigationController?.navigationBar.barTintColor = UIColor(named: "BlueBase")
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         
@@ -30,10 +39,8 @@ class AddTagsController : ASDKViewController<AddTagNode> {
     }
     
     @objc func donePressed() {
-        print(tagsSet)
-        
         moodStore.dispatch(EditorTagsAction.init(tags: tagsSet))
-        
+
         // FIXME: - change this to delegate ba?
         moodStore.dispatch(AddMoodAction.init())
         
@@ -45,7 +52,14 @@ class AddTagsController : ASDKViewController<AddTagNode> {
     }
     
     @objc func addNotePressed() {
-        self.navigationController?.pushViewController(AddNoteController(node: AddNoteNode()), animated: true)
+        let editorNote = AddNoteController(node: AddNoteNode())
+        
+        // for editing purposes
+        if let safeIndexPath = self.indexPath {
+            editorNote.load(safeIndexPath)
+        }
+
+        self.navigationController?.pushViewController(editorNote, animated: true)
     }
     
     @objc func tagPressed(_ sender: ASButtonNode) {
@@ -58,4 +72,19 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         }
     }
     
+    func load(_ indexPath: IndexPath) {
+        self.indexPath = indexPath
+        
+        // assign values
+        for button in self.node.tagBtns {
+            let buttonText = button.attributedTitle(for: .normal)?.string ?? ""
+            let isChoice = moodStore.state.moodList[indexPath.row].tags?.contains(buttonText)
+            
+            if let isChoice = isChoice {
+                if isChoice {
+                    button.isSelected = true
+                }
+            }
+        }
+    }
 }

@@ -39,8 +39,7 @@ class EntriesController : ASDKViewController<EntriesNode> {
     
     // TEMPORARY
     @objc func addMoodPressed () {
-        print("Add pressed")
-        self.navigationController?.pushViewController(NewEntryController(node: NewEntryNode()), animated: true)
+        self.navigationController?.pushViewController(AddEditEntryController(node: AddEditEntryNode()), animated: true)
     }
 }
 
@@ -70,11 +69,12 @@ extension EntriesController : ASTableDataSource {
 extension EntriesController : ASTableDelegate {
     func tableNode(_ tableNode: ASTableNode, didSelectRowAt indexPath: IndexPath) {
         tableNode.deselectRow(at: indexPath, animated: true)
-        // TODO: - help
-//        let editor = ASEditController.create()
-//        editor.load(model: modelStore.state.list[indexPath.row], indexPath: indexPath)
+        
+        let editor = AddEditEntryController(node: AddEditEntryNode())
+        editor.load(indexPath)
+        
 //        editor.delegate = self
-//        self.navigationController?.pushViewController(editor, animated: true)
+        self.navigationController?.pushViewController(editor, animated: true)
     }
 }
 
@@ -90,5 +90,6 @@ extension EntriesController : StoreSubscriber {
 
     func newState(state: MoodState) {
         self.node.entryTable.reloadData()
+        self.node.noEntriesLabel.attributedText = NSAttributedString(string: "\(moodStore.state.moodList.count) Entries", attributes: EntriesNode.noEntryAttr)
     }
 }

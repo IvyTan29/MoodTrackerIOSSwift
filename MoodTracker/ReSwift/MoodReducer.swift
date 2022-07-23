@@ -11,8 +11,6 @@ import ReSwift
 func moodReducer(action: Action, state: MoodState?) -> MoodState {
 
     var state = state // state is originally in a let variable
-    
-    print("HEHEHEH: ", state?.editorMood)
 
     switch action {
     case let editorDateLevelAction as EditorDateLevelAction:

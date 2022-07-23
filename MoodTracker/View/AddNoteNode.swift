@@ -29,7 +29,8 @@ class AddNoteNode : ASDisplayNode {
         noteTextView.textView.textContainerInset = .init(top: 8, left: 10, bottom: 8, right: 10)
         noteTextView.textView.font =  UIFont.init(name: "Avenir-Medium", size: 22.0)
         noteTextView.textView.textColor = .gray
-        noteTextView.textView.text = "Add a note..."
+        // FIXME: - change to place holder and adjust insets
+//        noteTextView.textView.text = "Add a note..."
 //        noteTextView.attributedPlaceholderText = NSAttributedString(string: "Add a note...", attributes: notePhAttr)
         
         NotificationCenter.default.addObserver(

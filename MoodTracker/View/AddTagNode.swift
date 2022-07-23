@@ -19,13 +19,14 @@ class AddTagNode : ASDisplayNode {
     var tagBtn4 = ASButtonNode()
     var tagBtn5 = ASButtonNode()
     var tagBtn6 = ASButtonNode()
+    var tagArray = ["Work", "Good Meal", "Presentation", "Swimming", "Difficult Conversation", "Energized"]
+    var tagBtns: [ASButtonNode]
     
     var addNoteBtn = ASButtonNode()
     var doneBtn = ASButtonNode()
     var cancelBtn = ASButtonNode()
-    
-    var tagArray = ["Work", "Good Meal", "Presentation", "Swimming", "Difficult Conversation", "Energized"]
-    var tagBtns: [ASButtonNode]
+
+    var addNoteStr : String
     
     static let tagBtnNorAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 22)!,
                          NSAttributedString.Key.foregroundColor: UIColor.gray]
@@ -34,6 +35,11 @@ class AddTagNode : ASDisplayNode {
     
     override init() {
         self.tagBtns = [tagBtn1, tagBtn2, tagBtn3, tagBtn4, tagBtn5, tagBtn6]
+        
+        for (index, element) in tagBtns.enumerated() {
+            element.setAttributedTitle(NSAttributedString(string: tagArray[index], attributes: AddTagNode.tagBtnNorAttr), for: .normal)
+            element.setAttributedTitle(NSAttributedString(string: tagArray[index], attributes: AddTagNode.tagBtnSelAttr), for: .selected)
+        }
         
         super.init()
         
@@ -59,14 +65,6 @@ class AddTagNode : ASDisplayNode {
         
         recentLabel.attributedText = NSAttributedString(string: "Recent", attributes: recentLabelAttr)
         
-        addNoteBtn.setAttributedTitle(NSAttributedString(string: "Add Note", attributes: addNoteBtnAttr), for: .normal)
-        
-        
-        for (index, element) in tagBtns.enumerated() {
-            element.setAttributedTitle(NSAttributedString(string: tagArray[index], attributes: AddTagNode.tagBtnNorAttr), for: .normal)
-            element.setAttributedTitle(NSAttributedString(string: tagArray[index], attributes: AddTagNode.tagBtnSelAttr), for: .selected)
-        }
-        
         tagBtns.forEach { (tagBtn) in
             tagBtn.borderWidth = 1
             tagBtn.borderColor = UIColor.lightGray.cgColor
@@ -75,13 +73,15 @@ class AddTagNode : ASDisplayNode {
         }
         
         
-        doneBtn.setAttributedTitle(NSAttributedString(string: "Done", attributes: NewEntryNode.mainBtnAttr), for: .normal)
+        doneBtn.setAttributedTitle(NSAttributedString(string: "Done", attributes: AddEditEntryNode.mainBtnAttr), for: .normal)
         doneBtn.backgroundColor = UIColor(named: "BlueBase")
         doneBtn.style.width = .init(unit: .points, value: 100)
         doneBtn.style.height = .init(unit: .points, value: 50)
         doneBtn.cornerRadius = 10
         
-        cancelBtn.setAttributedTitle(NSAttributedString(string: "Cancel", attributes: NewEntryNode.cancelBtnAttr), for: .normal)
+        addNoteBtn.setAttributedTitle(NSAttributedString(string: addNoteStr, attributes: addNoteBtnAttr), for: .normal)
+        
+        cancelBtn.setAttributedTitle(NSAttributedString(string: "Cancel", attributes: AddEditEntryNode.cancelBtnAttr), for: .normal)
         
     }
     
@@ -124,5 +124,9 @@ class AddTagNode : ASDisplayNode {
                                          children: [firstStack, addNoteBtn, relative])
         
         return ASInsetLayoutSpec(insets: .init(top: 100, left: 10, bottom: 20, right: 10), child: bigStack)
+    }
+    
+    func setAddNoteBtnText(string: String) {
+        self.addNoteStr = string
     }
 }

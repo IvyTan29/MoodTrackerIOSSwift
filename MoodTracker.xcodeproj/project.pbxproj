@@ -26,8 +26,8 @@
 		F1BC8A262887F5B500604C23 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1BC8A242887F5B500604C23 /* Main.storyboard */; };
 		F1BC8A282887F5B800604C23 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1BC8A272887F5B800604C23 /* Assets.xcassets */; };
 		F1BC8A2B2887F5B800604C23 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1BC8A292887F5B800604C23 /* LaunchScreen.storyboard */; };
-		F1BC8A4328880A6D00604C23 /* NewEntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BC8A4228880A6D00604C23 /* NewEntryController.swift */; };
-		F1BC8A4928880EC500604C23 /* NewEntryNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BC8A4828880EC500604C23 /* NewEntryNode.swift */; };
+		F1BC8A4328880A6D00604C23 /* AddEditEntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BC8A4228880A6D00604C23 /* AddEditEntryController.swift */; };
+		F1BC8A4928880EC500604C23 /* AddEditEntryNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BC8A4828880EC500604C23 /* AddEditEntryNode.swift */; };
 		F1BC8A4F2888344900604C23 /* AddTagsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BC8A4E2888344900604C23 /* AddTagsController.swift */; };
 		F1BC8A522888345800604C23 /* AddTagNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BC8A512888345800604C23 /* AddTagNode.swift */; };
 /* End PBXBuildFile section */
@@ -55,8 +55,8 @@
 		F1BC8A272887F5B800604C23 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F1BC8A2A2887F5B800604C23 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F1BC8A2C2887F5B800604C23 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F1BC8A4228880A6D00604C23 /* NewEntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEntryController.swift; sourceTree = "<group>"; };
-		F1BC8A4828880EC500604C23 /* NewEntryNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEntryNode.swift; sourceTree = "<group>"; };
+		F1BC8A4228880A6D00604C23 /* AddEditEntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditEntryController.swift; sourceTree = "<group>"; };
+		F1BC8A4828880EC500604C23 /* AddEditEntryNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditEntryNode.swift; sourceTree = "<group>"; };
 		F1BC8A4E2888344900604C23 /* AddTagsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagsController.swift; sourceTree = "<group>"; };
 		F1BC8A512888345800604C23 /* AddTagNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagNode.swift; sourceTree = "<group>"; };
 		FE0AC9BC9B6280E6E8C43C46 /* Pods_MoodTracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MoodTracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,7 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				F1BC8A222887F5B500604C23 /* NavController.swift */,
-				F1BC8A4228880A6D00604C23 /* NewEntryController.swift */,
+				F1BC8A4228880A6D00604C23 /* AddEditEntryController.swift */,
 				F1BC8A4E2888344900604C23 /* AddTagsController.swift */,
 				F1BBD06C2888F53000C290B7 /* AddNoteController.swift */,
 				F1952B9A288A8B38005BD0CC /* TabBarController.swift */,
@@ -162,7 +162,7 @@
 				F1BC8A242887F5B500604C23 /* Main.storyboard */,
 				F1BC8A292887F5B800604C23 /* LaunchScreen.storyboard */,
 				F1BC8A272887F5B800604C23 /* Assets.xcassets */,
-				F1BC8A4828880EC500604C23 /* NewEntryNode.swift */,
+				F1BC8A4828880EC500604C23 /* AddEditEntryNode.swift */,
 				F1BC8A512888345800604C23 /* AddTagNode.swift */,
 				F1BBD06F2888F54E00C290B7 /* AddNoteNode.swift */,
 				F1BBD076288902ED00C290B7 /* EntriesNode.swift */,
@@ -315,9 +315,9 @@
 				F1BC8A212887F5B500604C23 /* SceneDelegate.swift in Sources */,
 				F1952B9B288A8B38005BD0CC /* TabBarController.swift in Sources */,
 				F1BBD06D2888F53000C290B7 /* AddNoteController.swift in Sources */,
-				F1BC8A4328880A6D00604C23 /* NewEntryController.swift in Sources */,
+				F1BC8A4328880A6D00604C23 /* AddEditEntryController.swift in Sources */,
 				F1BBD0702888F54E00C290B7 /* AddNoteNode.swift in Sources */,
-				F1BC8A4928880EC500604C23 /* NewEntryNode.swift in Sources */,
+				F1BC8A4928880EC500604C23 /* AddEditEntryNode.swift in Sources */,
 				F1952B90288A83E7005BD0CC /* MoodState.swift in Sources */,
 				F1952B7F288A8046005BD0CC /* AttributesFormat.swift in Sources */,
 			);
