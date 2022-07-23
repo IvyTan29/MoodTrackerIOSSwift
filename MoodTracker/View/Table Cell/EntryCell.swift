@@ -17,8 +17,9 @@ class EntryCell : ASCellNode {
         
         slider.minimumValue = -3
         slider.maximumValue = 3
-        slider.minimumTrackTintColor = UIColor.systemRed
+        slider.minimumTrackTintColor = UIColor(named: "OrangeSecondary")
         slider.isEnabled = false
+        slider.thumbTintColor = UIColor(named: "OrangeSecondary")
         
         return slider
     }

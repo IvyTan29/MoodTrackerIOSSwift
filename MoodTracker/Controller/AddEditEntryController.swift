@@ -39,6 +39,9 @@ class AddEditEntryController : ASDKViewController<AddEditEntryNode> {
         // for editing purposes
         if let safeIndexPath = self.indexPath {
             editorTag.load(safeIndexPath)
+            editorTag.node.setAddNoteBtnText(string: "Edit note")
+        } else {
+            editorTag.node.setAddNoteBtnText(string: "Add note")
         }
         
         self.navigationController?.pushViewController(editorTag, animated: true)

@@ -30,7 +30,7 @@ class EntriesNode: ASDisplayNode {
     override init() {
         super.init()
         
-        backgroundColor = .white
+        backgroundColor = .systemBackground
         automaticallyManagesSubnodes = true
     }
     

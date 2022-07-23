@@ -12,16 +12,21 @@ class AddEditEntryNode : ASDisplayNode {
     
     var dateTimePicker = ASDisplayNode(viewBlock: {() -> UIView in
         let picker = UIDatePicker()
+        
         picker.preferredDatePickerStyle = .compact
         picker.datePickerMode = .dateAndTime
+        
         return picker
     })
     var moodSlider = ASDisplayNode(viewBlock: {() -> UIView in
         let slider = UISlider()
+        
         slider.minimumValue = -3
         slider.maximumValue = 3
         slider.value = 0
-        slider.minimumTrackTintColor = UIColor.systemRed
+        slider.minimumTrackTintColor = UIColor(named: "OrangeSecondary")
+        slider.thumbTintColor = UIColor(named: "OrangeSecondary")
+        
         return slider
     })
     
@@ -39,8 +44,8 @@ class AddEditEntryNode : ASDisplayNode {
     
     override init() {
         super.init()
-        backgroundColor = .white
         
+        backgroundColor = .systemBackground
         automaticallyManagesSubnodes = true
     }
     
@@ -51,7 +56,7 @@ class AddEditEntryNode : ASDisplayNode {
         dateTimePicker.style.width = .init(unit: .fraction, value: 0.5)
         
         let titleAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir-Heavy", size: 30)!,
-                         NSAttributedString.Key.foregroundColor: UIColor.black]
+                         NSAttributedString.Key.foregroundColor: UIColor.label]
         let moodLevelAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir-Medium", size: 12)!,
                              NSAttributedString.Key.foregroundColor: UIColor.black]
         

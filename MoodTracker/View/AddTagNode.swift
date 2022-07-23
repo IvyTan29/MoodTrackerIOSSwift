@@ -26,7 +26,7 @@ class AddTagNode : ASDisplayNode {
     var doneBtn = ASButtonNode()
     var cancelBtn = ASButtonNode()
 
-    var addNoteStr : String
+    var addNoteStr : String?
     
     static let tagBtnNorAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 22)!,
                          NSAttributedString.Key.foregroundColor: UIColor.gray]
@@ -43,7 +43,7 @@ class AddTagNode : ASDisplayNode {
         
         super.init()
         
-        backgroundColor = .white
+        backgroundColor = .systemBackground
         automaticallyManagesSubnodes = true
     }
     
@@ -65,6 +65,7 @@ class AddTagNode : ASDisplayNode {
         
         recentLabel.attributedText = NSAttributedString(string: "Recent", attributes: recentLabelAttr)
         
+        
         tagBtns.forEach { (tagBtn) in
             tagBtn.borderWidth = 1
             tagBtn.borderColor = UIColor.lightGray.cgColor
@@ -79,7 +80,7 @@ class AddTagNode : ASDisplayNode {
         doneBtn.style.height = .init(unit: .points, value: 50)
         doneBtn.cornerRadius = 10
         
-        addNoteBtn.setAttributedTitle(NSAttributedString(string: addNoteStr, attributes: addNoteBtnAttr), for: .normal)
+        addNoteBtn.setAttributedTitle(NSAttributedString(string: addNoteStr ?? "", attributes: addNoteBtnAttr), for: .normal)
         
         cancelBtn.setAttributedTitle(NSAttributedString(string: "Cancel", attributes: AddEditEntryNode.cancelBtnAttr), for: .normal)
         

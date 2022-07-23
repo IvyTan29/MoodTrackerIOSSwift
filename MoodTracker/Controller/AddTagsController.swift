@@ -18,10 +18,8 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         
         if indexPath != nil {
             self.navigationItem.title = "Edit Tags"
-            self.node.setAddNoteBtnText(string: "Edit Note")
         } else {
             self.navigationItem.title = "Add Tags"
-            self.node.setAddNoteBtnText(string: "Add Note")
         }
         
         self.navigationController?.navigationBar.barTintColor = UIColor(named: "BlueBase")
@@ -40,9 +38,14 @@ class AddTagsController : ASDKViewController<AddTagNode> {
     
     @objc func donePressed() {
         moodStore.dispatch(EditorTagsAction.init(tags: tagsSet))
-
+        
         // FIXME: - change this to delegate ba?
-        moodStore.dispatch(AddMoodAction.init())
+        if let indexPath = self.indexPath {
+            print("HERE")
+            moodStore.dispatch(EditMoodAction.init(index: indexPath))
+        } else {
+            moodStore.dispatch(AddMoodAction.init())
+        }
         
         self.navigationController?.popToRootViewController(animated: true)
     }
