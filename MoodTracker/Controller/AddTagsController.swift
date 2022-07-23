@@ -9,6 +9,8 @@ import Foundation
 import AsyncDisplayKit
 
 class AddTagsController : ASDKViewController<AddTagNode> {
+    
+    var tagsSet: Set<String> = []
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,7 +30,14 @@ class AddTagsController : ASDKViewController<AddTagNode> {
     }
     
     @objc func donePressed() {
-        print("Done pressed")
+        print(tagsSet)
+        
+        moodStore.dispatch(EditorTagsAction.init(tags: tagsSet))
+        
+        // FIXME: - change this to delegate ba?
+        moodStore.dispatch(AddMoodAction.init())
+        
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     @objc func cancelPressed() {
@@ -41,6 +50,12 @@ class AddTagsController : ASDKViewController<AddTagNode> {
     
     @objc func tagPressed(_ sender: ASButtonNode) {
         sender.isSelected = !sender.isSelected
+        
+        if sender.isSelected {
+            tagsSet.insert(sender.attributedTitle(for: .selected)?.string ?? "")
+        } else {
+            tagsSet.remove(sender.attributedTitle(for: .selected)?.string ?? "")
+        }
     }
     
 }

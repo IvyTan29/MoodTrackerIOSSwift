@@ -24,7 +24,7 @@ class AddTagNode : ASDisplayNode {
     var doneBtn = ASButtonNode()
     var cancelBtn = ASButtonNode()
     
-    var tagArray = ["Work", "Good Meal", "Presentation", "Swimming", "Difficult Conversation", "Energized", "..."]
+    var tagArray = ["Work", "Good Meal", "Presentation", "Swimming", "Difficult Conversation", "Energized"]
     var tagBtns: [ASButtonNode]
     
     static let tagBtnNorAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 22)!,
@@ -123,6 +123,6 @@ class AddTagNode : ASDisplayNode {
                                          alignItems: .center,
                                          children: [firstStack, addNoteBtn, relative])
         
-        return ASInsetLayoutSpec(insets: .init(top: 100, left: 10, bottom: 10, right: 10), child: bigStack)
+        return ASInsetLayoutSpec(insets: .init(top: 100, left: 10, bottom: 20, right: 10), child: bigStack)
     }
 }

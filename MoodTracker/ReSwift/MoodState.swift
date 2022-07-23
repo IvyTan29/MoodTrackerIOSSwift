@@ -16,7 +16,8 @@ struct MoodState {
                 MoodLog(dateTime: Date().advanced(by: 24*60*60), moodValue: 2, tags: ["Breakfast", "Positive"], note: "Add a note...."),
                 MoodLog(dateTime: Date().advanced(by: 24*60*60), moodValue: 0, tags: ["Sleep", "nervous"], note: nil),
                 MoodLog(dateTime: Date().advanced(by: 24*60*60), moodValue: 1, tags: ["Sleep", "nervous"], note: nil)
-            ]
+            ],
+            editorMood: MoodLog()
         )
     }
     

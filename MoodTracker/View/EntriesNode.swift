@@ -75,7 +75,7 @@ class EntriesNode: ASDisplayNode {
                                               alignItems: .stretch,
                                               children: [calendarSegmentControl, addBtn, todayStack, numEntryContainer, entryTable])
         
-        return ASInsetLayoutSpec(insets: .init(top: 100, left: 10, bottom: 100, right: 10), child: verticalStack)
+        return ASInsetLayoutSpec(insets: .init(top: 100, left: 10, bottom: 20, right: 10), child: verticalStack)
     }
 }
 

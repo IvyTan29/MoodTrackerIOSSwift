@@ -9,14 +9,23 @@ import Foundation
 import ReSwift
 
 struct AddMoodAction : Action {
-    var mood: MoodLog
+//    var mood: MoodLog
+}
+
+struct EditorDateLevelAction : Action {
+    var dateTime: Date?
+    var moodValue: Float?
+}
+
+struct EditorTagsAction : Action {
+    var tags: Set<String>?
+}
+
+struct EditorNoteAction : Action {
+    var note: String?
 }
 
 struct EditMoodAction : Action {
-    var mood: MoodLog
-}
-
-struct EditorMoodFinalAction : Action {
     // var mood: MoodLog
     var index: IndexPath
 }

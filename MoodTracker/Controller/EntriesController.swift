@@ -52,7 +52,7 @@ extension EntriesController : ASTableDataSource {
     }
     
     func tableNode(_ tableNode: ASTableNode, nodeForRowAt indexPath: IndexPath) -> ASCellNode {
-        let cell = EntryCell(tagStrArray: moodStore.state.moodList[indexPath.row].tags ?? [])
+        let cell = EntryCell(tagStrSet: moodStore.state.moodList[indexPath.row].tags ?? [])
         cell.designCell()
         
         let timeLabelAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir-Black", size: 22)!,

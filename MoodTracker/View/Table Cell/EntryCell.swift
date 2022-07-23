@@ -23,19 +23,19 @@ class EntryCell : ASCellNode {
         return slider
     }
     
-    var tagStrArray: [String] = []
+    var tagStrSet: Set<String> = []
     var tagBtns: [ASButtonNode] = []
     
     var showNoteBtn = ASButtonNode()
     var showNoteImage = ASImageNode()
     
-    init(tagStrArray: [String]) {
-        self.tagStrArray = tagStrArray
-
-        for _ in self.tagStrArray {
+    init(tagStrSet: Set<String>) {
+        self.tagStrSet = tagStrSet
+        
+        for _ in self.tagStrSet {
             self.tagBtns.append(ASButtonNode())
         }
-
+        
         super.init()
         automaticallyManagesSubnodes = true
     }
@@ -65,7 +65,7 @@ class EntryCell : ASCellNode {
                                               justifyContent: .start,
                                               alignItems: .start,
                                               children: [showNoteImage, showNoteBtn])
-
+        
         let bigVerticalStack = ASStackLayoutSpec(direction: .vertical,
                                                  spacing: 20,
                                                  justifyContent: .spaceBetween,
@@ -89,8 +89,9 @@ class EntryCell : ASCellNode {
         moodSlider.style.height = .init(unit: .points, value: 20)
         moodSlider.style.width = .init(unit: .fraction, value: 0.7)
         
-        for (index, element) in tagBtns.enumerated() {
-            element.setAttributedTitle(NSAttributedString(string: tagStrArray[index], attributes: AddTagNode.tagBtnNorAttr), for: .normal)
+        for (idx, element) in tagBtns.enumerated() {
+            element.setAttributedTitle(NSAttributedString(string: tagStrSet[tagStrSet.index(tagStrSet.startIndex, offsetBy: idx)], attributes: AddTagNode.tagBtnNorAttr),
+                                       for: .normal)
         }
         
         tagBtns.forEach { (tagBtn) in
@@ -99,7 +100,7 @@ class EntryCell : ASCellNode {
             tagBtn.cornerRadius = 15
             tagBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
         }
-            
+        
         showNoteBtn.setAttributedTitle(NSAttributedString(string: "Added Note", attributes: EntriesNode.noEntryAttr), for: .normal)
     }
 }

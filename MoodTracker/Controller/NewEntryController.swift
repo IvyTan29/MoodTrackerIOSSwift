@@ -21,18 +21,21 @@ class NewEntryController : ASDKViewController<NewEntryNode> {
         
         self.node.nextBtn.addTarget(self, action: #selector(nextPressed), forControlEvents: .touchUpInside)
         self.node.cancelBtn.addTarget(self, action: #selector(cancelPressed), forControlEvents: .touchUpInside)
-        (self.node.moodSlider.view as! UISlider).addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
+//        (self.node.moodSlider.view as! UISlider).addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
     }
     
     @objc func nextPressed() {
+        moodStore.dispatch(EditorDateLevelAction.init(dateTime: (self.node.dateTimePicker.view as? UIDatePicker)?.date,
+                                                      moodValue: (self.node.moodSlider.view as? UISlider)?.value))
+        
         self.navigationController?.pushViewController(AddTagsController(node: AddTagNode()), animated: true)
     }
     
     @objc func cancelPressed() {
-        print("Cancel pressed")
+        self.navigationController?.popViewController(animated: true)
     }
     
-    @objc func sliderValueChanged(_ sender: UISlider) {
-        print("Slider value change")
-    }
+//    @objc func sliderValueChanged(_ sender: UISlider) {
+//        print("Slider value change")
+//    }
 }

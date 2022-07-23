@@ -10,16 +10,10 @@ import AsyncDisplayKit
 
 class NewEntryNode : ASDisplayNode {
     
-    var datePicker = ASDisplayNode(viewBlock: {() -> UIView in
+    var dateTimePicker = ASDisplayNode(viewBlock: {() -> UIView in
         let picker = UIDatePicker()
         picker.preferredDatePickerStyle = .compact
-        picker.datePickerMode = .date
-        return picker
-    })
-    var timePicker = ASDisplayNode(viewBlock: {() -> UIView in
-        let picker = UIDatePicker()
-        picker.preferredDatePickerStyle = .compact
-        picker.datePickerMode = .time
+        picker.datePickerMode = .dateAndTime
         return picker
     })
     var moodSlider = ASDisplayNode(viewBlock: {() -> UIView in
@@ -53,11 +47,8 @@ class NewEntryNode : ASDisplayNode {
     override func didLoad() {
         super.didLoad()
         
-        datePicker.style.height = .init(unit: .points, value: 25)
-        datePicker.style.width = .init(unit: .points, value: 100)
-        
-        timePicker.style.height = .init(unit: .points, value: 30)
-        timePicker.style.width = .init(unit: .points, value: 100)
+        dateTimePicker.style.height = .init(unit: .points, value: 40)
+        dateTimePicker.style.width = .init(unit: .fraction, value: 0.5)
         
         let titleAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir-Heavy", size: 30)!,
                          NSAttributedString.Key.foregroundColor: UIColor.black]
@@ -82,12 +73,9 @@ class NewEntryNode : ASDisplayNode {
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-        //FIXME:
-        let dateTimeStack = ASStackLayoutSpec(direction: .vertical,
-                                              spacing: 10,
-                                              justifyContent: .start,
-                                              alignItems: .center,
-                                              children: [datePicker, timePicker])
+        let dateTimeCenter = ASCenterLayoutSpec(centeringOptions: .X,
+                                                sizingOptions: .minimumY,
+                                                child: dateTimePicker)
         
         let moodLevelStack = ASStackLayoutSpec(direction: .horizontal,
                                                spacing: 40,
@@ -115,7 +103,7 @@ class NewEntryNode : ASDisplayNode {
                                             spacing: 90,
                                             justifyContent: .start,
                                             alignItems: .stretch,
-                                            children: [dateTimeStack, moodStack])
+                                            children: [dateTimeCenter, moodStack])
         
         let bigStack = ASStackLayoutSpec(direction: .vertical,
                                          spacing: 10,
@@ -123,6 +111,6 @@ class NewEntryNode : ASDisplayNode {
                                          alignItems: .stretch,
                                          children: [secondStack, navigationStack])
         
-        return ASInsetLayoutSpec(insets: .init(top: 100, left: 10, bottom: 10, right: 10), child: bigStack)
+        return ASInsetLayoutSpec(insets: .init(top: 100, left: 10, bottom: 20, right: 10), child: bigStack)
     }
 }

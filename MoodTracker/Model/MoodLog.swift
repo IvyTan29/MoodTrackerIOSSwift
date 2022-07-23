@@ -10,6 +10,6 @@ import Foundation
 struct MoodLog {
     var dateTime : Date?
     var moodValue : Float?
-    var tags: [String]?
+    var tags: Set<String>?
     var note: String?
 }

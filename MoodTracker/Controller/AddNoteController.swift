@@ -26,6 +26,9 @@ class AddNoteController: ASDKViewController<AddNoteNode> {
     }
     
     @objc func donePressed() {
-        self.navigationController?.pushViewController(EntriesController(node: EntriesNode()), animated: true)
+        
+        moodStore.dispatch(EditorNoteAction.init(note: self.node.noteTextView.textView.text ?? ""))
+        
+        self.navigationController?.popViewController(animated: true)
     }
 }
