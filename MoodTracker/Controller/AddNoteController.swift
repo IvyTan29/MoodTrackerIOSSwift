@@ -18,6 +18,8 @@ class AddNoteController: ASDKViewController<AddNoteNode> {
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Done", style: .plain, target: self, action: #selector(donePressed))
         
+        self.tabBarController?.tabBar.isHidden = true
+        
 //        UIBarButtonItemAppearance(style: UIBarButtonItem.Style)
         
 //        UIBarButtonItem.Style(rawValue: <#T##Int#>)

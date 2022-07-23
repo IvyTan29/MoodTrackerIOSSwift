@@ -21,6 +21,9 @@ class EntriesNode: ASDisplayNode {
     var todayImage = ASImageNode()
     var noEntriesLabel = ASTextNode()
     
+    // TEMPORARY
+    var addBtn = ASButtonNode()
+    
     static let noEntryAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 18)!,
                        NSAttributedString.Key.foregroundColor: UIColor.lightGray as Any] as [NSAttributedString.Key : Any]
     
@@ -28,7 +31,6 @@ class EntriesNode: ASDisplayNode {
         super.init()
         
         backgroundColor = .white
-        print("testing")
         automaticallyManagesSubnodes = true
     }
     
@@ -50,22 +52,30 @@ class EntriesNode: ASDisplayNode {
         entryTable.style.height = .init(unit: .fraction, value: 0.8)
 //        entryTable.style.flexBasis = ASDimensionMake("60%")
         
+        // TEMPORARY
+        addBtn.setAttributedTitle(NSAttributedString(string: "Add", attributes: todayBtnAttr), for: .normal)
+        
         noEntriesLabel.attributedText = NSAttributedString(string: "_ Entries", attributes: EntriesNode.noEntryAttr)
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         
-        let todayStack = ASStackLayoutSpec(direction: .horizontal, spacing: 10, justifyContent: .center, alignItems: .center, children: [todayImage, todayBtn])
+        let todayStack = ASStackLayoutSpec(direction: .horizontal,
+                                           spacing: 10,
+                                           justifyContent: .center,
+                                           alignItems: .center,
+                                           children: [todayImage, todayBtn])
         
-        let numEntryContainer = ASInsetLayoutSpec(insets: .init(top: 0, left: 15, bottom: 0, right: 15), child: noEntriesLabel)
+        let numEntryContainer = ASInsetLayoutSpec(insets: .init(top: 0, left: 15, bottom: 0, right: 15),
+                                                  child: noEntriesLabel)
         
         let verticalStack = ASStackLayoutSpec(direction: .vertical,
                                               spacing: 10,
                                               justifyContent: .start,
                                               alignItems: .stretch,
-                                              children: [calendarSegmentControl, todayStack, numEntryContainer, entryTable])
+                                              children: [calendarSegmentControl, addBtn, todayStack, numEntryContainer, entryTable])
         
-        return ASInsetLayoutSpec(insets: .init(top: 100, left: 10, bottom: 10, right: 10), child: verticalStack)
+        return ASInsetLayoutSpec(insets: .init(top: 100, left: 10, bottom: 100, right: 10), child: verticalStack)
     }
 }
 

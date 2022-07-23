@@ -8,8 +8,8 @@
 import Foundation
 
 struct MoodLog {
-    var dateTime : Date
-    var moodValue : Float
-    var tags: [String]
+    var dateTime : Date?
+    var moodValue : Float?
+    var tags: [String]?
     var note: String?
 }

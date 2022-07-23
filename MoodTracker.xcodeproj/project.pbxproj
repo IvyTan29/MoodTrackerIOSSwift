@@ -20,7 +20,6 @@
 		F1BBD077288902ED00C290B7 /* EntriesNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BBD076288902ED00C290B7 /* EntriesNode.swift */; };
 		F1BBD07D28890B5700C290B7 /* EntryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BBD07C28890B5700C290B7 /* EntryCell.swift */; };
 		F1BBD080288910AB00C290B7 /* MoodLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BBD07F288910AB00C290B7 /* MoodLog.swift */; };
-		F1BBD0832889112100C290B7 /* MoodLogData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BBD0822889112100C290B7 /* MoodLogData.swift */; };
 		F1BC8A1F2887F5B500604C23 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BC8A1E2887F5B500604C23 /* AppDelegate.swift */; };
 		F1BC8A212887F5B500604C23 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BC8A202887F5B500604C23 /* SceneDelegate.swift */; };
 		F1BC8A232887F5B500604C23 /* NavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BC8A222887F5B500604C23 /* NavController.swift */; };
@@ -48,7 +47,6 @@
 		F1BBD076288902ED00C290B7 /* EntriesNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesNode.swift; sourceTree = "<group>"; };
 		F1BBD07C28890B5700C290B7 /* EntryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCell.swift; sourceTree = "<group>"; };
 		F1BBD07F288910AB00C290B7 /* MoodLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodLog.swift; sourceTree = "<group>"; };
-		F1BBD0822889112100C290B7 /* MoodLogData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodLogData.swift; sourceTree = "<group>"; };
 		F1BC8A1B2887F5B500604C23 /* MoodTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoodTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1BC8A1E2887F5B500604C23 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F1BC8A202887F5B500604C23 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -176,7 +174,6 @@
 			isa = PBXGroup;
 			children = (
 				F1BBD07F288910AB00C290B7 /* MoodLog.swift */,
-				F1BBD0822889112100C290B7 /* MoodLogData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -309,7 +306,6 @@
 				F1BC8A522888345800604C23 /* AddTagNode.swift in Sources */,
 				F1952B94288A83F3005BD0CC /* MoodReducer.swift in Sources */,
 				F1BBD080288910AB00C290B7 /* MoodLog.swift in Sources */,
-				F1BBD0832889112100C290B7 /* MoodLogData.swift in Sources */,
 				F1BC8A232887F5B500604C23 /* NavController.swift in Sources */,
 				F1BBD074288902D800C290B7 /* EntriesController.swift in Sources */,
 				F1BBD07D28890B5700C290B7 /* EntryCell.swift in Sources */,

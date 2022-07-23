@@ -17,11 +17,11 @@ class NewEntryController : ASDKViewController<NewEntryNode> {
         self.navigationController?.navigationBar.barTintColor = UIColor(named: "BlueBase")
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         
+        self.tabBarController?.tabBar.isHidden = true
+        
         self.node.nextBtn.addTarget(self, action: #selector(nextPressed), forControlEvents: .touchUpInside)
         self.node.cancelBtn.addTarget(self, action: #selector(cancelPressed), forControlEvents: .touchUpInside)
         (self.node.moodSlider.view as! UISlider).addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
-        
-//        (self.node.moodSlider.view as! UIView).setUserEn
     }
     
     @objc func nextPressed() {

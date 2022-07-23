@@ -16,6 +16,8 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         self.navigationController?.navigationBar.barTintColor = UIColor(named: "BlueBase")
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         
+        self.tabBarController?.tabBar.isHidden = true
+        
         self.node.doneBtn.addTarget(self, action: #selector(donePressed), forControlEvents: .touchUpInside)
         self.node.cancelBtn.addTarget(self, action: #selector(cancelPressed), forControlEvents: .touchUpInside)
         self.node.addNoteBtn.addTarget(self, action: #selector(addNotePressed), forControlEvents: .touchUpInside)
@@ -30,7 +32,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
     }
     
     @objc func cancelPressed() {
-        print("Cancel pressed")
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     @objc func addNotePressed() {
