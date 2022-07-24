@@ -25,7 +25,7 @@ class NavController: UINavigationController {
         let navBarAppearance = UINavigationBarAppearance()
         navBarAppearance.configureWithOpaqueBackground()
         navBarAppearance.backgroundColor = UIColor(named: "BlueBase")
-        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont(name: "Avenir-Medium", size: 20) ?? UIFont()]
+        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont(name: "Avenir-Medium", size: 22) ?? UIFont()]
         
         
         let proxy = UINavigationBar.appearance()

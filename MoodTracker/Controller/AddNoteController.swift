@@ -58,5 +58,9 @@ class AddNoteController: ASDKViewController<AddNoteNode> {
                 self.node.noteTextView.textView.isEditable = false
             }
         }
+        
+        if self.noteOperation == .add {
+            self.node.noteTextView.textView.text = moodStore.state.editorMood?.note
+        }
     }
 }

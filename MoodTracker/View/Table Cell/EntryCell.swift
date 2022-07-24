@@ -118,6 +118,10 @@ class EntryCell : ASCellNode {
         }
         
         showNoteBtn.setAttributedTitle(NSAttributedString(string: "Added Note", attributes: EntriesNode.noEntryAttr), for: .normal)
+        
+        //FIXME: - fixed color para obvious na button sya
+//        showNoteBtn.borderWidth = 1
+//        showNoteBtn.borderColor = UIColor(named: "OrangeSecondary")?.cgColor
     }
     
     @objc func seeNotePressed() {
