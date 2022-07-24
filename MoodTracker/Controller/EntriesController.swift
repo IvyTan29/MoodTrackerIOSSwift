@@ -15,13 +15,7 @@ class EntriesController : ASDKViewController<EntriesNode> {
         super.viewDidLoad()
         
         self.navigationItem.title = "My Entries"
-        
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(named: "BlueBase")
-        self.navigationController?.navigationBar.standardAppearance = appearance
-        self.navigationController?.navigationBar.scrollEdgeAppearance = self.navigationController?.navigationBar.standardAppearance
-        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+        self.navigationItem.backBarButtonItem = NavController.backBarButton
         
         self.tabBarController?.tabBar.isHidden = false
         

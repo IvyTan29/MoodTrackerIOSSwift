@@ -22,8 +22,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
             self.navigationItem.title = "Add Tags"
         }
         
-        self.navigationController?.navigationBar.barTintColor = UIColor(named: "BlueBase")
-        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+        self.navigationItem.backBarButtonItem = NavController.backBarButton
         
         self.tabBarController?.tabBar.isHidden = true
         

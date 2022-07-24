@@ -7,6 +7,7 @@
 
 import UIKit
 
+// reference: https://fabcoding.com/2019/03/14/curved-tabbar-with-a-round-middle-button/
 class CustomTabBar : UITabBar {
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         guard !clipsToBounds && !isHidden && alpha > 0 else { return nil }

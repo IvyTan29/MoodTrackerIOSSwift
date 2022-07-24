@@ -21,19 +21,20 @@ class AddEditEntryController : ASDKViewController<AddEditEntryNode> {
             self.navigationItem.title = "New Entry"
         }
         
-        self.navigationController?.navigationBar.barTintColor = UIColor(named: "BlueBase")
-        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
-//        self.navigationItem.leftBarButtonItems = [UIBarButtonItem(image: UIImage(named: "chevron.backward"), style: .plain, target: self, action: #selector(backLeftNavButtonPressed))]
-        
-        
-//        CustomBackButton.createWithImage(UIImage(named: "yourImageName")!, color: UIColor.yourColor(), target: weakSelf, action: #selector(YourViewController.tappedBackButton)
-        
-        
-        
+        self.navigationItem.backBarButtonItem = NavController.backBarButton
+    
         self.tabBarController?.tabBar.isHidden = true
         
         self.node.nextBtn.addTarget(self, action: #selector(nextPressed), forControlEvents: .touchUpInside)
         self.node.cancelBtn.addTarget(self, action: #selector(cancelPressed), forControlEvents: .touchUpInside)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if self.isMovingFromParent {
+            self.tabBarController?.tabBar.isHidden = false
+        }
     }
     
     @objc func nextPressed() {
@@ -54,7 +55,6 @@ class AddEditEntryController : ASDKViewController<AddEditEntryNode> {
     
     @objc func cancelPressed() {
         self.navigationController?.popViewController(animated: true)
-        self.tabBarController?.tabBar.isHidden = false
     }
     
 //    @objc func backLeftNavButtonPressed() {

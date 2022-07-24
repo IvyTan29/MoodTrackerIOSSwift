@@ -19,9 +19,8 @@ class AddNoteController: ASDKViewController<AddNoteNode> {
         } else {
             self.navigationItem.title = "Add Note"
         }
-
-        self.navigationController?.navigationBar.barTintColor = UIColor(named: "BlueBase")
-        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+        
+        self.navigationItem.backBarButtonItem = NavController.backBarButton
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Done", style: .plain, target: self, action: #selector(donePressed))
         
