@@ -46,7 +46,7 @@ class EntryCell : ASCellNode {
     override func didLoad() {
         super.didLoad()
         
-        cell.showNoteBtn.addTarget(self, action: #selector(seeNotePressed), forControlEvents: .touchUpInside)
+        self.showNoteBtn.addTarget(self, action: #selector(seeNotePressed), forControlEvents: .touchUpInside)
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
