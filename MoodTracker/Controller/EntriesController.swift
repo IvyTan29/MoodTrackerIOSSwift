@@ -23,8 +23,6 @@ class EntriesController : ASDKViewController<EntriesNode> {
         self.navigationController?.navigationBar.scrollEdgeAppearance = self.navigationController?.navigationBar.standardAppearance
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         
-//        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
-        self.tabBarItem = UITabBarItem(title: "Entries", image: UIImage(named: "note"), tag: 0)
         self.tabBarController?.tabBar.isHidden = false
         
         self.node.entryTable.delegate = self
