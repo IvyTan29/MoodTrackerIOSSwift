@@ -9,7 +9,7 @@ import UIKit
 
 // reference: https://keyhan-kam.medium.com/tabbar-with-raised-middle-button-swift-132ab62c7911
 class CustomTabBar : UITabBar {
-    var didTapButton: (() -> ())?
+    public var didTapButton: (() -> ())?
     
     public lazy var middleButton: UIButton! = {
         let middleButton = UIButton()

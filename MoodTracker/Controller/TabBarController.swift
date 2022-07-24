@@ -5,8 +5,7 @@
 //  Created by Ivy Tan on 7/22/22.
 //
 
-import Foundation
-import AsyncDisplayKit
+import UIKit
 
 class TabBarController : UITabBarController {
     
@@ -16,6 +15,9 @@ class TabBarController : UITabBarController {
         super.viewDidLoad()
         
         tabBar.isTranslucent = false
+        tabBar.tintColor = #colorLiteral(red: 0.05700000003, green: 0.09799999744, blue: 0.1070000008, alpha: 1)
+        
+        delegate = self
         
         let entriesNav = NavController()
         let addEntryNav = AddEditEntryController(node: AddEditEntryNode())
@@ -27,17 +29,21 @@ class TabBarController : UITabBarController {
         
         self.setViewControllers([entriesNav, addEntryNav, tempNav], animated: false)
         
+        print("WENT HERE")
+        print(self.tabBar)
         guard let tabBar = self.tabBar as? CustomTabBar else { return }
-        
+        print(tabBar)
+        print("WENT HERE TOO")
         tabBar.didTapButton = { [unowned self] in
+            print("2")
             self.routeToCreateNewAd()
         }
     }
     
     func routeToCreateNewAd() {
-        let createAdNavController = self.storyboard?.instantiateViewController(withIdentifier: "NewPostNav") as! UINavigationController
-        createAdNavController.modalPresentationCapturesStatusBarAppearance = true
-        self.present(createAdNavController, animated: true, completion: nil)
+        let addEntryNav = AddEditEntryController(node: AddEditEntryNode())
+        addEntryNav.modalPresentationCapturesStatusBarAppearance = true
+//        self.present(addEntryNav, animated: true, completion: nil)
     }
 }
     
@@ -48,6 +54,7 @@ extension TabBarController : UITabBarControllerDelegate {
             return true
         }
         
+        print("selected index: \(selectedIndex)")
         // Your middle tab bar item index.
         // In my case it's 1.
         if selectedIndex == 1 {
