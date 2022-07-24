@@ -88,14 +88,17 @@ class TabBarController : UITabBarController {
         
     }
     
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        guard !clipsToBounds && !isHidden && alpha > 0 else { return nil }
-
-        return middleButton.frame.contains(point) ? middleButton : super.hitTest(point, with: event)
-    }
-    
     @objc func addButtonPressed() {
         self.entriesNav.pushViewController(AddEditEntryController(node: AddEditEntryNode()), animated: true)
     }
 }
-
+//
+//class CustomTabBar : UITabBar {
+//    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+//
+//        guard !clipsToBounds && !isHidden && alpha > 0 else { return nil }
+//
+//        return self.middleButton.frame.contains(point) ? middleButton : super.hitTest(point, with: event)
+//    }
+//}
+//

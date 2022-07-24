@@ -24,7 +24,7 @@
         <scene sceneID="Kjb-pX-87X">
             <objects>
                 <tabBarController id="A9u-cs-jld" customClass="TabBarController" customModule="MoodTracker" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="pxn-Xv-ILr">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="pxn-Xv-ILr" customClass="CustomTabBar" customModule="MoodTracker" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
