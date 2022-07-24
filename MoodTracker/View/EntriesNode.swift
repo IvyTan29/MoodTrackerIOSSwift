@@ -21,9 +21,6 @@ class EntriesNode: ASDisplayNode {
     var todayImage = ASImageNode()
     var noEntriesLabel = ASTextNode()
     
-    // TEMPORARY
-    var addBtn = ASButtonNode()
-    
     static let noEntryAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 18)!,
                        NSAttributedString.Key.foregroundColor: UIColor.lightGray as Any] as [NSAttributedString.Key : Any]
     
@@ -52,9 +49,6 @@ class EntriesNode: ASDisplayNode {
         entryTable.style.height = .init(unit: .fraction, value: 0.8)
 //        entryTable.style.flexBasis = ASDimensionMake("60%")
         
-        // TEMPORARY
-        addBtn.setAttributedTitle(NSAttributedString(string: "Add", attributes: todayBtnAttr), for: .normal)
-        
         noEntriesLabel.attributedText = NSAttributedString(string: "_ Entries", attributes: EntriesNode.noEntryAttr)
     }
     
@@ -73,7 +67,7 @@ class EntriesNode: ASDisplayNode {
                                               spacing: 10,
                                               justifyContent: .start,
                                               alignItems: .stretch,
-                                              children: [calendarSegmentControl, addBtn, todayStack, numEntryContainer, entryTable])
+                                              children: [calendarSegmentControl, todayStack, numEntryContainer, entryTable])
         
         return ASInsetLayoutSpec(insets: .init(top: 100, left: 10, bottom: 20, right: 10), child: verticalStack)
     }

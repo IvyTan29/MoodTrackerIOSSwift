@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		7FC473EE055D51E24CC98930 /* Pods_MoodTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE0AC9BC9B6280E6E8C43C46 /* Pods_MoodTracker.framework */; };
-		F1065DEC288C327500539A26 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1065DEB288C327500539A26 /* CustomTabBar.swift */; };
 		F1952B7F288A8046005BD0CC /* AttributesFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1952B7E288A8046005BD0CC /* AttributesFormat.swift */; };
 		F1952B84288A8135005BD0CC /* DateFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1952B83288A8135005BD0CC /* DateFormat.swift */; };
 		F1952B90288A83E7005BD0CC /* MoodState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1952B8F288A83E7005BD0CC /* MoodState.swift */; };
@@ -36,7 +35,6 @@
 /* Begin PBXFileReference section */
 		AD7AB4BE5EEB43519037FB71 /* Pods-MoodTracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoodTracker.release.xcconfig"; path = "Target Support Files/Pods-MoodTracker/Pods-MoodTracker.release.xcconfig"; sourceTree = "<group>"; };
 		D3C1BEC67B1223406F36E770 /* Pods-MoodTracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoodTracker.debug.xcconfig"; path = "Target Support Files/Pods-MoodTracker/Pods-MoodTracker.debug.xcconfig"; sourceTree = "<group>"; };
-		F1065DEB288C327500539A26 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		F1952B7E288A8046005BD0CC /* AttributesFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributesFormat.swift; sourceTree = "<group>"; };
 		F1952B83288A8135005BD0CC /* DateFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormat.swift; sourceTree = "<group>"; };
 		F1952B8F288A83E7005BD0CC /* MoodState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodState.swift; sourceTree = "<group>"; };
@@ -152,7 +150,6 @@
 				F1BBD06C2888F53000C290B7 /* AddNoteController.swift */,
 				F1952B9A288A8B38005BD0CC /* TabBarController.swift */,
 				F1BBD073288902D800C290B7 /* EntriesController.swift */,
-				F1065DEB288C327500539A26 /* CustomTabBar.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -320,7 +317,6 @@
 				F1BBD06D2888F53000C290B7 /* AddNoteController.swift in Sources */,
 				F1BC8A4328880A6D00604C23 /* AddEditEntryController.swift in Sources */,
 				F1BBD0702888F54E00C290B7 /* AddNoteNode.swift in Sources */,
-				F1065DEC288C327500539A26 /* CustomTabBar.swift in Sources */,
 				F1BC8A4928880EC500604C23 /* AddEditEntryNode.swift in Sources */,
 				F1952B90288A83E7005BD0CC /* MoodState.swift in Sources */,
 				F1952B7F288A8046005BD0CC /* AttributesFormat.swift in Sources */,

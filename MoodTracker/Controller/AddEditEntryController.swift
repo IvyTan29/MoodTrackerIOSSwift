@@ -23,6 +23,12 @@ class AddEditEntryController : ASDKViewController<AddEditEntryNode> {
         
         self.navigationController?.navigationBar.barTintColor = UIColor(named: "BlueBase")
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+//        self.navigationItem.leftBarButtonItems = [UIBarButtonItem(image: UIImage(named: "chevron.backward"), style: .plain, target: self, action: #selector(backLeftNavButtonPressed))]
+        
+        
+//        CustomBackButton.createWithImage(UIImage(named: "yourImageName")!, color: UIColor.yourColor(), target: weakSelf, action: #selector(YourViewController.tappedBackButton)
+        
+        
         
         self.tabBarController?.tabBar.isHidden = true
         
@@ -31,8 +37,7 @@ class AddEditEntryController : ASDKViewController<AddEditEntryNode> {
     }
     
     @objc func nextPressed() {
-        moodStore.dispatch(EditorDateLevelAction.init(dateTime: (self.node.dateTimePicker.view as? UIDatePicker)?.date ?? Date(),
-                                                      moodValue: (self.node.moodSlider.view as? UISlider)?.value ?? 0))
+        moodStore.dispatch(EditorDateLevelAction.init(dateTime: (self.node.dateTimePicker.view as? UIDatePicker)?.date ?? Date(), moodValue: (self.node.moodSlider.view as? UISlider)?.value ?? 0))
         
         let editorTag = AddTagsController(node: AddTagNode())
         
@@ -49,7 +54,12 @@ class AddEditEntryController : ASDKViewController<AddEditEntryNode> {
     
     @objc func cancelPressed() {
         self.navigationController?.popViewController(animated: true)
+        self.tabBarController?.tabBar.isHidden = false
     }
+    
+//    @objc func backLeftNavButtonPressed() {
+//        self.tabBarController?.tabBar.isHidden = false
+//    }
     
     func load(_ indexPath: IndexPath) {
         self.indexPath = indexPath

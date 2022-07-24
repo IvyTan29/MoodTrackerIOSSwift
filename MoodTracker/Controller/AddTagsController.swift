@@ -47,10 +47,12 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         }
         
         self.navigationController?.popToRootViewController(animated: true)
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     @objc func cancelPressed() {
         self.navigationController?.popToRootViewController(animated: true)
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     @objc func addNotePressed() {

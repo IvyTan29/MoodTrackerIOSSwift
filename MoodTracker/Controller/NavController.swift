@@ -13,7 +13,6 @@ class NavController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        self.viewControllers = [NewEntryController(node: NewEntryNode())]
         self.viewControllers = [EntriesController(node: EntriesNode())]
         
         if #available(iOS 15.0, *) {
@@ -24,7 +23,8 @@ class NavController: UINavigationController {
             tabBarAppearance.backgroundColor = UIColor(named: "BlueBase")
             tabBarAppearance.selectionIndicatorTintColor = .white
             
-            tabBarItemAppearance.normal.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.gray]
+            tabBarItemAppearance.normal.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemGray4]
+            tabBarItemAppearance.disabled.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemGray4]
             tabBarItemAppearance.selected.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
 
             tabBarAppearance.stackedLayoutAppearance = tabBarItemAppearance

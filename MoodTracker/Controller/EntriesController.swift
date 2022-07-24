@@ -30,14 +30,6 @@ class EntriesController : ASDKViewController<EntriesNode> {
         self.node.entryTable.view.separatorStyle = .none
         
         self.node.noEntriesLabel.attributedText = NSAttributedString(string: "\(moodStore.state.moodList.count) Entries", attributes: EntriesNode.noEntryAttr)
-        
-        // TEMPORARY
-        self.node.addBtn.addTarget(self, action: #selector(addMoodPressed), forControlEvents: .touchUpInside)
-    }
-    
-    // TEMPORARY
-    @objc func addMoodPressed () {
-        self.navigationController?.pushViewController(AddEditEntryController(node: AddEditEntryNode()), animated: true)
     }
 }
 

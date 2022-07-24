@@ -87,8 +87,14 @@ class EntryCell : ASCellNode {
     func designCell () {
         showNoteImage.image = UIImage(systemName: "note")
         
+//        card.layer.shadowColor = UIColor.black.cgColor
+//        card.layer.shadowOffset = CGSize(width: 10, height: 10)
+//        card.layer.shadowOpacity = 0.75
+//        card.layer.shadowRadius = 13
+        
         card.borderWidth = 1
         card.borderColor = UIColor.lightGray.cgColor
+        
         card.style.flexGrow = 1
         
         moodSlider.style.height = .init(unit: .points, value: 20)
