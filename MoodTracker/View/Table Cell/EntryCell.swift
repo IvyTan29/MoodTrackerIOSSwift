@@ -8,6 +8,10 @@
 import Foundation
 import AsyncDisplayKit
 
+protocol EntryCellDelegate {
+    func didDisplayNote(index: IndexPath)
+}
+
 class EntryCell : ASCellNode {
     
     var card = ASDisplayNode()
@@ -31,6 +35,7 @@ class EntryCell : ASCellNode {
     var showNoteImage = ASImageNode()
     
     var indexPathInCell : IndexPath?
+    var delegate: EntryCellDelegate?
     
     init(tagStrSet: Set<String>) {
         self.tagStrSet = tagStrSet
@@ -116,6 +121,9 @@ class EntryCell : ASCellNode {
     }
     
     @objc func seeNotePressed() {
-        // FIXME: - display the added note (maybe do the delegate thingy)
+        if let indexPath = self.indexPathInCell {
+            delegate?.didDisplayNote(index: indexPath)
+        }
+       
     }
 }

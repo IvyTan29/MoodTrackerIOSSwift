@@ -59,7 +59,9 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         
         // for editing purposes
         if let safeIndexPath = self.indexPath {
-            editorNote.load(safeIndexPath)
+            editorNote.load(safeIndexPath, Note.edit)
+        } else {
+            editorNote.load(nil, Note.add)
         }
 
         self.navigationController?.pushViewController(editorNote, animated: true)

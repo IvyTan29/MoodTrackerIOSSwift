@@ -10,39 +10,53 @@ import AsyncDisplayKit
 
 class AddNoteController: ASDKViewController<AddNoteNode> {
     var indexPath: IndexPath?
+    var noteOperation: Note = Note.add
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if indexPath != nil {
-            self.navigationItem.title = "Edit Note"
-        } else {
-            self.navigationItem.title = "Add Note"
-        }
-        
         self.navigationItem.backBarButtonItem = NavController.backBarButton
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Done", style: .plain, target: self, action: #selector(donePressed))
+        switch noteOperation {
+        case .add:
+            self.navigationItem.title = "Add Note"
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Done", style: .plain, target: self, action: #selector(donePressed))
+        case .edit:
+            self.navigationItem.title = "Edit Note"
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Done", style: .plain, target: self, action: #selector(donePressed))
+        case .display:
+            self.navigationItem.title = "Your Note"
+        }
         
         self.tabBarController?.tabBar.isHidden = true
-        
-//        UIBarButtonItemAppearance(style: UIBarButtonItem.Style)
-        
-//        UIBarButtonItem.Style(rawValue: <#T##Int#>)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if self.isMovingFromParent && self.noteOperation == .display {
+            self.tabBarController?.tabBar.isHidden = false
+        }
     }
     
     @objc func donePressed() {
         moodStore.dispatch(EditorNoteAction.init(note: self.node.noteTextView.textView.text ?? "",
                                                  index: self.indexPath))
-
         
         self.navigationController?.popViewController(animated: true)
     }
     
-    func load(_ indexPath: IndexPath) {
+    func load(_ indexPath: IndexPath?, _ noteOperation: Note) {
         self.indexPath = indexPath
+        self.noteOperation = noteOperation
         
         // assign value
-        self.node.noteTextView.textView.text = moodStore.state.moodList[indexPath.row].note
+        if let safeIndexPath = self.indexPath {
+            self.node.noteTextView.textView.text = moodStore.state.moodList[safeIndexPath.row].note
+            
+            if self.noteOperation == .display {
+                self.node.noteTextView.textView.isEditable = false
+            }
+        }
     }
 }

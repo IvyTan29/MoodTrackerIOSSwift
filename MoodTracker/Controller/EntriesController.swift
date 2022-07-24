@@ -45,6 +45,7 @@ extension EntriesController : ASTableDataSource {
         (cell.moodSlider.view as? UISlider)?.value = moodStore.state.moodList[indexPath.row].moodValue ?? 0
         
         cell.indexPathInCell = indexPath
+        cell.delegate = self
 
         return cell
     }
@@ -60,6 +61,17 @@ extension EntriesController : ASTableDelegate {
         
 //        editor.delegate = self
         self.navigationController?.pushViewController(editor, animated: true)
+    }
+}
+
+// MARK: - EntryCellDelegate
+extension EntriesController : EntryCellDelegate {
+    func didDisplayNote(index: IndexPath) {
+        let noteEditor = AddNoteController(node: AddNoteNode())
+        noteEditor.load(index, .display)
+        
+        self.navigationController?.pushViewController(noteEditor, animated: true)
+        
     }
 }
 
