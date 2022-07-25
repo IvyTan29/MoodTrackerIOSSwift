@@ -19,9 +19,9 @@
 		F19B36C3288E624B0017B50F /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36C2288E624B0017B50F /* SettingsController.swift */; };
 		F19B36C9288E91040017B50F /* ASCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36C8288E91040017B50F /* ASCustomButton.swift */; };
 		F19B36CB288ECAF00017B50F /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36CA288ECAF00017B50F /* Tag.swift */; };
-		F19B36CD288ECB600017B50F /* TabListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36CC288ECB600017B50F /* TabListController.swift */; };
-		F19B36CF288ECB770017B50F /* TabListNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36CE288ECB770017B50F /* TabListNode.swift */; };
-		F19B36D1288ECC9D0017B50F /* TabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36D0288ECC9D0017B50F /* TabCell.swift */; };
+		F19B36CD288ECB600017B50F /* TagListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36CC288ECB600017B50F /* TagListController.swift */; };
+		F19B36CF288ECB770017B50F /* TagListNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36CE288ECB770017B50F /* TagListNode.swift */; };
+		F19B36D1288ECC9D0017B50F /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36D0288ECC9D0017B50F /* TagCell.swift */; };
 		F1BBD06D2888F53000C290B7 /* AddNoteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BBD06C2888F53000C290B7 /* AddNoteController.swift */; };
 		F1BBD0702888F54E00C290B7 /* AddNoteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BBD06F2888F54E00C290B7 /* AddNoteNode.swift */; };
 		F1BBD074288902D800C290B7 /* EntriesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BBD073288902D800C290B7 /* EntriesController.swift */; };
@@ -54,9 +54,9 @@
 		F19B36C2288E624B0017B50F /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		F19B36C8288E91040017B50F /* ASCustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASCustomButton.swift; sourceTree = "<group>"; };
 		F19B36CA288ECAF00017B50F /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
-		F19B36CC288ECB600017B50F /* TabListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabListController.swift; sourceTree = "<group>"; };
-		F19B36CE288ECB770017B50F /* TabListNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabListNode.swift; sourceTree = "<group>"; };
-		F19B36D0288ECC9D0017B50F /* TabCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCell.swift; sourceTree = "<group>"; };
+		F19B36CC288ECB600017B50F /* TagListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListController.swift; sourceTree = "<group>"; };
+		F19B36CE288ECB770017B50F /* TagListNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListNode.swift; sourceTree = "<group>"; };
+		F19B36D0288ECC9D0017B50F /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
 		F1BBD06C2888F53000C290B7 /* AddNoteController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoteController.swift; sourceTree = "<group>"; };
 		F1BBD06F2888F54E00C290B7 /* AddNoteNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoteNode.swift; sourceTree = "<group>"; };
 		F1BBD073288902D800C290B7 /* EntriesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesController.swift; sourceTree = "<group>"; };
@@ -130,7 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				F1BBD07C28890B5700C290B7 /* EntryCell.swift */,
-				F19B36D0288ECC9D0017B50F /* TabCell.swift */,
+				F19B36D0288ECC9D0017B50F /* TagCell.swift */,
 			);
 			path = "Table Cell";
 			sourceTree = "<group>";
@@ -177,7 +177,7 @@
 				F1952B9A288A8B38005BD0CC /* TabBarController.swift */,
 				F1BBD073288902D800C290B7 /* EntriesController.swift */,
 				F19B36C2288E624B0017B50F /* SettingsController.swift */,
-				F19B36CC288ECB600017B50F /* TabListController.swift */,
+				F19B36CC288ECB600017B50F /* TagListController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -195,7 +195,7 @@
 				F1BC8A512888345800604C23 /* AddTagNode.swift */,
 				F1BBD06F2888F54E00C290B7 /* AddNoteNode.swift */,
 				F1BBD076288902ED00C290B7 /* EntriesNode.swift */,
-				F19B36CE288ECB770017B50F /* TabListNode.swift */,
+				F19B36CE288ECB770017B50F /* TagListNode.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -338,18 +338,18 @@
 				F1BBD077288902ED00C290B7 /* EntriesNode.swift in Sources */,
 				F1BC8A522888345800604C23 /* AddTagNode.swift in Sources */,
 				F1952B94288A83F3005BD0CC /* MoodReducer.swift in Sources */,
-				F19B36CF288ECB770017B50F /* TabListNode.swift in Sources */,
+				F19B36CF288ECB770017B50F /* TagListNode.swift in Sources */,
 				F1BBD080288910AB00C290B7 /* MoodLog.swift in Sources */,
 				F19B36C9288E91040017B50F /* ASCustomButton.swift in Sources */,
 				F1BC8A232887F5B500604C23 /* NavController.swift in Sources */,
 				F1BBD074288902D800C290B7 /* EntriesController.swift in Sources */,
 				F1BBD07D28890B5700C290B7 /* EntryCell.swift in Sources */,
-				F19B36D1288ECC9D0017B50F /* TabCell.swift in Sources */,
+				F19B36D1288ECC9D0017B50F /* TagCell.swift in Sources */,
 				F1BC8A1F2887F5B500604C23 /* AppDelegate.swift in Sources */,
 				F18ED373288D7196007E33B9 /* NoteEnum.swift in Sources */,
 				F1BC8A4F2888344900604C23 /* AddTagsController.swift in Sources */,
 				F1952B97288A8416005BD0CC /* MoodActions.swift in Sources */,
-				F19B36CD288ECB600017B50F /* TabListController.swift in Sources */,
+				F19B36CD288ECB600017B50F /* TagListController.swift in Sources */,
 				F1BC8A212887F5B500604C23 /* SceneDelegate.swift in Sources */,
 				F1952B9B288A8B38005BD0CC /* TabBarController.swift in Sources */,
 				F1BBD06D2888F53000C290B7 /* AddNoteController.swift in Sources */,

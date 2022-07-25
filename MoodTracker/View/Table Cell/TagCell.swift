@@ -1,5 +1,5 @@
 //
-//  TabCell.swift
+//  TagCell.swift
 //  MoodTracker
 //
 //  Created by Ivy Tan on 7/25/22.
@@ -8,7 +8,7 @@
 import Foundation
 import AsyncDisplayKit
 
-class TabCell : ASCellNode {
+class TagCell : ASCellNode {
     
     var tag = ASTextNode()
     var card = ASDisplayNode()

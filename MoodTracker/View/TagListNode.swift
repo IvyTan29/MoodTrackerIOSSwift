@@ -1,5 +1,5 @@
 //
-//  TabListNode.swift
+//  TagListNode.swift
 //  MoodTracker
 //
 //  Created by Ivy Tan on 7/25/22.
@@ -7,7 +7,7 @@
 
 import AsyncDisplayKit
 
-class TabListNode : ASDisplayNode {
+class TagListNode : ASDisplayNode {
     
     var tagsTitle = ASTextNode()
     var tagsTable = ASTableNode()

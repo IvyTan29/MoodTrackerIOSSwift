@@ -46,7 +46,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
                 }
             ).disposed(by: disposeBag)
 
-        // for the add button
+        // for the add note button
         self.node.addNoteBtn.rxTap
             .subscribe(
                 onNext: { tap in
@@ -58,13 +58,28 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         self.node.moreTagsBtn.rxTap
             .subscribe(
                 onNext: { tap in
-                    self.present(TabListController(node: TabListNode()), animated: true)
+                    self.present(TagListController(node: TagListNode()), animated: true)
                 }
             ).disposed(by: disposeBag)
         
-        // TODO: - change this to rxTap
+        // for the add tag button from text field
+        self.node.addTagBtn.rxTap
+            .subscribe(
+                onNext: { tap in
+                    let string = self.node.tagTextField.textView.text
+                    
+                    moodStore.dispatch(PickedTagBtnAction.init(tagStr: string ?? ""))
+                }
+            ).disposed(by: disposeBag)
+        
+        // for the tag buttons pressed
         self.node.tagBtns.forEach { (btnNode) in
-            btnNode.addTarget(self, action: #selector(tagPressed(_:)), forControlEvents: .touchUpInside)
+            btnNode.rxTap
+                .subscribe(
+                    onNext: { tap in
+                        self.tagPressed(btnNode)
+                    }
+                ).disposed(by: disposeBag)
         }
     }
     
