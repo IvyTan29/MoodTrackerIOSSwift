@@ -60,7 +60,7 @@ class EntryCell : ASCellNode {
                         self.delegate?.didDisplayNote(index: indexPath)
                     }
                 }
-            )
+            ).disposed(by: disposeBag)
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
@@ -115,7 +115,7 @@ class EntryCell : ASCellNode {
         moodSlider.style.width = .init(unit: .fraction, value: 0.7)
         
         for (idx, element) in tagLabels.enumerated() {
-            element.attributedText = NSAttributedString(string: tagStrSet[tagStrSet.index(tagStrSet.startIndex, offsetBy: idx)], attributes: AddTagNode.tagBtnNorAttr)
+            element.attributedText = NSAttributedString(string: tagStrSet[tagStrSet.index(tagStrSet.startIndex, offsetBy: idx)], attributes: AttributesFormat.tagLabelAttr)
         }
         
         tagLabels.forEach { (tagLabel) in

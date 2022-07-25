@@ -37,12 +37,6 @@ class AddEditEntryNode : ASDisplayNode {
     var nextBtn = ASCustomButton()
     var cancelBtn = ASCustomButton()
     
-    static let mainBtnAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 22)!,
-                              NSAttributedString.Key.foregroundColor: UIColor.white]
-    static let cancelBtnAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 18)!,
-                                NSAttributedString.Key.foregroundColor: UIColor.gray,
-                                NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue] as [NSAttributedString.Key : Any]
-    
     override init() {
         super.init()
         
@@ -56,26 +50,21 @@ class AddEditEntryNode : ASDisplayNode {
         dateTimePicker.style.height = .init(unit: .points, value: 40)
         dateTimePicker.style.width = .init(unit: .fraction, value: 0.5)
         
-        let titleAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir-Heavy", size: 30)!,
-                         NSAttributedString.Key.foregroundColor: UIColor.label]
-        let moodLevelAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir-Medium", size: 12)!,
-                             NSAttributedString.Key.foregroundColor: UIColor.black]
-        
         moodSlider.style.height = .init(unit: .points, value: 20)
         
-        titleLabel.attributedText = NSAttributedString(string: "My Mood", attributes: titleAttr)
+        titleLabel.attributedText = NSAttributedString(string: "My Mood", attributes: AttributesFormat.myMoodAttr)
         
-        lowLabel.attributedText = NSAttributedString(string: "Low", attributes: moodLevelAttr)
+        lowLabel.attributedText = NSAttributedString(string: "Low", attributes: AttributesFormat.moodLevelAttr)
         
-        highLabel.attributedText = NSAttributedString(string: "High", attributes: moodLevelAttr)
+        highLabel.attributedText = NSAttributedString(string: "High", attributes: AttributesFormat.moodLevelAttr)
         
-        nextBtn.setAttributedTitle(NSAttributedString(string: "Next", attributes: AddEditEntryNode.mainBtnAttr), for: .normal)
+        nextBtn.setAttributedTitle(NSAttributedString(string: "Next", attributes: AttributesFormat.proceedBtnAttr), for: .normal)
         nextBtn.backgroundColor = UIColor(named: "BlueBase")
         nextBtn.style.width = .init(unit: .points, value: 100)
         nextBtn.style.height = .init(unit: .points, value: 50)
         nextBtn.cornerRadius = 10
         
-        cancelBtn.setAttributedTitle(NSAttributedString(string: "Cancel", attributes: AddEditEntryNode.cancelBtnAttr), for: .normal)
+        cancelBtn.setAttributedTitle(NSAttributedString(string: "Cancel", attributes: AttributesFormat.cancelBtnAttr), for: .normal)
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {

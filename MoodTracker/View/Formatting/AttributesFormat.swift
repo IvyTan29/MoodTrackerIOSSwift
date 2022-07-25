@@ -10,9 +10,44 @@ import UIKit
 
 struct AttributesFormat {
     
-    //    let addNoteBtnAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 22)!,
-    //                          NSAttributedString.Key.foregroundColor: UIColor.black,
-    //                          NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue] as [NSAttributedString.Key : Any]
+    static let todayBtnAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 22)!,
+                        NSAttributedString.Key.foregroundColor: UIColor(named: "BlueBase") as Any,
+                        NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,
+                        NSAttributedString.Key.underlineColor: UIColor.lightGray] as [NSAttributedString.Key : Any]
+    
+    static let myMoodAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir-Heavy", size: 30)!,
+                     NSAttributedString.Key.foregroundColor: UIColor.label]
+    
+    static let moodLevelAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir-Medium", size: 12)!,
+                                NSAttributedString.Key.foregroundColor: UIColor.black]
+    
+    static let tagLabelAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 20)!,
+                         NSAttributedString.Key.foregroundColor: UIColor.gray]
+    
+    static let tagPickedAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 20)!,
+                                NSAttributedString.Key.foregroundColor: UIColor(named: "OrangeSecondary")]
+    
+    static let tagBtnAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 20)!,
+                         NSAttributedString.Key.foregroundColor: UIColor.black]
+    
+    static let addTagTFAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 18)!,
+                            NSAttributedString.Key.foregroundColor: UIColor.gray]
+    
+    static let recentLabelAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir-Medium", size: 22)!,
+                           NSAttributedString.Key.foregroundColor: UIColor.black]
+    
+    static let addNoteBtnAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 22)!,
+                          NSAttributedString.Key.foregroundColor: UIColor.black,
+                          NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue] as [NSAttributedString.Key : Any]
+    
+    static let proceedBtnAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 22)!,
+                              NSAttributedString.Key.foregroundColor: UIColor.white]
+    
+    static let cancelBtnAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 18)!,
+                                NSAttributedString.Key.foregroundColor: UIColor.gray,
+                                NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue] as [NSAttributedString.Key : Any]
+    
+    
     
     static func attributeConvert(string: String) -> NSAttributedString {
         return NSAttributedString(string: string)

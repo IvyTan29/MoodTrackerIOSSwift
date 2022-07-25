@@ -48,11 +48,12 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         // for the add button
         self.node.addNoteBtn.rxTap
             .subscribe(
-                onNext: {tap in
+                onNext: { tap in
                     self.addNotePressed()
                 }
             ).disposed(by: disposeBag)
         
+        // FIXME: change this to rxTap
         self.node.tagBtns.forEach { (btnNode) in
             btnNode.addTarget(self, action: #selector(tagPressed(_:)), forControlEvents: .touchUpInside)
         }

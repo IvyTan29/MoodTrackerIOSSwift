@@ -18,13 +18,32 @@ struct MoodState {
                 MoodLog(dateTime: Date().advanced(by: 24*60*60), moodValue: 1, tags: ["Sleep", "nervous"], note: "Hey, I'm sad today")
             ],
             editorMood: MoodLog(),
-            tagsSet: ["Work", "Difficult Conversation"]
+            tagsDict: ["Work" : true,
+                       "Difficult Conversation" : true,
+                       "Good Meal" : true,
+                       "Presentation" : true,
+                       "Swimming" : true,
+                       "Energized" : true,
+                       "Heart Broken" : false,
+                       "Sleep" : false,
+                       "Nervous" : false,
+                       "Breakfast" : false,
+                       "Positive" : false,
+                       "Dinner" : false,
+                       "Lunch" : false,
+                       "Exercise" : false,
+                       "Study" : false,
+                       "Read Book" : false,
+                       "Read Webtoon" : false,
+                       "Watch Series" : false,
+                       "Watch Movie" : false
+                     ]
         )
     }
     
     var moodList = [MoodLog]()
     var editorMood: MoodLog?
-    var tagsSet: Set<String> = []
+    var tagsDict: [String: Bool] = [:] // bool marks if it's recent or not
 }
 
 var moodStore = Store<MoodState>.init(reducer: moodReducer, state: MoodState.createInitialState())

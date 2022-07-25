@@ -44,16 +44,10 @@ class EntriesNode: ASDisplayNode {
         super.didLoad()
         
         // Attributes
-        let todayBtnAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 22)!,
-                            NSAttributedString.Key.foregroundColor: UIColor(named: "BlueBase") as Any,
-                            NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,
-                            NSAttributedString.Key.underlineColor: UIColor.lightGray] as [NSAttributedString.Key : Any]
-        
-        
         calendarSegmentControl.style.height = .init(unit: .points, value: 50)
         
         todayImage.image = UIImage(systemName: "calendar")
-        todayBtn.setAttributedTitle(NSAttributedString(string: "Today", attributes: todayBtnAttr), for: .normal)
+        todayBtn.setAttributedTitle(NSAttributedString(string: "Today", attributes: AttributesFormat.todayBtnAttr), for: .normal)
         
         entryTable.style.height = .init(unit: .fraction, value: 0.8)
 //        entryTable.style.flexBasis = ASDimensionMake("60%")
