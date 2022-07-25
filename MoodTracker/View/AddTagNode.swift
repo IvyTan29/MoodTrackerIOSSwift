@@ -11,8 +11,9 @@ import AsyncDisplayKit
 class AddTagNode : ASDisplayNode {
     
     var tagTextField = ASEditableTextNode()
-    var recentLabel = ASTextNode()
+    var addTagBtn = ASCustomButton()
     
+    var recentLabel = ASTextNode()
     var tagBtns: [ASCustomButton] = []
     var moreTagsBtn = ASCustomButton()
     
@@ -37,7 +38,11 @@ class AddTagNode : ASDisplayNode {
         tagTextField.borderColor = UIColor.lightGray.cgColor
         tagTextField.borderWidth = 1
         tagTextField.textView.textContainerInset = .init(top: 8, left: 10, bottom: 8, right: 10)
+//        tagTextField.typingAttributes = AttributesFormat.addTagTFAttr
         tagTextField.attributedPlaceholderText = NSAttributedString(string: "Type to add Tag", attributes: AttributesFormat.addTagTFAttr)
+        
+        addTagBtn.setAttributedTitle(NSAttributedString(string: "Add Tag", attributes: AttributesFormat.addTagBtnAttr), for: .normal)
+        addTagBtn.backgroundColor = UIColor.white
         
         recentLabel.attributedText = NSAttributedString(string: "Recent", attributes: AttributesFormat.recentLabelAttr)
         
@@ -77,11 +82,16 @@ class AddTagNode : ASDisplayNode {
                                                    sizingOptions: .minimumY,
                                                    child: recentLabel)
         
+        let addTagBtnInset = ASInsetLayoutSpec(insets: .init(top: 2, left: 300, bottom: 1, right: 2), child: addTagBtn)
+        
+        let typingWithBtn = ASOverlayLayoutSpec(child: tagTextField,
+                                                overlay: addTagBtnInset)
+        
         let firstStack = ASStackLayoutSpec(direction: .vertical,
                                            spacing: 20,
                                            justifyContent: .start,
                                            alignItems: .stretch,
-                                           children: [tagTextField, recentLabelCenter, tagBtnStack])
+                                           children: [typingWithBtn, recentLabelCenter, tagBtnStack])
         
         let navigationStack = ASStackLayoutSpec(direction: .vertical,
                                                 spacing: 10,

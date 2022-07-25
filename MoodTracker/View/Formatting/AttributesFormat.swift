@@ -33,6 +33,9 @@ struct AttributesFormat {
     static let addTagTFAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 18)!,
                             NSAttributedString.Key.foregroundColor: UIColor.gray]
     
+    static let addTagBtnAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 18)!,
+                        NSAttributedString.Key.foregroundColor: UIColor(named: "BlueBase") as Any] as [NSAttributedString.Key : Any]
+    
     static let recentLabelAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir-Medium", size: 22)!,
                            NSAttributedString.Key.foregroundColor: UIColor.black]
     
@@ -52,6 +55,7 @@ struct AttributesFormat {
     
     static let timeLabelAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir-Black", size: 22)!,
                         NSAttributedString.Key.foregroundColor: UIColor(named: "BlueBase") as Any] as [NSAttributedString.Key : Any]
+    
     
     
     
