@@ -26,7 +26,21 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
             state?.moodList[index.row].note = editorNoteAction.note
         }
         
-    case let addAction as AddMoodAction:
+    case _ as GetRecentTagAction:
+        let keys = state?.tagsDict.filter({ $0.value == true }).keys
+        
+        state?.recentTags = Set(keys!)
+        print("GET")
+    
+    case let pickedTagBtnAction as PickedTagBtnAction:
+        state?.recentTags.remove(pickedTagBtnAction.tagStr)
+        state?.chosenTags.insert(pickedTagBtnAction.tagStr)
+        
+        print(state?.recentTags)
+        print(state?.chosenTags)
+        print("TEst : \(pickedTagBtnAction.tagStr)")
+        
+    case _ as AddMoodAction:
         let moodLog = state?.editorMood ?? MoodLog()
         
         state?.moodList.append(moodLog)

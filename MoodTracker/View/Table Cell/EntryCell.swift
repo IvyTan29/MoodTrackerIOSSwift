@@ -125,7 +125,7 @@ class EntryCell : ASCellNode {
             tagLabel.textContainerInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
         }
         
-        showNoteBtn.setAttributedTitle(NSAttributedString(string: "Added Note", attributes: EntriesNode.noEntryAttr), for: .normal)
+        showNoteBtn.setAttributedTitle(NSAttributedString(string: "Added Note", attributes: AttributesFormat.numEntryAttr), for: .normal)
         
         //FIXME: - fixed color para obvious na button sya
         //        showNoteBtn.borderWidth = 1

@@ -30,9 +30,6 @@ class EntriesNode: ASDisplayNode {
     var todayImage = ASImageNode()
     var noEntriesLabel = ASTextNode()
     
-    static let noEntryAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 18)!,
-                       NSAttributedString.Key.foregroundColor: UIColor.lightGray as Any] as [NSAttributedString.Key : Any]
-    
     override init() {
         super.init()
         
@@ -52,7 +49,7 @@ class EntriesNode: ASDisplayNode {
         entryTable.style.height = .init(unit: .fraction, value: 0.8)
 //        entryTable.style.flexBasis = ASDimensionMake("60%")
         
-        noEntriesLabel.attributedText = NSAttributedString(string: "_ Entries", attributes: EntriesNode.noEntryAttr)
+        noEntriesLabel.attributedText = NSAttributedString(string: "_ Entries", attributes: AttributesFormat.numEntryAttr)
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {

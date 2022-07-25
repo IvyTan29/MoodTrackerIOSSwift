@@ -23,7 +23,7 @@ class EntriesController : ASDKViewController<EntriesNode> {
         self.node.entryTable.dataSource = self
         self.node.entryTable.view.separatorStyle = .none
         
-        self.node.noEntriesLabel.attributedText = NSAttributedString(string: "\(moodStore.state.moodList.count) Entries", attributes: EntriesNode.noEntryAttr)
+        self.node.noEntriesLabel.attributedText = NSAttributedString(string: "\(moodStore.state.moodList.count) Entries", attributes: AttributesFormat.numEntryAttr)
     }
 }
 
@@ -36,12 +36,10 @@ extension EntriesController : ASTableDataSource {
     
     func tableNode(_ tableNode: ASTableNode, nodeForRowAt indexPath: IndexPath) -> ASCellNode {
         let cell = EntryCell(tagStrSet: moodStore.state.moodList[indexPath.row].tags ?? [])
-        let timeLabelAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir-Black", size: 22)!,
-                            NSAttributedString.Key.foregroundColor: UIColor(named: "BlueBase") as Any] as [NSAttributedString.Key : Any]
         
         cell.designCell()
         
-        cell.timeLabel.attributedText = NSAttributedString(string: DateFormat.dateFormatToString(format: "h:mm a", date: moodStore.state.moodList[indexPath.row].dateTime ?? Date()), attributes: timeLabelAttr)
+        cell.timeLabel.attributedText = NSAttributedString(string: DateFormat.dateFormatToString(format: "h:mm a", date: moodStore.state.moodList[indexPath.row].dateTime ?? Date()), attributes: AttributesFormat.timeLabelAttr)
         (cell.moodSlider.view as? UISlider)?.value = moodStore.state.moodList[indexPath.row].moodValue ?? 0
         
         cell.indexPathInCell = indexPath
@@ -87,6 +85,6 @@ extension EntriesController : StoreSubscriber {
 
     func newState(state: MoodState) {
         self.node.entryTable.reloadData()
-        self.node.noEntriesLabel.attributedText = NSAttributedString(string: "\(moodStore.state.moodList.count) Entries", attributes: EntriesNode.noEntryAttr)
+        self.node.noEntriesLabel.attributedText = NSAttributedString(string: "\(moodStore.state.moodList.count) Entries", attributes: AttributesFormat.numEntryAttr)
     }
 }

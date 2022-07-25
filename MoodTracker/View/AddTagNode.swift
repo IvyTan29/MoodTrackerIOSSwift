@@ -14,6 +14,7 @@ class AddTagNode : ASDisplayNode {
     var recentLabel = ASTextNode()
     
     var tagBtns: [ASCustomButton] = []
+    var moreTagsBtn = ASCustomButton()
     
     var addNoteBtn = ASCustomButton()
     var doneBtn = ASCustomButton()
@@ -31,7 +32,7 @@ class AddTagNode : ASDisplayNode {
     override func didLoad() {
         super.didLoad()
         
-        setRecentTagButton()
+        loadFirstRecentTags()
         
         tagTextField.borderColor = UIColor.lightGray.cgColor
         tagTextField.borderWidth = 1
@@ -106,15 +107,21 @@ class AddTagNode : ASDisplayNode {
         self.addNoteStr = string
     }
     
-    func setRecentTagButton() {
-        let tagsRecent = moodStore.state.tagsDict.filter({ $0.value == true })
+    func loadFirstRecentTags() {
+        moodStore.dispatch(GetRecentTagAction.init())
         
-        for key in tagsRecent.keys {
+        setRecentTagButton()
+    }
+    
+    func setRecentTagButton() {
+        for recentTag in moodStore.state.recentTags {
             let tempTagBtn = ASCustomButton()
-            tempTagBtn.setAttributedTitle(NSAttributedString(string: key, attributes: AttributesFormat.tagBtnAttr), for: .normal)
+            tempTagBtn.setAttributedTitle(NSAttributedString(string: recentTag, attributes: AttributesFormat.tagBtnAttr), for: .normal)
             
             self.tagBtns.append(tempTagBtn)
         }
         
+        self.moreTagsBtn.setAttributedTitle(NSAttributedString(string: "...", attributes: AttributesFormat.tagBtnAttr), for: .normal)
+        self.tagBtns.append(moreTagsBtn)
     }
 }

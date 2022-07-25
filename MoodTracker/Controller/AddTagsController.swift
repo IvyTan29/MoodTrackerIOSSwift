@@ -8,6 +8,7 @@
 import Foundation
 import AsyncDisplayKit
 import RxSwift
+import ReSwift
 
 class AddTagsController : ASDKViewController<AddTagNode> {
     
@@ -53,7 +54,15 @@ class AddTagsController : ASDKViewController<AddTagNode> {
                 }
             ).disposed(by: disposeBag)
         
-        // FIXME: change this to rxTap
+        // for the more tags ("...") button
+        self.node.moreTagsBtn.rxTap
+            .subscribe(
+                onNext: { tap in
+                    self.present(TabListController(node: TabListNode()), animated: true)
+                }
+            ).disposed(by: disposeBag)
+        
+        // TODO: - change this to rxTap
         self.node.tagBtns.forEach { (btnNode) in
             btnNode.addTarget(self, action: #selector(tagPressed(_:)), forControlEvents: .touchUpInside)
         }
@@ -87,13 +96,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
     }
     
     @objc func tagPressed(_ sender: ASButtonNode) {
-        sender.isSelected = !sender.isSelected
-        
-        if sender.isSelected {
-            self.tagsSet.insert(sender.attributedTitle(for: .selected)?.string ?? "")
-        } else {
-            self.tagsSet.remove(sender.attributedTitle(for: .selected)?.string ?? "")
-        }
+        moodStore.dispatch(PickedTagBtnAction.init(tagStr:  sender.attributedTitle(for: .normal)?.string ?? ""))
     }
     
     func load(_ indexPath: IndexPath) {
@@ -114,3 +117,23 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         }
     }
 }
+
+// MARK: - StoreSubscriber
+extension AddTagsController : StoreSubscriber {
+    override func viewWillAppear(_ animated: Bool) {
+       moodStore.subscribe(self)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+       moodStore.unsubscribe(self)
+    }
+
+    func newState(state: MoodState) {
+        print("went here?")
+        self.node.setRecentTagButton()
+//        self.node.layoutSpecThatFits(<#T##constrainedSize: ASSizeRange##ASSizeRange#>)
+        self.node.view.layoutIfNeeded()
+        
+    }
+}
+

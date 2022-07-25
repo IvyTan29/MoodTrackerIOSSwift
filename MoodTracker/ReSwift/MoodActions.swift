@@ -22,6 +22,15 @@ struct EditorNoteAction : Action {
     var index: IndexPath?
 }
 
+
+struct GetRecentTagAction : Action {
+    
+}
+
+struct PickedTagBtnAction : Action {
+    var tagStr: String
+}
+
 struct AddMoodAction : Action {
     
 }

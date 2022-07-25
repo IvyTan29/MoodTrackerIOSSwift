@@ -24,7 +24,7 @@ struct AttributesFormat {
     static let tagLabelAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 20)!,
                          NSAttributedString.Key.foregroundColor: UIColor.gray]
     
-    static let tagPickedAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 20)!,
+    static let tagPickBtnAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 20)!,
                                 NSAttributedString.Key.foregroundColor: UIColor(named: "OrangeSecondary")]
     
     static let tagBtnAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 20)!,
@@ -46,6 +46,12 @@ struct AttributesFormat {
     static let cancelBtnAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 18)!,
                                 NSAttributedString.Key.foregroundColor: UIColor.gray,
                                 NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue] as [NSAttributedString.Key : Any]
+    
+    static let numEntryAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 18)!,
+                       NSAttributedString.Key.foregroundColor: UIColor.lightGray as Any] as [NSAttributedString.Key : Any]
+    
+    static let timeLabelAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir-Black", size: 22)!,
+                        NSAttributedString.Key.foregroundColor: UIColor(named: "BlueBase") as Any] as [NSAttributedString.Key : Any]
     
     
     
