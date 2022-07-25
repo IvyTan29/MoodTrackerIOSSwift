@@ -7,10 +7,12 @@
 
 import Foundation
 import AsyncDisplayKit
+import RxSwift
 
 class AddEditEntryController : ASDKViewController<AddEditEntryNode> {
     
     var indexPath: IndexPath?
+    var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,8 +27,19 @@ class AddEditEntryController : ASDKViewController<AddEditEntryNode> {
     
         self.tabBarController?.tabBar.isHidden = true
         
-        self.node.nextBtn.addTarget(self, action: #selector(nextPressed), forControlEvents: .touchUpInside)
-        self.node.cancelBtn.addTarget(self, action: #selector(cancelPressed), forControlEvents: .touchUpInside)
+        self.node.nextBtn.rxTap
+            .subscribe(
+                onNext: { tap in
+                    self.nextPressed()
+                }
+            ).disposed(by: disposeBag)
+        
+        self.node.cancelBtn.rxTap
+            .subscribe(
+                onNext: { tap in
+                    self.navigationController?.popViewController(animated: true)
+                }
+            ).disposed(by: disposeBag)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -37,7 +50,7 @@ class AddEditEntryController : ASDKViewController<AddEditEntryNode> {
         }
     }
     
-    @objc func nextPressed() {
+    func nextPressed() {
         moodStore.dispatch(EditorDateLevelAction.init(dateTime: (self.node.dateTimePicker.view as? UIDatePicker)?.date ?? Date(), moodValue: (self.node.moodSlider.view as? UISlider)?.value ?? 0))
         
         let editorTag = AddTagsController(node: AddTagNode())
@@ -52,14 +65,6 @@ class AddEditEntryController : ASDKViewController<AddEditEntryNode> {
         
         self.navigationController?.pushViewController(editorTag, animated: true)
     }
-    
-    @objc func cancelPressed() {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-//    @objc func backLeftNavButtonPressed() {
-//        self.tabBarController?.tabBar.isHidden = false
-//    }
     
     func load(_ indexPath: IndexPath) {
         self.indexPath = indexPath

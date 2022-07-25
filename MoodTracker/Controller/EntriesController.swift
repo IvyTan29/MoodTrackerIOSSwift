@@ -18,8 +18,6 @@ class EntriesController : ASDKViewController<EntriesNode> {
         self.navigationItem.backBarButtonItem = NavController.backBarButton
         
         self.tabBarController?.tabBar.isHidden = false
-//        self.tabBarItem.title = "Entries"
-//        self.tabBarItem.image = UIImage(systemName: "list.bullet.rectangle.portrait")
         
         self.node.entryTable.delegate = self
         self.node.entryTable.dataSource = self

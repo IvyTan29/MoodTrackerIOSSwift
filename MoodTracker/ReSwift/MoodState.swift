@@ -17,12 +17,14 @@ struct MoodState {
                 MoodLog(dateTime: Date().advanced(by: 24*60*60), moodValue: 0, tags: ["Sleep", "nervous"], note: nil),
                 MoodLog(dateTime: Date().advanced(by: 24*60*60), moodValue: 1, tags: ["Sleep", "nervous"], note: "Hey, I'm sad today")
             ],
-            editorMood: MoodLog()
+            editorMood: MoodLog(),
+            tagsSet: ["Work", "Difficult Conversation"]
         )
     }
     
     var moodList = [MoodLog]()
     var editorMood: MoodLog?
+    var tagsSet: Set<String> = []
 }
 
 var moodStore = Store<MoodState>.init(reducer: moodReducer, state: MoodState.createInitialState())

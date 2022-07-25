@@ -7,6 +7,7 @@
 
 import Foundation
 import AsyncDisplayKit
+import RxSwift
 
 protocol EntryCellDelegate {
     func didDisplayNote(index: IndexPath)
@@ -29,19 +30,20 @@ class EntryCell : ASCellNode {
     }
     
     var tagStrSet: Set<String> = []
-    var tagBtns: [ASButtonNode] = []
+    var tagLabels: [ASTextNode] = []
     
-    var showNoteBtn = ASButtonNode()
+    var showNoteBtn = ASCustomButton()
     var showNoteImage = ASImageNode()
     
     var indexPathInCell : IndexPath?
     var delegate: EntryCellDelegate?
+    var disposeBag = DisposeBag()
     
     init(tagStrSet: Set<String>) {
         self.tagStrSet = tagStrSet
         
         for _ in self.tagStrSet {
-            self.tagBtns.append(ASButtonNode())
+            self.tagLabels.append(ASTextNode())
         }
         
         super.init()
@@ -51,7 +53,14 @@ class EntryCell : ASCellNode {
     override func didLoad() {
         super.didLoad()
         
-        self.showNoteBtn.addTarget(self, action: #selector(seeNotePressed), forControlEvents: .touchUpInside)
+        self.showNoteBtn.rxTap
+            .subscribe(
+                onNext: { tap in
+                    if let indexPath = self.indexPathInCell {
+                        self.delegate?.didDisplayNote(index: indexPath)
+                    }
+                }
+            )
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
@@ -61,17 +70,17 @@ class EntryCell : ASCellNode {
                                                 alignItems: .start,
                                                 children: [timeLabel, moodSlider])
         
-        let tagBtnStack = ASStackLayoutSpec(direction: .horizontal,
-                                            spacing: 10,
-                                            justifyContent: .start,
-                                            alignItems: .start,
-                                            flexWrap: .wrap,
-                                            alignContent: .center,
-                                            lineSpacing: 10,
-                                            children: tagBtns)
+        let tagLabelsStack = ASStackLayoutSpec(direction: .horizontal,
+                                               spacing: 10,
+                                               justifyContent: .start,
+                                               alignItems: .start,
+                                               flexWrap: .wrap,
+                                               alignContent: .center,
+                                               lineSpacing: 10,
+                                               children: tagLabels)
         
         let showNoteStack = ASStackLayoutSpec(direction: .horizontal,
-                                              spacing: 10,
+                                              spacing: 5,
                                               justifyContent: .start,
                                               alignItems: .start,
                                               children: [showNoteImage, showNoteBtn])
@@ -80,7 +89,7 @@ class EntryCell : ASCellNode {
                                                  spacing: 20,
                                                  justifyContent: .spaceBetween,
                                                  alignItems: .stretch,
-                                                 children: [timeSliderStack, tagBtnStack, showNoteStack])
+                                                 children: [timeSliderStack, tagLabelsStack, showNoteStack])
         
         let insetContent = ASInsetLayoutSpec(insets: .init(top: 15, left: 15, bottom: 15, right: 15), child: bigVerticalStack)
         
@@ -92,10 +101,10 @@ class EntryCell : ASCellNode {
     func designCell () {
         showNoteImage.image = UIImage(systemName: "note")
         
-//        card.layer.shadowColor = UIColor.black.cgColor
-//        card.layer.shadowOffset = CGSize(width: 10, height: 10)
-//        card.layer.shadowOpacity = 0.75
-//        card.layer.shadowRadius = 13
+        //        card.layer.shadowColor = UIColor.black.cgColor
+        //        card.layer.shadowOffset = CGSize(width: 10, height: 10)
+        //        card.layer.shadowOpacity = 0.75
+        //        card.layer.shadowRadius = 13
         
         card.borderWidth = 1
         card.borderColor = UIColor.lightGray.cgColor
@@ -105,29 +114,21 @@ class EntryCell : ASCellNode {
         moodSlider.style.height = .init(unit: .points, value: 20)
         moodSlider.style.width = .init(unit: .fraction, value: 0.7)
         
-        for (idx, element) in tagBtns.enumerated() {
-            element.setAttributedTitle(NSAttributedString(string: tagStrSet[tagStrSet.index(tagStrSet.startIndex, offsetBy: idx)], attributes: AddTagNode.tagBtnNorAttr),
-                                       for: .normal)
+        for (idx, element) in tagLabels.enumerated() {
+            element.attributedText = NSAttributedString(string: tagStrSet[tagStrSet.index(tagStrSet.startIndex, offsetBy: idx)], attributes: AddTagNode.tagBtnNorAttr)
         }
         
-        tagBtns.forEach { (tagBtn) in
-            tagBtn.borderWidth = 1
-            tagBtn.borderColor = UIColor.lightGray.cgColor
-            tagBtn.cornerRadius = 15
-            tagBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
+        tagLabels.forEach { (tagLabel) in
+            tagLabel.borderWidth = 1
+            tagLabel.borderColor = UIColor.lightGray.cgColor
+            tagLabel.cornerRadius = 15
+            tagLabel.textContainerInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
         }
         
         showNoteBtn.setAttributedTitle(NSAttributedString(string: "Added Note", attributes: EntriesNode.noEntryAttr), for: .normal)
         
         //FIXME: - fixed color para obvious na button sya
-//        showNoteBtn.borderWidth = 1
-//        showNoteBtn.borderColor = UIColor(named: "OrangeSecondary")?.cgColor
-    }
-    
-    @objc func seeNotePressed() {
-        if let indexPath = self.indexPathInCell {
-            delegate?.didDisplayNote(index: indexPath)
-        }
-       
+        //        showNoteBtn.borderWidth = 1
+        //        showNoteBtn.borderColor = UIColor(named: "OrangeSecondary")?.cgColor
     }
 }

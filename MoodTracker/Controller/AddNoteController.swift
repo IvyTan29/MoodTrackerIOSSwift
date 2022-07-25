@@ -7,24 +7,40 @@
 
 import Foundation
 import AsyncDisplayKit
+import RxSwift
+import RxCocoa
 
 class AddNoteController: ASDKViewController<AddNoteNode> {
+    
     var indexPath: IndexPath?
     var noteOperation: Note = Note.add
+    var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.backBarButtonItem = NavController.backBarButton
         
-        switch noteOperation {
-        case .add:
-            self.navigationItem.title = "Add Note"
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Done", style: .plain, target: self, action: #selector(donePressed))
-        case .edit:
-            self.navigationItem.title = "Edit Note"
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Done", style: .plain, target: self, action: #selector(donePressed))
-        case .display:
+        if noteOperation == .add || noteOperation == .edit {
+            
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Done", style: .plain, target: self, action: nil)
+            self.navigationItem.rightBarButtonItem?.rx.tap
+                .subscribe(
+                    onNext: { tap in
+                        moodStore.dispatch(EditorNoteAction.init(note: self.node.noteTextView.textView.text ?? "",
+                                                                 index: self.indexPath))
+                        
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                ).disposed(by: disposeBag)
+            
+            if noteOperation == .add {
+                self.navigationItem.title = "Add Note"
+            } else {
+                self.navigationItem.title = "Edit Note"
+            }
+            
+        } else {
             self.navigationItem.title = "Your Note"
         }
         

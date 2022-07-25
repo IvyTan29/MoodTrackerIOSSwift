@@ -9,6 +9,8 @@ target 'MoodTracker' do
   pod 'Texture'
   pod 'RxSwift'
   pod 'ReSwift'
+  pod 'RxCocoa'
+  pod 'ReSwiftThunk'
   
 end
 

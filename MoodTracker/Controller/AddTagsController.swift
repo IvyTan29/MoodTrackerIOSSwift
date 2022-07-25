@@ -7,11 +7,13 @@
 
 import Foundation
 import AsyncDisplayKit
+import RxSwift
 
 class AddTagsController : ASDKViewController<AddTagNode> {
     
     var indexPath: IndexPath?
     var tagsSet: Set<String> = []
+    var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,17 +28,38 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         
         self.tabBarController?.tabBar.isHidden = true
         
-        self.node.doneBtn.addTarget(self, action: #selector(donePressed), forControlEvents: .touchUpInside)
-        self.node.cancelBtn.addTarget(self, action: #selector(cancelPressed), forControlEvents: .touchUpInside)
-        self.node.addNoteBtn.addTarget(self, action: #selector(addNotePressed), forControlEvents: .touchUpInside)
+        // for done button on the upper right
+        self.node.doneBtn.rxTap
+            .subscribe(
+                onNext: { tap in
+                    self.donePressed()
+                }
+            ).disposed(by: disposeBag)
+        
+        // for the cancel button
+        self.node.cancelBtn.rxTap
+            .subscribe(
+                onNext: { tap in
+                    self.navigationController?.popToRootViewController(animated: true)
+                    self.tabBarController?.tabBar.isHidden = false
+                }
+            ).disposed(by: disposeBag)
+
+        // for the add button
+        self.node.addNoteBtn.rxTap
+            .subscribe(
+                onNext: {tap in
+                    self.addNotePressed()
+                }
+            ).disposed(by: disposeBag)
         
         self.node.tagBtns.forEach { (btnNode) in
             btnNode.addTarget(self, action: #selector(tagPressed(_:)), forControlEvents: .touchUpInside)
         }
     }
     
-    @objc func donePressed() {
-        moodStore.dispatch(EditorTagsAction.init(tags: tagsSet))
+    func donePressed() {
+        moodStore.dispatch(EditorTagsAction.init(tags: self.tagsSet))
         
         // FIXME: - change this to delegate ba?
         if let indexPath = self.indexPath {
@@ -49,12 +72,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         self.tabBarController?.tabBar.isHidden = false
     }
     
-    @objc func cancelPressed() {
-        self.navigationController?.popToRootViewController(animated: true)
-        self.tabBarController?.tabBar.isHidden = false
-    }
-    
-    @objc func addNotePressed() {
+    func addNotePressed() {
         let editorNote = AddNoteController(node: AddNoteNode())
         
         // for editing purposes

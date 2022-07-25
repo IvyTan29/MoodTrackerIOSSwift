@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 
 class TabBarController : UITabBarController {
     
@@ -25,6 +27,8 @@ class TabBarController : UITabBarController {
     }()
     
     var entriesNav = NavController()
+    
+    var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,11 +112,11 @@ class TabBarController : UITabBarController {
         middleButton.translatesAutoresizingMaskIntoConstraints = false
         
         // action
-        middleButton.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
+        middleButton.rx.tap
+            .subscribe(
+                onNext: { tap in
+                    self.entriesNav.pushViewController(AddEditEntryController(node: AddEditEntryNode()), animated: true)
+                }).disposed(by: disposeBag)
         
-    }
-    
-    @objc func addButtonPressed() {
-        self.entriesNav.pushViewController(AddEditEntryController(node: AddEditEntryNode()), animated: true)
     }
 }

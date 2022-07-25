@@ -13,6 +13,15 @@ class EntriesNode: ASDisplayNode {
     var calendarSegmentControl = ASDisplayNode { () -> UIView in
         let segmentControl = UISegmentedControl(items: ["Day", "Week", "Month", "All"])
         segmentControl.selectedSegmentIndex = 0
+        
+        if #available(iOS 13.0, *) {
+            segmentControl.selectedSegmentTintColor = UIColor(named: "OrangeSecondary")
+        } else {
+            segmentControl.tintColor = UIColor(named: "OrangeSecondary")
+        }
+        segmentControl.setTitleTextAttributes([ .foregroundColor: UIColor.white ], for: .selected)
+        
+        
         return segmentControl
     }
     

@@ -13,6 +13,7 @@ class AddTagNode : ASDisplayNode {
     var tagTextField = ASEditableTextNode()
     var recentLabel = ASTextNode()
     
+    // FIXME: -
     var tagBtn1 = ASButtonNode()
     var tagBtn2 = ASButtonNode()
     var tagBtn3 = ASButtonNode()
@@ -22,9 +23,9 @@ class AddTagNode : ASDisplayNode {
     var tagArray = ["Work", "Good Meal", "Presentation", "Swimming", "Difficult Conversation", "Energized"]
     var tagBtns: [ASButtonNode]
     
-    var addNoteBtn = ASButtonNode()
-    var doneBtn = ASButtonNode()
-    var cancelBtn = ASButtonNode()
+    var addNoteBtn = ASCustomButton()
+    var doneBtn = ASCustomButton()
+    var cancelBtn = ASCustomButton()
 
     var addNoteStr : String?
     

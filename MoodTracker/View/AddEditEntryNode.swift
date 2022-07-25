@@ -18,6 +18,7 @@ class AddEditEntryNode : ASDisplayNode {
         
         return picker
     })
+    
     var moodSlider = ASDisplayNode(viewBlock: {() -> UIView in
         let slider = UISlider()
         
@@ -33,8 +34,8 @@ class AddEditEntryNode : ASDisplayNode {
     var titleLabel = ASTextNode()
     var lowLabel = ASTextNode()
     var highLabel = ASTextNode()
-    var nextBtn = ASButtonNode()
-    var cancelBtn = ASButtonNode()
+    var nextBtn = ASCustomButton()
+    var cancelBtn = ASCustomButton()
     
     static let mainBtnAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 22)!,
                               NSAttributedString.Key.foregroundColor: UIColor.white]
