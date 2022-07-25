@@ -32,15 +32,14 @@ class TabBarController : UITabBarController {
         let addEntryNav = NavController() // no use because it will be disabled
         
         // FIXME: - add in the future if needed...
-        let tempNav = NavController()
+        let settings = SettingsController()
         
-        self.entriesNav.tabBarItem = UITabBarItem(title: "Entries", image: UIImage(named: "list.bullet.rectangle.portrait"), selectedImage: UIImage(named: "list.bullet.rectangle.portrait.fill"))
-        
+        self.entriesNav.tabBarItem = UITabBarItem(title: "Entries", image: UIImage(systemName: "list.bullet.rectangle.portrait"), selectedImage: UIImage(systemName: "list.bullet.rectangle.portrait.fill"))
         
         addEntryNav.tabBarItem = UITabBarItem(title: "Add", image: nil, selectedImage: nil)
-        tempNav.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(named: "gearshape"), selectedImage: UIImage(named: "gearshape.fill"))
+        settings.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "gearshape"), selectedImage: UIImage(systemName: "gearshape.fill"))
         
-        self.setViewControllers([self.entriesNav, addEntryNav, tempNav], animated: false)
+        self.setViewControllers([self.entriesNav, addEntryNav, settings], animated: false)
         
         addMiddleButton()
         styleTab()
@@ -52,11 +51,15 @@ class TabBarController : UITabBarController {
         
         tabBarAppearance.configureWithOpaqueBackground()
         tabBarAppearance.backgroundColor = UIColor(named: "BlueBase")
-        tabBarAppearance.selectionIndicatorTintColor = .white
         
+        // color for title in tab bar items
         tabBarItemAppearance.normal.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemGray4]
         tabBarItemAppearance.disabled.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemGray4]
         tabBarItemAppearance.selected.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        
+        // color for the image icon
+        tabBarItemAppearance.normal.iconColor = UIColor.systemGray4
+        tabBarItemAppearance.selected.iconColor = UIColor.white
         
         tabBarAppearance.stackedLayoutAppearance = tabBarItemAppearance
         
