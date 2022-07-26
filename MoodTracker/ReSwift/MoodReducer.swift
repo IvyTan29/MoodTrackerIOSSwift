@@ -31,6 +31,7 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         
         
     case _ as InitializeTagAction:
+        print("INITIALIZE TAG ACTION")
         let recentKeys = state?.tagsDict.filter({ $0.value == true }).keys
         let tableKeys = state?.tagsDict.filter({ $0.value == false }).keys
         
@@ -39,21 +40,19 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         
         
     case let initializeTagsEditAction as InitializeTagsEditAction:
+        print("INITIALIZE TAG EDIT ACTION")
         let recentTags = state?.recentTags
         let tableTags = state?.tableTags
         
-        print(tableTags)
         let chosenTags = state?.moodList[initializeTagsEditAction.index.row].tags ?? []
         
         state?.recentTags = recentTags?.subtracting(chosenTags) ?? []
         state?.tableTags = tableTags?.subtracting(chosenTags) ?? []
         state?.chosenTags = chosenTags
         
-        print(tableTags)
-        print("GET edit tags")
-        
         
     case let deleteTagAction as DeleteTagAction:
+        print("DELETE TAG ACTION")
         state?.chosenTags.remove(deleteTagAction.tagStr)
         
         let isRecent = state?.tagsDict[deleteTagAction.tagStr] ?? true
@@ -66,12 +65,12 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         
     
     case let addTagAction as AddTagAction:
+        print("ADD TAG ACTION")
         state?.recentTags.remove(addTagAction.tagStr)
         state?.tableTags.remove(addTagAction.tagStr)
         state?.chosenTags.insert(addTagAction.tagStr)
         
         print("TEst : \(addTagAction.tagStr)")
-        
         
     case _ as AddMoodAction:
         let moodLog = state?.editorMood ?? MoodLog()

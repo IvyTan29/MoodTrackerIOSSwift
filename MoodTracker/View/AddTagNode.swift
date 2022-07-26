@@ -21,7 +21,7 @@ class AddTagNode : ASDisplayNode {
     var addNoteBtn = ASCustomButton()
     var doneBtn = ASCustomButton()
     var cancelBtn = ASCustomButton()
-
+    
     var addNoteStr : String?
     
     override init() {
@@ -39,8 +39,9 @@ class AddTagNode : ASDisplayNode {
         tagTextField.borderColor = UIColor.lightGray.cgColor
         tagTextField.borderWidth = 1
         tagTextField.textView.textContainerInset = .init(top: 8, left: 10, bottom: 8, right: 10)
-//        tagTextField.typingAttributes = AttributesFormat.addTagTFAttr
+        //        tagTextField.typingAttributes = AttributesFormat.addTagTFAttr
         tagTextField.attributedPlaceholderText = NSAttributedString(string: "Type to add Tag", attributes: AttributesFormat.addTagTFAttr)
+        tagTextField.style.height = .init(unit: .points, value: 40)
         
         addTagBtn.setAttributedTitle(NSAttributedString(string: "Add Tag", attributes: AttributesFormat.addTagBtnAttr), for: .normal)
         addTagBtn.backgroundColor = UIColor.white
@@ -62,13 +63,13 @@ class AddTagNode : ASDisplayNode {
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         
         let chosenTagsStack = ASStackLayoutSpec(direction: .horizontal,
-                                            spacing: 10,
-                                            justifyContent: .center,
-                                            alignItems: .start,
-                                            flexWrap: .wrap,
-                                            alignContent: .center,
-                                            lineSpacing: 10,
-                                            children: chosenTagBtns)
+                                                spacing: 10,
+                                                justifyContent: .center,
+                                                alignItems: .start,
+                                                flexWrap: .wrap,
+                                                alignContent: .center,
+                                                lineSpacing: 10,
+                                                children: chosenTagBtns)
         
         let tagBtnStack = ASStackLayoutSpec(direction: .horizontal,
                                             spacing: 10,
@@ -119,26 +120,14 @@ class AddTagNode : ASDisplayNode {
     }
     
     func loadFirstRecentTags() {
-        setRecentTagButton()
+        print("LOAD FIRST RECENT TAGS")
+        moodStore.dispatch(InitializeTagAction.init())
+        
+        setRecentTagBtn()
         setChosenTagButton()
     }
     
-    func setRecentTagButton() {
-        print("SET RECENT TAG BUTTON")
-        self.tagBtns = []
-        
-        for recentTag in moodStore.state.recentTags {
-            let tempTagBtn = ASCustomButton()
-            tempTagBtn.setAttributedTitle(NSAttributedString(string: recentTag, attributes: AttributesFormat.tagBtnAttr), for: .normal)
-            
-            tempTagBtn.borderWidth = 1
-            tempTagBtn.borderColor = UIColor.black.cgColor
-            tempTagBtn.cornerRadius = 20
-            tempTagBtn.contentEdgeInsets = UIEdgeInsets(top: 5, left: 30, bottom: 5, right: 30)
-            
-            self.tagBtns.append(tempTagBtn)
-        }
-        
+    func setMoreTagBtn() {
         self.moreTagsBtn.setAttributedTitle(NSAttributedString(string: "...", attributes: AttributesFormat.tagBtnAttr), for: .normal)
         self.moreTagsBtn.borderWidth = 1
         self.moreTagsBtn.borderColor = UIColor.black.cgColor
@@ -148,24 +137,48 @@ class AddTagNode : ASDisplayNode {
         self.tagBtns.append(self.moreTagsBtn)
     }
     
-    func removeRecentTagButton() {
-        // FIXME: - later
-//        self.tagBtns.remove(at: <#T##Int#>)
+    func setRecentTagBtn() {
+        print("SET RECENT TAG BUTTON")
+        self.tagBtns = []
+        
+        for recentTag in moodStore.state.recentTags {
+            self.tagBtns.append(createRecentTagBtn(string: recentTag))
+        }
+    }
+    
+    func createRecentTagBtn(string: String) -> ASCustomButton {
+        let tempTagBtn = ASCustomButton()
+        tempTagBtn.setAttributedTitle(NSAttributedString(string: string, attributes: AttributesFormat.tagBtnAttr), for: .normal)
+        
+        tempTagBtn.borderWidth = 1
+        tempTagBtn.borderColor = UIColor.black.cgColor
+        tempTagBtn.cornerRadius = 20
+        tempTagBtn.contentEdgeInsets = UIEdgeInsets(top: 5, left: 30, bottom: 5, right: 30)
+        
+        //        tempTagBtn.setAttributedTitle(NSAttributedString(string: string, attributes: AttributesFormat.tagPickBtnAttr), for: .selected)
+        
+        return tempTagBtn
     }
     
     func setChosenTagButton() {
         self.chosenTagBtns = []
         
         for chosenTag in moodStore.state.chosenTags {
-            let tempTagBtn = ASCustomButton()
-            tempTagBtn.setAttributedTitle(NSAttributedString(string: chosenTag, attributes: AttributesFormat.tagPickBtnAttr), for: .normal)
-            
-            tempTagBtn.borderWidth = 1
-            tempTagBtn.borderColor = UIColor(named: "OrangeSecondary")?.cgColor
-            tempTagBtn.cornerRadius = 20
-            tempTagBtn.contentEdgeInsets = UIEdgeInsets(top: 5, left: 30, bottom: 5, right: 30)
-            
-            self.chosenTagBtns.append(tempTagBtn)
+            self.chosenTagBtns.append(createChosenTagBtn(string: chosenTag))
         }
+    }
+    
+    func createChosenTagBtn(string: String) -> ASCustomButton {
+        let tempTagBtn = ASCustomButton()
+        tempTagBtn.setAttributedTitle(NSAttributedString(string: string, attributes: AttributesFormat.tagPickBtnAttr), for: .selected)
+        tempTagBtn.setAttributedTitle(NSAttributedString(string: string, attributes: AttributesFormat.tagPickBtnAttr), for: .normal)
+        
+        tempTagBtn.borderWidth = 1
+        tempTagBtn.borderColor = UIColor(named: "OrangeSecondary")?.cgColor
+        tempTagBtn.cornerRadius = 20
+        tempTagBtn.contentEdgeInsets = UIEdgeInsets(top: 5, left: 30, bottom: 5, right: 30)
+        //        tempTagBtn.isSelected = true
+        
+        return tempTagBtn
     }
 }

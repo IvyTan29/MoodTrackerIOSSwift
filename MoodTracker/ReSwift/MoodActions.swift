@@ -39,6 +39,10 @@ struct AddTagAction : Action {
     var tagStr: String
 }
 
+//struct AddTagToTableAction : Action {
+//    var tagStr: String
+//}
+
 struct AddMoodAction : Action {
     
 }

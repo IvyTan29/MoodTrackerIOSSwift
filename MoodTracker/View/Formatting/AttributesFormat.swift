@@ -25,7 +25,7 @@ struct AttributesFormat {
                          NSAttributedString.Key.foregroundColor: UIColor.gray]
     
     static let tagPickBtnAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 20)!,
-                                NSAttributedString.Key.foregroundColor: UIColor(named: "OrangeSecondary")] as [NSAttributedString.Key : Any]
+                                 NSAttributedString.Key.foregroundColor: UIColor(named: "OrangeSecondary") as Any] as [NSAttributedString.Key : Any]
     
     static let tagBtnAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir", size: 20)!,
                          NSAttributedString.Key.foregroundColor: UIColor.black]
