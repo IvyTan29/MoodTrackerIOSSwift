@@ -93,6 +93,7 @@ class TabBarController : UITabBarController {
             middleButton.heightAnchor.constraint(equalToConstant: size),
             middleButton.widthAnchor.constraint(equalToConstant: size)
         ]
+        
         for constraint in constraints {
             constraint.isActive = true
         }

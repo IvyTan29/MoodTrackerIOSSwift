@@ -14,6 +14,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
     
     var indexPath: IndexPath?
     var tagsSet: Set<String> = []
+    
     var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -54,14 +55,6 @@ class AddTagsController : ASDKViewController<AddTagNode> {
                 }
             ).disposed(by: disposeBag)
         
-        // for the more tags ("...") button
-        self.node.moreTagsBtn.rxTap
-            .subscribe(
-                onNext: { tap in
-                    self.present(TagListController(node: TagListNode()), animated: true)
-                }
-            ).disposed(by: disposeBag)
-        
         // for the add tag button from text field
         self.node.addTagBtn.rxTap
             .subscribe(
@@ -71,16 +64,6 @@ class AddTagsController : ASDKViewController<AddTagNode> {
                     moodStore.dispatch(PickedTagBtnAction.init(tagStr: string ?? ""))
                 }
             ).disposed(by: disposeBag)
-        
-        // for the tag buttons pressed
-        self.node.tagBtns.forEach { (btnNode) in
-            btnNode.rxTap
-                .subscribe(
-                    onNext: { tap in
-                        self.tagPressed(btnNode)
-                    }
-                ).disposed(by: disposeBag)
-        }
     }
     
     func donePressed() {
@@ -108,10 +91,6 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         }
 
         self.navigationController?.pushViewController(editorNote, animated: true)
-    }
-    
-    @objc func tagPressed(_ sender: ASButtonNode) {
-        moodStore.dispatch(PickedTagBtnAction.init(tagStr:  sender.attributedTitle(for: .normal)?.string ?? ""))
     }
     
     func load(_ indexPath: IndexPath) {
@@ -146,9 +125,29 @@ extension AddTagsController : StoreSubscriber {
     func newState(state: MoodState) {
         print("went here?")
         self.node.setRecentTagButton()
-//        self.node.layoutSpecThatFits(<#T##constrainedSize: ASSizeRange##ASSizeRange#>)
-        self.node.view.layoutIfNeeded()
+        self.node.setChosenTagButton()
         
+        let count = self.node.tagBtns.count - 1
+        
+        for idx in 0..<count {
+            self.node.tagBtns[idx].rxTap
+                .subscribe(
+                    onNext: { tap in
+                        moodStore.dispatch(PickedTagBtnAction.init(tagStr:  self.node.tagBtns[idx].attributedTitle(for: .normal)?.string ?? ""))
+                    }
+                ).disposed(by: disposeBag)
+        }
+        
+        // for the more tags ("...") button
+        self.node.moreTagsBtn.rxTap
+            .subscribe(
+                onNext: { tap in
+                    self.present(TagListController(node: TagListNode()), animated: true)
+                }
+            ).disposed(by: disposeBag)
+
+        self.node.setNeedsLayout()
+        self.node.layoutIfNeeded()
     }
 }
 

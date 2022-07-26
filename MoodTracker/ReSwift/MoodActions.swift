@@ -23,8 +23,16 @@ struct EditorNoteAction : Action {
 }
 
 
-struct GetRecentTagAction : Action {
+struct InitializeTagAction : Action {
     
+}
+
+struct GetTagsEditAction : Action {
+    var index: IndexPath
+}
+
+struct UnpickedTagBtnAction : Action {
+    var tagStr: String
 }
 
 struct PickedTagBtnAction : Action {

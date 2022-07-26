@@ -39,7 +39,8 @@ struct MoodState {
                        "Watch Movie" : false
                      ],
             chosenTags: [],
-            recentTags: []
+            recentTags: [],
+            tableTags: []
         )
     }
     
@@ -48,6 +49,7 @@ struct MoodState {
     var tagsDict: [String: Bool] = [:] // bool marks if it's recent or not
     var chosenTags: Set<String> = []
     var recentTags: Set<String> = []
+    var tableTags: Set<String> = []
 }
 
 var moodStore = Store<MoodState>.init(reducer: moodReducer, state: MoodState.createInitialState())

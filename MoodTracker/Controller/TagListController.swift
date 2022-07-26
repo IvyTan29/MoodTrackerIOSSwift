@@ -23,15 +23,15 @@ class TagListController : ASDKViewController<TagListNode> {
 extension TagListController : ASTableDataSource {
     
     func tableNode(_ tableNode: ASTableNode, numberOfRowsInSection section: Int) -> Int {
-        return moodStore.state.tagsDict.count
+        return moodStore.state.tableTags.count
     }
     
     func tableNode(_ tableNode: ASTableNode, nodeForRowAt indexPath: IndexPath) -> ASCellNode {
         let cell = TagCell()
-        let index = moodStore.state.tagsDict.index(moodStore.state.tagsDict.startIndex, offsetBy: indexPath.row)
+        let index =  moodStore.state.tableTags.index(moodStore.state.tableTags.startIndex, offsetBy: indexPath.row)
         
         cell.designCell()
-        cell.tag.attributedText = NSAttributedString(string: moodStore.state.tagsDict[index].key,
+        cell.tag.attributedText = NSAttributedString(string: moodStore.state.tableTags[index],
                                                      attributes: AttributesFormat.tagBtnAttr)
                                                      
         return cell

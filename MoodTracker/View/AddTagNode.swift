@@ -13,6 +13,7 @@ class AddTagNode : ASDisplayNode {
     var tagTextField = ASEditableTextNode()
     var addTagBtn = ASCustomButton()
     
+    var chosenTagBtns: [ASCustomButton] = []
     var recentLabel = ASTextNode()
     var tagBtns: [ASCustomButton] = []
     var moreTagsBtn = ASCustomButton()
@@ -46,15 +47,6 @@ class AddTagNode : ASDisplayNode {
         
         recentLabel.attributedText = NSAttributedString(string: "Recent", attributes: AttributesFormat.recentLabelAttr)
         
-        
-        tagBtns.forEach { (tagBtn) in
-            tagBtn.borderWidth = 1
-            tagBtn.borderColor = UIColor.black.cgColor
-            tagBtn.cornerRadius = 20
-            tagBtn.contentEdgeInsets = UIEdgeInsets(top: 5, left: 30, bottom: 5, right: 30)
-        }
-        
-        
         doneBtn.setAttributedTitle(NSAttributedString(string: "Done", attributes: AttributesFormat.proceedBtnAttr), for: .normal)
         doneBtn.backgroundColor = UIColor(named: "BlueBase")
         doneBtn.style.width = .init(unit: .points, value: 100)
@@ -68,6 +60,15 @@ class AddTagNode : ASDisplayNode {
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
+        
+        let chosenTagsStack = ASStackLayoutSpec(direction: .horizontal,
+                                            spacing: 10,
+                                            justifyContent: .center,
+                                            alignItems: .start,
+                                            flexWrap: .wrap,
+                                            alignContent: .center,
+                                            lineSpacing: 10,
+                                            children: chosenTagBtns)
         
         let tagBtnStack = ASStackLayoutSpec(direction: .horizontal,
                                             spacing: 10,
@@ -91,7 +92,7 @@ class AddTagNode : ASDisplayNode {
                                            spacing: 20,
                                            justifyContent: .start,
                                            alignItems: .stretch,
-                                           children: [typingWithBtn, recentLabelCenter, tagBtnStack])
+                                           children: [typingWithBtn, chosenTagsStack, recentLabelCenter, tagBtnStack])
         
         let navigationStack = ASStackLayoutSpec(direction: .vertical,
                                                 spacing: 10,
@@ -118,20 +119,53 @@ class AddTagNode : ASDisplayNode {
     }
     
     func loadFirstRecentTags() {
-        moodStore.dispatch(GetRecentTagAction.init())
+        moodStore.dispatch(InitializeTagAction.init())
         
         setRecentTagButton()
     }
     
     func setRecentTagButton() {
+        print("SET RECENT TAG BUTTON")
+        self.tagBtns = []
+        
         for recentTag in moodStore.state.recentTags {
             let tempTagBtn = ASCustomButton()
             tempTagBtn.setAttributedTitle(NSAttributedString(string: recentTag, attributes: AttributesFormat.tagBtnAttr), for: .normal)
+            
+            tempTagBtn.borderWidth = 1
+            tempTagBtn.borderColor = UIColor.black.cgColor
+            tempTagBtn.cornerRadius = 20
+            tempTagBtn.contentEdgeInsets = UIEdgeInsets(top: 5, left: 30, bottom: 5, right: 30)
             
             self.tagBtns.append(tempTagBtn)
         }
         
         self.moreTagsBtn.setAttributedTitle(NSAttributedString(string: "...", attributes: AttributesFormat.tagBtnAttr), for: .normal)
-        self.tagBtns.append(moreTagsBtn)
+        self.moreTagsBtn.borderWidth = 1
+        self.moreTagsBtn.borderColor = UIColor.black.cgColor
+        self.moreTagsBtn.cornerRadius = 20
+        self.moreTagsBtn.contentEdgeInsets = UIEdgeInsets(top: 5, left: 30, bottom: 5, right: 30)
+        
+        self.tagBtns.append(self.moreTagsBtn)
+    }
+    
+    func removeRecentTagButton() {
+        
+    }
+    
+    func setChosenTagButton() {
+        self.chosenTagBtns = []
+        
+        for chosenTag in moodStore.state.chosenTags {
+            let tempTagBtn = ASCustomButton()
+            tempTagBtn.setAttributedTitle(NSAttributedString(string: chosenTag, attributes: AttributesFormat.tagPickBtnAttr), for: .normal)
+            
+            tempTagBtn.borderWidth = 1
+            tempTagBtn.borderColor = UIColor(named: "OrangeSecondary")?.cgColor
+            tempTagBtn.cornerRadius = 20
+            tempTagBtn.contentEdgeInsets = UIEdgeInsets(top: 5, left: 30, bottom: 5, right: 30)
+            
+            self.chosenTagBtns.append(tempTagBtn)
+        }
     }
 }
