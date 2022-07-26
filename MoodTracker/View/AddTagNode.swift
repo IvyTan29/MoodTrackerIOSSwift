@@ -122,6 +122,7 @@ class AddTagNode : ASDisplayNode {
         moodStore.dispatch(InitializeTagAction.init())
         
         setRecentTagButton()
+        setChosenTagButton()
     }
     
     func setRecentTagButton() {

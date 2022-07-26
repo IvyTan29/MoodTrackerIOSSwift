@@ -14,7 +14,7 @@ struct EditorDateLevelAction : Action {
 }
 
 struct EditorTagsAction : Action {
-    var tags: Set<String>
+    
 }
 
 struct EditorNoteAction : Action {
@@ -27,7 +27,7 @@ struct InitializeTagAction : Action {
     
 }
 
-struct GetTagsEditAction : Action {
+struct InitializeTagsEditAction : Action {
     var index: IndexPath
 }
 

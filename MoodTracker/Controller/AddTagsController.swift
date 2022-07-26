@@ -13,8 +13,6 @@ import ReSwift
 class AddTagsController : ASDKViewController<AddTagNode> {
     
     var indexPath: IndexPath?
-    var tagsSet: Set<String> = []
-    
     var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -72,7 +70,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
     }
     
     func donePressed() {
-        moodStore.dispatch(EditorTagsAction.init(tags: self.tagsSet))
+        moodStore.dispatch(EditorTagsAction.init())
         
         // FIXME: - change this to delegate ba?
         if let indexPath = self.indexPath {
@@ -101,19 +99,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
     func load(_ indexPath: IndexPath) {
         self.indexPath = indexPath
         
-        self.tagsSet = moodStore.state.moodList[indexPath.row].tags ?? []
-        
-        // assign values
-        for button in self.node.tagBtns {
-            let buttonText = button.attributedTitle(for: .normal)?.string ?? ""
-            let isChoice = moodStore.state.moodList[indexPath.row].tags?.contains(buttonText)
-            
-            if let isChoice = isChoice {
-                if isChoice {
-                    button.isSelected = true
-                }
-            }
-        }
+        moodStore.dispatch(InitializeTagsEditAction(index: indexPath))
     }
 }
 

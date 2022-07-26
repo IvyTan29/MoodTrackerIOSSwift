@@ -19,8 +19,9 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         
         
     case let editorTagsAction as EditorTagsAction:
-        state?.editorMood?.tags = editorTagsAction.tags
+        let chosenTags = state?.chosenTags
         
+        state?.editorMood?.tags = chosenTags
         
     case let editorNoteAction as EditorNoteAction:
         state?.editorMood?.note = editorNoteAction.note
@@ -37,19 +38,16 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         state?.tableTags = Set(tableKeys!)
         
         
-    case let getTagsEditAction as GetTagsEditAction:
-        let keys = state?.tagsDict.filter({ $0.value == true }).keys
+    case let initializeTagsEditAction as InitializeTagsEditAction:
+        let recentTags = state?.recentTags
+        let tableTags = state?.tableTags
+        let chosenTags = state?.moodList[initializeTagsEditAction.index.row].tags ?? []
         
-        state?.recentTags = Set(keys!)
-//        state?.chosenTags = state?.moodList[getTagsEditAction.index.row].tags ?? []
-        
-//        for tag in state?.chosenTags {
-//            state?.recentTags.remove(tag)
-//        }
-//
+        state?.recentTags = recentTags?.subtracting(chosenTags) ?? []
+        state?.tableTags = tableTags?.subtracting(chosenTags) ?? []
+        state?.chosenTags = chosenTags
+
         print("GET edit tags")
-        print(state?.recentTags)
-        print(state?.chosenTags)
         
         
     case let deleteTagAction as DeleteTagAction:
@@ -69,8 +67,6 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         state?.tableTags.remove(addTagAction.tagStr)
         state?.chosenTags.insert(addTagAction.tagStr)
         
-        print(state?.recentTags)
-        print(state?.chosenTags)
         print("TEst : \(addTagAction.tagStr)")
         
         
@@ -79,7 +75,6 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         
         state?.moodList.append(moodLog)
         state?.editorMood = MoodLog()
-        state?.recentTags = []
         state?.chosenTags = []
         
         
@@ -88,7 +83,6 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         
         state?.moodList[editAction.index.row] = moodLog
         state?.editorMood = MoodLog()
-        state?.recentTags = []
         state?.chosenTags = []
         
         
