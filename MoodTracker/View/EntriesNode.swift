@@ -34,6 +34,12 @@ class EntriesNode: ASDisplayNode {
         return picker
     })
     
+    var monthPicker = ASDisplayNode(viewBlock: {() -> UIView in
+        let picker = UIPickerView()
+        
+        return picker
+    })
+    
     var calendarImage = ASImageNode()
     var noEntriesLabel = ASTextNode()
     var entryTable = ASTableNode()
@@ -56,6 +62,9 @@ class EntriesNode: ASDisplayNode {
         dayDatePicker.style.height = .init(unit: .points, value: 40)
         dayDatePicker.style.width = .init(unit: .fraction, value: 0.2)
         
+        monthPicker.style.height = .init(unit: .points, value: 85)
+        monthPicker.style.width = .init(unit: .fraction, value: 0.6)
+        
         calendarImage.image = UIImage(systemName: "calendar")
         
         entryTable.style.height = .init(unit: .fraction, value: 0.8)
@@ -73,7 +82,7 @@ class EntriesNode: ASDisplayNode {
         } else if self.dateType == .week {
 //            dateStackChildren += [calendarImage, dayDatePicker]
         } else if self.dateType == .month {
-//            dateStackChildren.append()
+            dateStackChildren += [calendarImage, monthPicker]
         }
         
         let dateStack = ASStackLayoutSpec(direction: .horizontal,
@@ -86,7 +95,7 @@ class EntriesNode: ASDisplayNode {
                                                   child: noEntriesLabel)
         
         let verticalStack = ASStackLayoutSpec(direction: .vertical,
-                                              spacing: 10,
+                                              spacing: 5,
                                               justifyContent: .start,
                                               alignItems: .stretch,
                                               children: [calendarSegmentControl, dateStack, numEntryContainer, entryTable])

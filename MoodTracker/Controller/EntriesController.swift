@@ -14,6 +14,18 @@ import RxCocoa
 class EntriesController : ASDKViewController<EntriesNode> {
     
     private var disposeBag = DisposeBag()
+    var months = ["January",
+                  "February",
+                  "March",
+                  "April",
+                  "May",
+                  "June",
+                  "July",
+                  "August",
+                  "September",
+                  "October",
+                  "November",
+                  "December"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +38,9 @@ class EntriesController : ASDKViewController<EntriesNode> {
         self.node.entryTable.delegate = self
         self.node.entryTable.dataSource = self
         self.node.entryTable.view.separatorStyle = .none
+        
+        (self.node.monthPicker.view as? UIPickerView)?.delegate = self
+        (self.node.monthPicker.view as? UIPickerView)?.dataSource = self
         
         self.node.noEntriesLabel.attributedText = NSAttributedString(string: "\(moodStore.state.moodList.count) Entries", attributes: AttributesFormat.numEntryAttr)
         
@@ -108,4 +123,28 @@ extension EntriesController : StoreSubscriber {
         self.node.entryTable.reloadData()
         self.node.noEntriesLabel.attributedText = NSAttributedString(string: "\(moodStore.state.moodList.count) Entries", attributes: AttributesFormat.numEntryAttr)
     }
+}
+
+// MARK: - UIPickerViewDataSource, UIPickerViewDelegate (For PickerView)
+extension EntriesController : UIPickerViewDataSource, UIPickerViewDelegate {
+    // Sets number of columns in picker view
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        1
+    }
+    
+    // Sets the number of rows in the picker view
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return self.months.count
+    }
+    
+    // This function sets the text of the picker view
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return self.months[row]
+    }
+    
+    // when a row in the picker is selected
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        // TODO: -
+    }
+
 }
