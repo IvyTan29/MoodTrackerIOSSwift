@@ -41,12 +41,15 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
     case let initializeTagsEditAction as InitializeTagsEditAction:
         let recentTags = state?.recentTags
         let tableTags = state?.tableTags
+        
+        print(tableTags)
         let chosenTags = state?.moodList[initializeTagsEditAction.index.row].tags ?? []
         
         state?.recentTags = recentTags?.subtracting(chosenTags) ?? []
         state?.tableTags = tableTags?.subtracting(chosenTags) ?? []
         state?.chosenTags = chosenTags
-
+        
+        print(tableTags)
         print("GET edit tags")
         
         

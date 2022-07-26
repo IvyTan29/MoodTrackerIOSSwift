@@ -67,12 +67,21 @@ class AddTagsController : ASDKViewController<AddTagNode> {
                     }
                 }
             ).disposed(by: disposeBag)
+        
+        // for the adding custom tag text field
+        // TODO: - add rxTap
+        
+        moodStore.dispatch(InitializeTagAction.init())
+        
+        // for editing purposes
+        if let indexPath = self.indexPath {
+            moodStore.dispatch(InitializeTagsEditAction(index: indexPath))
+        }
     }
     
     func donePressed() {
         moodStore.dispatch(EditorTagsAction.init())
         
-        // FIXME: - change this to delegate ba?
         if let indexPath = self.indexPath {
             moodStore.dispatch(EditMoodAction.init(index: indexPath))
         } else {
@@ -98,8 +107,6 @@ class AddTagsController : ASDKViewController<AddTagNode> {
     
     func load(_ indexPath: IndexPath) {
         self.indexPath = indexPath
-        
-        moodStore.dispatch(InitializeTagsEditAction(index: indexPath))
     }
 }
 
