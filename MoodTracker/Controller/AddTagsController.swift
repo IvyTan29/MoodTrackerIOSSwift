@@ -73,7 +73,9 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         self.node.moreTagsBtn.rxTap
             .subscribe(
                 onNext: { tap in
-                    self.present(TagListController(node: TagListNode()), animated: true)
+                    let vc = TagListController(node: TagListNode())
+                    vc.delegate = self
+                    self.present(vc, animated: true)
                 }
             ).disposed(by: disposeBag)
         
@@ -153,8 +155,13 @@ class AddTagsController : ASDKViewController<AddTagNode> {
             ).disposed(by: disposeBag)
     }
     
-    // FIXME: - check if put back to table view or recent tag button
-    func removeChosenTagButton(asButton : ASCustomButton) {
+    func addChosenFromTable(string: String) {
+        let chosenBtn = self.node.createChosenTagBtn(string)
+        assignActionForChosenTag(chosenBtn)
+        self.node.chosenTagBtns.append(chosenBtn)
+    }
+    
+    func removeChosenTagButton(asButton: ASCustomButton) {
         if let idx = self.node.chosenTagBtns.firstIndex(where: { $0 === asButton }) {
             self.node.chosenTagBtns.remove(at: idx)
             
@@ -162,7 +169,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
                 let isRecent = moodStore.state.tagsDict[string] ?? true
                     
                 if isRecent {
-                    let recentBtn = self.node.createRecentTagBtn(string: string)
+                    let recentBtn = self.node.createRecentTagBtn(string)
                     assignActionForRecentTag(recentBtn)
                     self.node.tagBtns.insert(recentBtn, at: self.node.tagBtns.count - 1)
                 }
@@ -170,12 +177,12 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         }
     }
     
-    func removeRecentTagButton(asButton : ASCustomButton) {
+    func removeRecentTagButton(asButton: ASCustomButton) {
         if let idx = self.node.tagBtns.firstIndex(where: { $0 === asButton }) {
             self.node.tagBtns.remove(at: idx)
             
             if let string = asButton.attributedTitle(for: .normal)?.string {
-                let chosenBtn = self.node.createChosenTagBtn(string: string)
+                let chosenBtn = self.node.createChosenTagBtn(string)
                 assignActionForChosenTag(chosenBtn)
                 self.node.chosenTagBtns.append(chosenBtn)
             }
@@ -200,3 +207,9 @@ extension AddTagsController : StoreSubscriber {
     }
 }
 
+
+extension AddTagsController : TagListDelegate {
+    func didClickTagInTable(tagStr: String) {
+        self.addChosenFromTable(string: tagStr)
+    }
+}

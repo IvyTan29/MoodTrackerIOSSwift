@@ -8,7 +8,13 @@
 import Foundation
 import AsyncDisplayKit
 
+protocol TagListDelegate {
+    func didClickTagInTable(tagStr: String)
+}
+
 class TagListController : ASDKViewController<TagListNode> {
+    
+    var delegate : TagListDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +51,10 @@ extension TagListController : ASTableDelegate {
         
         tableNode.deselectRow(at: indexPath, animated: true)
     
+        self.delegate?.didClickTagInTable(tagStr: moodStore.state.tableTags[index])
+        
         moodStore.dispatch(AddTagAction.init(tagStr: moodStore.state.tableTags[index]))
+        
         self.node.tagsTable.reloadData()
     }
 }

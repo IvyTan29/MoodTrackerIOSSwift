@@ -142,11 +142,11 @@ class AddTagNode : ASDisplayNode {
         self.tagBtns = []
         
         for recentTag in moodStore.state.recentTags {
-            self.tagBtns.append(createRecentTagBtn(string: recentTag))
+            self.tagBtns.append(createRecentTagBtn(recentTag))
         }
     }
     
-    func createRecentTagBtn(string: String) -> ASCustomButton {
+    func createRecentTagBtn(_ string: String) -> ASCustomButton {
         let tempTagBtn = ASCustomButton()
         tempTagBtn.setAttributedTitle(NSAttributedString(string: string, attributes: AttributesFormat.tagBtnAttr), for: .normal)
         
@@ -164,11 +164,11 @@ class AddTagNode : ASDisplayNode {
         self.chosenTagBtns = []
         
         for chosenTag in moodStore.state.chosenTags {
-            self.chosenTagBtns.append(createChosenTagBtn(string: chosenTag))
+            self.chosenTagBtns.append(createChosenTagBtn(chosenTag))
         }
     }
     
-    func createChosenTagBtn(string: String) -> ASCustomButton {
+    func createChosenTagBtn(_ string: String) -> ASCustomButton {
         let tempTagBtn = ASCustomButton()
         tempTagBtn.setAttributedTitle(NSAttributedString(string: string, attributes: AttributesFormat.tagPickBtnAttr), for: .selected)
         tempTagBtn.setAttributedTitle(NSAttributedString(string: string, attributes: AttributesFormat.tagPickBtnAttr), for: .normal)
