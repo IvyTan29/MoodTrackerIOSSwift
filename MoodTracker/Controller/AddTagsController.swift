@@ -60,8 +60,13 @@ class AddTagsController : ASDKViewController<AddTagNode> {
             .subscribe(
                 onNext: { tap in
                     let string = self.node.tagTextField.textView.text
+                    self.node.tagTextField.textView.text = ""
                     
-                    moodStore.dispatch(PickedTagBtnAction.init(tagStr: string ?? ""))
+                    if let string = string {
+                        if string != "" {
+                            moodStore.dispatch(AddTagAction.init(tagStr: string))
+                        }
+                    }
                 }
             ).disposed(by: disposeBag)
     }
@@ -133,7 +138,7 @@ extension AddTagsController : StoreSubscriber {
             self.node.tagBtns[idx].rxTap
                 .subscribe(
                     onNext: { tap in
-                        moodStore.dispatch(PickedTagBtnAction.init(tagStr:  self.node.tagBtns[idx].attributedTitle(for: .normal)?.string ?? ""))
+                        moodStore.dispatch(AddTagAction.init(tagStr:  self.node.tagBtns[idx].attributedTitle(for: .normal)?.string ?? ""))
                     }
                 ).disposed(by: disposeBag)
         }
@@ -146,6 +151,15 @@ extension AddTagsController : StoreSubscriber {
                 }
             ).disposed(by: disposeBag)
 
+        self.node.chosenTagBtns.forEach({ button in
+            button.rxTap
+                .subscribe(
+                    onNext: { tap in
+                        moodStore.dispatch(DeleteTagAction.init(tagStr: button.attributedTitle(for: .normal)?.string ?? ""))
+                    }
+                ).disposed(by: disposeBag)
+        })
+        
         self.node.setNeedsLayout()
         self.node.layoutIfNeeded()
     }

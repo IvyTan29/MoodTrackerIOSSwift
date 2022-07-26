@@ -31,11 +31,11 @@ struct GetTagsEditAction : Action {
     var index: IndexPath
 }
 
-struct UnpickedTagBtnAction : Action {
+struct DeleteTagAction : Action {
     var tagStr: String
 }
 
-struct PickedTagBtnAction : Action {
+struct AddTagAction : Action {
     var tagStr: String
 }
 

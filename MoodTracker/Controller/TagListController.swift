@@ -41,8 +41,11 @@ extension TagListController : ASTableDataSource {
 // MARK: - ASTableDelegate
 extension TagListController : ASTableDelegate {
     func tableNode(_ tableNode: ASTableNode, didSelectRowAt indexPath: IndexPath) {
-        tableNode.deselectRow(at: indexPath, animated: true)
+        let index =  moodStore.state.tableTags.index(moodStore.state.tableTags.startIndex, offsetBy: indexPath.row)
         
-        // TODO: - when selected, add it to the chosen stack
+        tableNode.deselectRow(at: indexPath, animated: true)
+    
+        moodStore.dispatch(AddTagAction.init(tagStr: moodStore.state.tableTags[index]))
+        self.node.tagsTable.reloadData()
     }
 }

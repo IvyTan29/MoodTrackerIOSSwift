@@ -150,7 +150,8 @@ class AddTagNode : ASDisplayNode {
     }
     
     func removeRecentTagButton() {
-        
+        // FIXME: - later
+//        self.tagBtns.remove(at: <#T##Int#>)
     }
     
     func setChosenTagButton() {
