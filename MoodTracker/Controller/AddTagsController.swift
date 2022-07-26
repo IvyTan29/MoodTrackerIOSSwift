@@ -9,6 +9,7 @@ import Foundation
 import AsyncDisplayKit
 import RxSwift
 import ReSwift
+import RxCocoa
 
 class AddTagsController : ASDKViewController<AddTagNode> {
     
@@ -31,7 +32,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         // for done button on the upper right
         self.node.doneBtn.rxTap
             .subscribe(
-                onNext: { tap in
+                onNext: { [unowned self] tap in
                     self.donePressed()
                 }
             ).disposed(by: disposeBag)
@@ -39,7 +40,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         // for the cancel button
         self.node.cancelBtn.rxTap
             .subscribe(
-                onNext: { tap in
+                onNext: { [unowned self] tap in
                     self.navigationController?.popToRootViewController(animated: true)
                     self.tabBarController?.tabBar.isHidden = false
                 }
@@ -48,7 +49,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         // for the add note button
         self.node.addNoteBtn.rxTap
             .subscribe(
-                onNext: { tap in
+                onNext: { [unowned self] tap in
                     self.addNotePressed()
                 }
             ).disposed(by: disposeBag)
@@ -56,7 +57,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         // for the add tag button from text field
         self.node.addTagBtn.rxTap
             .subscribe(
-                onNext: { tap in
+                onNext: { [unowned self] tap in
                     let string = self.node.tagTextField.textView.text
                     self.node.tagTextField.textView.text = ""
                     self.node.tagTextField.style.height = .init(unit: .points, value: 40)
@@ -64,29 +65,49 @@ class AddTagsController : ASDKViewController<AddTagNode> {
                     if let string = string {
                         if string != "" {
                             moodStore.dispatch(AddTagAction.init(tagStr: string))
+                            self.addChosenFromTableAndTF(string: string)
                         }
                     }
+                }
+            ).disposed(by: disposeBag)
+        
+        // for the adding custom tag text field
+        // TODO: - add rxTap
+        self.node.tagTextField.textView.rx.text
+            .map { $0 ?? "" }
+            .map { $0.isEmpty }
+            .distinctUntilChanged() // para if false, and then you type, and then false parin, it won't keep listening (it will only listen if may change sa value (false to true for example)
+            .subscribe(
+                onNext: { [unowned self] isEmpty in
+                    self.node.isHiddenAddTagBtn = isEmpty
+                    self.node.setNeedsLayout()
+                },
+                onError: { error in
+                    print(error)
+                },
+                onCompleted: {
+                    print("completed")
                 }
             ).disposed(by: disposeBag)
         
         // for the more tags ("...") button
         self.node.moreTagsBtn.rxTap
             .subscribe(
-                onNext: { tap in
+                onNext: { [unowned self] tap in
                     let vc = TagListController(node: TagListNode())
                     vc.delegate = self
                     self.present(vc, animated: true)
                 }
             ).disposed(by: disposeBag)
         
-        
-        // for the adding custom tag text field
-        // TODO: - add rxTap
+        moodStore.dispatch(InitializeTagAction.init())
         
         // for editing purposes
         if let indexPath = self.indexPath {
             moodStore.dispatch(InitializeTagsEditAction(index: indexPath))
         }
+        
+        self.node.loadFirstRecentTags()
         
         self.assignActionForRecentTags()
         self.assignActionForChosenTags()
@@ -138,7 +159,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
     func assignActionForRecentTag(_ button : ASCustomButton) {
         button.rxTap
             .subscribe(
-                onNext: { tap in
+                onNext: { [unowned self] tap in
                     moodStore.dispatch(AddTagAction.init(tagStr:  button.attributedTitle(for: .normal)?.string ?? ""))
                     self.removeRecentTagButton(asButton: button)
                 }
@@ -148,14 +169,14 @@ class AddTagsController : ASDKViewController<AddTagNode> {
     func assignActionForChosenTag(_ button : ASCustomButton) {
         button.rxTap
             .subscribe(
-                onNext: { tap in
+                onNext: { [unowned self] tap in
                     moodStore.dispatch(DeleteTagAction.init(tagStr: button.attributedTitle(for: .normal)?.string ?? ""))
                     self.removeChosenTagButton(asButton: button)
                 }
             ).disposed(by: disposeBag)
     }
     
-    func addChosenFromTable(string: String) {
+    func addChosenFromTableAndTF(string: String) {
         let chosenBtn = self.node.createChosenTagBtn(string)
         assignActionForChosenTag(chosenBtn)
         self.node.chosenTagBtns.append(chosenBtn)
@@ -210,6 +231,6 @@ extension AddTagsController : StoreSubscriber {
 
 extension AddTagsController : TagListDelegate {
     func didClickTagInTable(tagStr: String) {
-        self.addChosenFromTable(string: tagStr)
+        self.addChosenFromTableAndTF(string: tagStr)
     }
 }

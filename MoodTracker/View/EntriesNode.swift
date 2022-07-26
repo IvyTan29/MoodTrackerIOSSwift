@@ -21,12 +21,11 @@ class EntriesNode: ASDisplayNode {
         }
         segmentControl.setTitleTextAttributes([ .foregroundColor: UIColor.white ], for: .selected)
         
-        
         return segmentControl
     }
     
     var entryTable = ASTableNode()
-    var todayBtn = ASButtonNode()
+    var todayBtn = ASDisplayNode()
     var todayImage = ASImageNode()
     var noEntriesLabel = ASTextNode()
     
@@ -69,7 +68,7 @@ class EntriesNode: ASDisplayNode {
                                               alignItems: .stretch,
                                               children: [calendarSegmentControl, todayStack, numEntryContainer, entryTable])
         
-        return ASInsetLayoutSpec(insets: .init(top: 100, left: 10, bottom: 20, right: 10), child: verticalStack)
+        return ASInsetLayoutSpec(insets: .init(top: 100, left: 10, bottom: 30, right: 10), child: verticalStack)
     }
 }
 

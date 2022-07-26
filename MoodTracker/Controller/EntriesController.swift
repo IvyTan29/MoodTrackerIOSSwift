@@ -69,7 +69,6 @@ extension EntriesController : EntryCellDelegate {
         noteEditor.load(index, .display)
         
         self.navigationController?.pushViewController(noteEditor, animated: true)
-        
     }
 }
 

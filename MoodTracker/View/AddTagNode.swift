@@ -23,6 +23,7 @@ class AddTagNode : ASDisplayNode {
     var cancelBtn = ASCustomButton()
     
     var addNoteStr : String?
+    var isHiddenAddTagBtn = true
     
     override init() {
         super.init()
@@ -34,17 +35,19 @@ class AddTagNode : ASDisplayNode {
     override func didLoad() {
         super.didLoad()
         
-        loadFirstRecentTags()
-        
         tagTextField.borderColor = UIColor.lightGray.cgColor
         tagTextField.borderWidth = 1
         tagTextField.textView.textContainerInset = .init(top: 8, left: 10, bottom: 8, right: 10)
         //        tagTextField.typingAttributes = AttributesFormat.addTagTFAttr
         tagTextField.attributedPlaceholderText = NSAttributedString(string: "Type to add Tag", attributes: AttributesFormat.addTagTFAttr)
+        tagTextField.textView.font =  UIFont.init(name: "Avenir", size: 18.0)
         tagTextField.style.height = .init(unit: .points, value: 40)
+        tagTextField.style.flexGrow = 1
         
         addTagBtn.setAttributedTitle(NSAttributedString(string: "Add Tag", attributes: AttributesFormat.addTagBtnAttr), for: .normal)
-        addTagBtn.backgroundColor = UIColor.white
+//        addTagBtn.style.width = .init(unit: .points, value: 60)
+        addTagBtn.style.height = .init(unit: .points, value: 40)
+        
         
         recentLabel.attributedText = NSAttributedString(string: "Recent", attributes: AttributesFormat.recentLabelAttr)
         
@@ -84,11 +87,16 @@ class AddTagNode : ASDisplayNode {
                                                    sizingOptions: .minimumY,
                                                    child: recentLabel)
         
-        let addTagBtnInset = ASInsetLayoutSpec(insets: .init(top: 2, left: 300, bottom: 1, right: 2), child: addTagBtn)
+        let typingWithBtn = ASStackLayoutSpec(direction: .horizontal,
+                                              spacing: 5,
+                                              justifyContent: .start,
+                                              alignItems: .start,
+                                              children: [tagTextField] + (self.isHiddenAddTagBtn ? [] : [addTagBtn]))
+    
         
-        let typingWithBtn = ASOverlayLayoutSpec(child: tagTextField,
-                                                overlay: addTagBtnInset)
-        
+//        let typingWithBtn = ASOverlayLayoutSpec(child: tagTextField,
+//                                                overlay: addTagBtnInset)
+//
         let firstStack = ASStackLayoutSpec(direction: .vertical,
                                            spacing: 20,
                                            justifyContent: .start,
@@ -121,7 +129,7 @@ class AddTagNode : ASDisplayNode {
     
     func loadFirstRecentTags() {
         print("LOAD FIRST RECENT TAGS")
-        moodStore.dispatch(InitializeTagAction.init())
+        
         
         setRecentTagBtn()
         setChosenTagButton()
