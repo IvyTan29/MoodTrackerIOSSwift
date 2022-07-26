@@ -93,10 +93,6 @@ class AddTagNode : ASDisplayNode {
                                               alignItems: .start,
                                               children: [tagTextField] + (self.isHiddenAddTagBtn ? [] : [addTagBtn]))
     
-        
-//        let typingWithBtn = ASOverlayLayoutSpec(child: tagTextField,
-//                                                overlay: addTagBtnInset)
-//
         let firstStack = ASStackLayoutSpec(direction: .vertical,
                                            spacing: 20,
                                            justifyContent: .start,

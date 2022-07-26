@@ -72,7 +72,6 @@ class AddTagsController : ASDKViewController<AddTagNode> {
             ).disposed(by: disposeBag)
         
         // for the adding custom tag text field
-        // TODO: - add rxTap
         self.node.tagTextField.textView.rx.text
             .map { $0 ?? "" }
             .map { $0.isEmpty }

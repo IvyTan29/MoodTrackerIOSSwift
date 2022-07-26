@@ -8,8 +8,12 @@
 import Foundation
 import AsyncDisplayKit
 import ReSwift
+import RxSwift
+import RxCocoa
 
 class EntriesController : ASDKViewController<EntriesNode> {
+    
+    private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +28,24 @@ class EntriesController : ASDKViewController<EntriesNode> {
         self.node.entryTable.view.separatorStyle = .none
         
         self.node.noEntriesLabel.attributedText = NSAttributedString(string: "\(moodStore.state.moodList.count) Entries", attributes: AttributesFormat.numEntryAttr)
+        
+        (self.node.calendarSegmentControl.view as? UISegmentedControl)?.rx.selectedSegmentIndex
+            .subscribe(
+                onNext: { [unowned self] index in
+                    switch index {
+                    case 0:
+                        self.node.dateType = .day
+                    case 1:
+                        self.node.dateType = .week
+                    case 2:
+                        self.node.dateType = .month
+                    default:
+                        self.node.dateType = .all
+                    }
+                    
+                    self.node.setNeedsLayout()
+                }
+            ).disposed(by: disposeBag)
     }
 }
 
