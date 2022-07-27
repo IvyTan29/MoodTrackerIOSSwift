@@ -36,12 +36,12 @@ class TabBarController : UITabBarController {
         let addEntryNav = NavController() // no use because it will be disabled
         
         // FIXME: - add in the future if needed...
-        let settings = SettingsController()
+        let settings = InsightsController()
         
         self.entriesNav.tabBarItem = UITabBarItem(title: "Entries", image: UIImage(systemName: "list.bullet.rectangle.portrait"), selectedImage: UIImage(systemName: "list.bullet.rectangle.portrait.fill"))
         
         addEntryNav.tabBarItem = UITabBarItem(title: "Add", image: nil, selectedImage: nil)
-        settings.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "gearshape"), selectedImage: UIImage(systemName: "gearshape.fill"))
+        settings.tabBarItem = UITabBarItem(title: "Insights", image: UIImage(systemName: "lightbulb"), selectedImage: UIImage(systemName: "lightbulb.fill"))
         
         self.setViewControllers([self.entriesNav, addEntryNav, settings], animated: false)
         

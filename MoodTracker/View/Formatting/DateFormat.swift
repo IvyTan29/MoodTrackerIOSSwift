@@ -15,4 +15,10 @@ struct DateFormat {
         
         return dateFormatter.string(from: date)
     }
+    
+    static func stringFormatToDate(format: String, dateStr: String) -> Date {
+        dateFormatter.dateFormat = format
+        
+        return dateFormatter.date(from: dateStr) ?? Date()
+    }
 }

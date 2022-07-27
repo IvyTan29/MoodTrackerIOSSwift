@@ -9,7 +9,7 @@ import Foundation
 //import AsyncDisplayKit
 import UIKit
 
-class SettingsController : UIViewController {
+class InsightsController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }

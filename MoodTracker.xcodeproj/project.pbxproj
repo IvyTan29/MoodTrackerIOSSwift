@@ -17,7 +17,7 @@
 		F1952B94288A83F3005BD0CC /* MoodReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1952B93288A83F3005BD0CC /* MoodReducer.swift */; };
 		F1952B97288A8416005BD0CC /* MoodActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1952B96288A8416005BD0CC /* MoodActions.swift */; };
 		F1952B9B288A8B38005BD0CC /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1952B9A288A8B38005BD0CC /* TabBarController.swift */; };
-		F19B36C3288E624B0017B50F /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36C2288E624B0017B50F /* SettingsController.swift */; };
+		F19B36C3288E624B0017B50F /* InsightsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36C2288E624B0017B50F /* InsightsController.swift */; };
 		F19B36C9288E91040017B50F /* ASCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36C8288E91040017B50F /* ASCustomButton.swift */; };
 		F19B36CB288ECAF00017B50F /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36CA288ECAF00017B50F /* Tag.swift */; };
 		F19B36CD288ECB600017B50F /* TagListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36CC288ECB600017B50F /* TagListController.swift */; };
@@ -53,7 +53,7 @@
 		F1952B93288A83F3005BD0CC /* MoodReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodReducer.swift; sourceTree = "<group>"; };
 		F1952B96288A8416005BD0CC /* MoodActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodActions.swift; sourceTree = "<group>"; };
 		F1952B9A288A8B38005BD0CC /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		F19B36C2288E624B0017B50F /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		F19B36C2288E624B0017B50F /* InsightsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsController.swift; sourceTree = "<group>"; };
 		F19B36C8288E91040017B50F /* ASCustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASCustomButton.swift; sourceTree = "<group>"; };
 		F19B36CA288ECAF00017B50F /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		F19B36CC288ECB600017B50F /* TagListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListController.swift; sourceTree = "<group>"; };
@@ -178,7 +178,7 @@
 				F1BBD06C2888F53000C290B7 /* AddNoteController.swift */,
 				F1952B9A288A8B38005BD0CC /* TabBarController.swift */,
 				F1BBD073288902D800C290B7 /* EntriesController.swift */,
-				F19B36C2288E624B0017B50F /* SettingsController.swift */,
+				F19B36C2288E624B0017B50F /* InsightsController.swift */,
 				F19B36CC288ECB600017B50F /* TagListController.swift */,
 			);
 			path = Controller;
@@ -358,7 +358,7 @@
 				F1952B9B288A8B38005BD0CC /* TabBarController.swift in Sources */,
 				F1BBD06D2888F53000C290B7 /* AddNoteController.swift in Sources */,
 				F1BC8A4328880A6D00604C23 /* AddEditEntryController.swift in Sources */,
-				F19B36C3288E624B0017B50F /* SettingsController.swift in Sources */,
+				F19B36C3288E624B0017B50F /* InsightsController.swift in Sources */,
 				F18C2A27288D349300008B07 /* CustomTabBar.swift in Sources */,
 				F1BBD0702888F54E00C290B7 /* AddNoteNode.swift in Sources */,
 				F1BC8A4928880EC500604C23 /* AddEditEntryNode.swift in Sources */,

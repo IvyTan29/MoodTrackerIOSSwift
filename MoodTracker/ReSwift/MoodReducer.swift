@@ -111,11 +111,19 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
             
         case .monthControl:
             print("MONTH")
-            let monthYear = filterMoodAction.string?.components(separatedBy: " ")
-            print(monthYear)
+            
+            let monthYearDate = DateFormat.stringFormatToDate(format: "MMMM yyyy", dateStr: filterMoodAction.string ?? "")
+            
+            filterResult = state?.allMoodList.filter({
+                Calendar.current.isDate($0.dateTime ?? Date(),
+                                        equalTo: monthYearDate,
+                                        toGranularity: .month) &&
+                Calendar.current.isDate($0.dateTime ?? Date(),
+                                        equalTo: monthYearDate,
+                                        toGranularity: .year)
+            }) ?? []
             
         default: //all
-            print("ALL")
             filterResult = state?.allMoodList ?? []
         }
         

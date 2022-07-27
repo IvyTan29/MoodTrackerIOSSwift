@@ -181,7 +181,8 @@ extension EntriesController : UIPickerViewDataSource, UIPickerViewDelegate {
     
     // when a row in the picker is selected
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        // TODO: -
+        moodStore.dispatch(FilterMoodAction.init(dateType: self.node.dateType,
+                                                 string: months[row]))
     }
 
 }
