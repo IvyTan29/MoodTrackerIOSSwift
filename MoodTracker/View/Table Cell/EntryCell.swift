@@ -9,7 +9,7 @@ import Foundation
 import AsyncDisplayKit
 import RxSwift
 
-protocol EntryCellDelegate {
+protocol EntryCellDelegate : AnyObject {
     func didDisplayNote(index: IndexPath)
 }
 
@@ -34,9 +34,10 @@ class EntryCell : ASCellNode {
     
     var showNoteBtn = ASCustomButton()
     var showNoteImage = ASImageNode()
+    var isShowNote = false
     
     var indexPathInCell : IndexPath?
-    var delegate: EntryCellDelegate?
+    weak var delegate: EntryCellDelegate?
     var disposeBag = DisposeBag()
     
     init(tagStrSet: Set<String>) {
@@ -89,7 +90,7 @@ class EntryCell : ASCellNode {
                                                  spacing: 20,
                                                  justifyContent: .spaceBetween,
                                                  alignItems: .stretch,
-                                                 children: [timeSliderStack, tagLabelsStack, showNoteStack])
+                                                 children: [timeSliderStack, tagLabelsStack] + (self.isShowNote ? [showNoteStack] : []))
         
         let insetContent = ASInsetLayoutSpec(insets: .init(top: 15, left: 15, bottom: 15, right: 15), child: bigVerticalStack)
         

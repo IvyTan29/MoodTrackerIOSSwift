@@ -49,8 +49,7 @@ extension WeekTableController : ASTableDataSource {
 extension WeekTableController : ASTableDelegate {
     func tableNode(_ tableNode: ASTableNode, didSelectRowAt indexPath: IndexPath) {
         moodStore.dispatch(FilterMoodAction.init(dateType: .weekControl,
-                                                 date: self.weeks[indexPath.row].from,
-                                                 toDate: self.weeks[indexPath.row].to))
+                                                 date: self.weeks[indexPath.row].from))
         self.delegate?.didSelectWeek(from: self.weeks[indexPath.row].from, to: self.weeks[indexPath.row].to)
         self.dismiss(animated: true)
     }

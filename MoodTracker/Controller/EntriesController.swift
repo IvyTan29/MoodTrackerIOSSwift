@@ -45,8 +45,7 @@ class EntriesController : ASDKViewController<EntriesNode> {
                         self.node.dateType = .weekControl
                         
                         moodStore.dispatch(FilterMoodAction.init(dateType: self.node.dateType,
-                                                                 date: self.weeks[self.weeks.count - 1].from,
-                                                                 toDate: self.weeks[self.weeks.count - 1].to))
+                                                                 date: self.weeks[self.weeks.count - 1].from))
                         
                     case 2:
                         self.node.dateType = .monthControl
@@ -112,11 +111,16 @@ extension EntriesController : ASTableDataSource {
     
     func tableNode(_ tableNode: ASTableNode, nodeForRowAt indexPath: IndexPath) -> ASCellNode {
         let cell = EntryCell(tagStrSet: moodStore.state.filterMoodList[indexPath.row].tags ?? [])
+        let entryNote = moodStore.state.filterMoodList[indexPath.row].note
         
         cell.designCell()
         
         cell.timeLabel.attributedText = NSAttributedString(string: DateFormat.dateFormatToString(format: "h:mm a", date: moodStore.state.filterMoodList[indexPath.row].dateTime ?? Date()), attributes: AttributesFormat.timeLabelAttr)
         (cell.moodSlider.view as? UISlider)?.value = moodStore.state.filterMoodList[indexPath.row].moodValue ?? 0
+        
+        if entryNote != nil || !(entryNote?.isEmpty ?? true) {
+            cell.isShowNote = true
+        }
         
         cell.indexPathInCell = indexPath
         cell.delegate = self
