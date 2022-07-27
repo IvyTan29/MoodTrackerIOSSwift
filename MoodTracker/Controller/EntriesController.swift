@@ -15,6 +15,7 @@ class EntriesController : ASDKViewController<EntriesNode> {
     
     private var disposeBag = DisposeBag()
     var months: [String] = []
+    var weeks: [WeekRange] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,6 +71,7 @@ class EntriesController : ASDKViewController<EntriesNode> {
             ).disposed(by: disposeBag)
         
         self.populateLast12Months()
+        self.populateLast52Weeks()
         
         // select the latest month
         (self.node.monthPicker.view as? UIPickerView)?.selectRow(self.months.count - 1, inComponent: 0, animated: true)
@@ -162,6 +164,27 @@ extension EntriesController : UIPickerViewDataSource, UIPickerViewDelegate {
 
         self.months = last12Months.map({ DateFormat.dateFormatToString(format: "MMMM yyyy", date: $0)})
         self.months.reverse()
+    }
+    
+    func populateLast52Weeks() {
+        let components = Calendar.current.dateComponents([.weekday], from: Date())
+        
+        let oneDayInSeconds = 24 * 60 * 60 * 1.0
+        let sevenDaysInSeconds = 7 * oneDayInSeconds
+
+        var sundayEpochInSeconds = Date().timeIntervalSince1970 - ((Double(components.weekday ?? 0) - 1) * oneDayInSeconds)
+        var saturdayEpochInSeconds = Date().timeIntervalSince1970 + ((7 - Double(components.weekday ?? 0)) * oneDayInSeconds)
+    
+        
+        for _ in 1...52 {
+            self.weeks.append(WeekRange(from: Date(timeIntervalSince1970: sundayEpochInSeconds),
+                                        to: Date(timeIntervalSince1970: saturdayEpochInSeconds)))
+            
+            sundayEpochInSeconds -= sevenDaysInSeconds
+            saturdayEpochInSeconds -= sevenDaysInSeconds
+        }
+        
+        self.weeks.reverse()
     }
     
     // Sets number of columns in picker view

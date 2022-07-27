@@ -110,8 +110,6 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
             break
             
         case .monthControl:
-            print("MONTH")
-            
             let monthYearDate = DateFormat.stringFormatToDate(format: "MMMM yyyy", dateStr: filterMoodAction.string ?? "")
             
             filterResult = state?.allMoodList.filter({

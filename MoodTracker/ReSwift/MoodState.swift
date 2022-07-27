@@ -15,8 +15,9 @@ struct MoodState {
                 MoodLog(dateTime: Date(), moodValue: -3, tags: ["Work", "Difficult Conversation"], note: nil),
                 MoodLog(dateTime: Date().addingTimeInterval(10000), moodValue: 2, tags: ["Breakfast", "Positive"], note: "Add a note...."),
                 MoodLog(dateTime: Date() - 24*60*60, moodValue: 0, tags: ["Sleep", "nervous"], note: nil),
-                MoodLog(dateTime: Date().advanced(by: 24*60*60), moodValue: 1, tags: ["Sleep", "nervous"], note: "Hey, I'm sad today"),
-                MoodLog(dateTime: ISO8601DateFormatter().date(from: "2021-12-08T10:44:00+0000"), moodValue: 1, tags: ["Sleep", "nervous"], note: "it's my birthday XD...")
+                MoodLog(dateTime: Date().advanced(by: 24*60*60), moodValue: 1, tags: ["Sleep", "Nervous"], note: "Hey, I'm sad today"),
+                MoodLog(dateTime: ISO8601DateFormatter().date(from: "2021-12-08T10:44:00+0000"), moodValue: 1, tags: ["Sleep", "Nervous"], note: "it's my birthday XD..."),
+                MoodLog(dateTime: ISO8601DateFormatter().date(from: "2020-12-08T10:44:00+0000"), moodValue: 0, tags: ["Sleep", "Hate"], note: "testing WOAHH")
             ],
             filterMoodList: [],
             editorMood: MoodLog(),

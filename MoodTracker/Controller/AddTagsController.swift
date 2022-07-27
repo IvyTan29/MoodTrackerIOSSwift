@@ -93,7 +93,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         self.node.moreTagsBtn.rxTap
             .subscribe(
                 onNext: { [unowned self] tap in
-                    let vc = TagListController(node: TagListNode())
+                    let vc = TagTableController(node: TagListNode())
                     vc.delegate = self
                     self.present(vc, animated: true)
                 }
@@ -228,7 +228,7 @@ extension AddTagsController : StoreSubscriber {
 }
 
 
-extension AddTagsController : TagListDelegate {
+extension AddTagsController : TagTableDelegate {
     func didClickTagInTable(tagStr: String) {
         self.addChosenFromTableAndTF(string: tagStr)
     }

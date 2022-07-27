@@ -1,5 +1,5 @@
 //
-//  TagListController.swift
+//  TagTableController.swift
 //  MoodTracker
 //
 //  Created by Ivy Tan on 7/25/22.
@@ -8,13 +8,13 @@
 import Foundation
 import AsyncDisplayKit
 
-protocol TagListDelegate {
+protocol TagTableDelegate {
     func didClickTagInTable(tagStr: String)
 }
 
-class TagListController : ASDKViewController<TagListNode> {
+class TagTableController : ASDKViewController<TagListNode> {
     
-    var delegate : TagListDelegate?
+    var delegate : TagTableDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +26,7 @@ class TagListController : ASDKViewController<TagListNode> {
 }
 
 
-extension TagListController : ASTableDataSource {
+extension TagTableController : ASTableDataSource {
     
     func tableNode(_ tableNode: ASTableNode, numberOfRowsInSection section: Int) -> Int {
         return moodStore.state.tableTags.count
@@ -45,7 +45,7 @@ extension TagListController : ASTableDataSource {
 }
 
 // MARK: - ASTableDelegate
-extension TagListController : ASTableDelegate {
+extension TagTableController : ASTableDelegate {
     func tableNode(_ tableNode: ASTableNode, didSelectRowAt indexPath: IndexPath) {
         let index =  moodStore.state.tableTags.index(moodStore.state.tableTags.startIndex, offsetBy: indexPath.row)
         
