@@ -68,7 +68,7 @@ class AddNoteController: ASDKViewController<AddNoteNode> {
         
         // assign value
         if let safeIndexPath = self.indexPath {
-            self.node.noteTextView.textView.text = moodStore.state.allMoodList[safeIndexPath.row].note
+            self.node.noteTextView.textView.text = moodStore.state.filterMoodList[safeIndexPath.row].note
             
             if self.noteOperation == .display {
                 self.node.noteTextView.textView.isEditable = false
