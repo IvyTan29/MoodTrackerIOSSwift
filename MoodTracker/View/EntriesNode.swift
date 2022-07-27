@@ -30,6 +30,7 @@ class EntriesNode: ASDisplayNode {
         picker.preferredDatePickerStyle = .compact
         picker.datePickerMode = .date
         picker.date = Date()
+        picker.maximumDate = Date()
         
         return picker
     })
@@ -44,7 +45,7 @@ class EntriesNode: ASDisplayNode {
     var noEntriesLabel = ASTextNode()
     var entryTable = ASTableNode()
     
-    var dateType : DateType = .day
+    var dateType : DateType = .dayControl
     
     override init() {
         super.init()
@@ -77,11 +78,11 @@ class EntriesNode: ASDisplayNode {
         
         var dateStackChildren : [ASLayoutElement] = []
         
-        if self.dateType == .day {
+        if self.dateType == .dayControl {
             dateStackChildren += [calendarImage, dayDatePicker]
-        } else if self.dateType == .week {
+        } else if self.dateType == .weekControl {
 //            dateStackChildren += [calendarImage, dayDatePicker]
-        } else if self.dateType == .month {
+        } else if self.dateType == .monthControl {
             dateStackChildren += [calendarImage, monthPicker]
         }
         

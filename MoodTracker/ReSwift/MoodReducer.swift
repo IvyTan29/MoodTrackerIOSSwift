@@ -26,7 +26,7 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
     case let editorNoteAction as EditorNoteAction:
         state?.editorMood?.note = editorNoteAction.note
         if let index = editorNoteAction.index {
-            state?.moodList[index.row].note = editorNoteAction.note
+            state?.allMoodList[index.row].note = editorNoteAction.note
         }
         
         
@@ -44,7 +44,7 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         let recentTags = state?.recentTags
         let tableTags = state?.tableTags
         
-        let chosenTags = state?.moodList[initializeTagsEditAction.index.row].tags ?? []
+        let chosenTags = state?.allMoodList[initializeTagsEditAction.index.row].tags ?? []
         
         state?.recentTags = recentTags?.subtracting(chosenTags) ?? []
         state?.tableTags = tableTags?.subtracting(chosenTags) ?? []
@@ -72,10 +72,11 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         
         print("TEst : \(addTagAction.tagStr)")
         
+        
     case _ as AddMoodAction:
         let moodLog = state?.editorMood ?? MoodLog()
         
-        state?.moodList.append(moodLog)
+        state?.allMoodList.append(moodLog)
         state?.editorMood = MoodLog()
         state?.chosenTags = []
         
@@ -83,13 +84,42 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
     case let editAction as EditMoodAction:
         let moodLog = state?.editorMood ?? MoodLog()
         
-        state?.moodList[editAction.index.row] = moodLog
+        state?.allMoodList[editAction.index.row] = moodLog
         state?.editorMood = MoodLog()
         state?.chosenTags = []
         
         
     case let deleteAction as DeleteMoodAction:
-        state?.moodList.remove(at: deleteAction.index.row)
+        state?.allMoodList.remove(at: deleteAction.index.row)
+        
+    
+    case let filterMoodAction as FilterMoodAction:
+        var filterResult: [MoodLog] = []
+        
+        switch filterMoodAction.dateType {
+        case .dayControl:
+            print("DAY")
+            filterResult = state?.allMoodList.filter({
+                Calendar.current.isDate($0.dateTime ?? Date(),
+                                        equalTo: filterMoodAction.date ?? Date(),
+                                        toGranularity: .day)
+            }) ?? []
+            
+        case .weekControl:
+            print("WEEK")
+            break
+            
+        case .monthControl:
+            print("MONTH")
+            let monthYear = filterMoodAction.string?.components(separatedBy: " ")
+            print(monthYear)
+            
+        default: //all
+            print("ALL")
+            filterResult = state?.allMoodList ?? []
+        }
+        
+        state?.filterMoodList = filterResult
         
         
     default:

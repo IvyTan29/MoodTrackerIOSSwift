@@ -8,8 +8,8 @@
 import Foundation
 
 enum DateType {
-    case day
-    case week
-    case month
-    case all
+    case dayControl
+    case weekControl
+    case monthControl
+    case allControl
 }

@@ -50,3 +50,9 @@ struct EditMoodAction : Action {
 struct DeleteMoodAction : Action {
     var index: IndexPath
 }
+
+struct FilterMoodAction : Action {
+    var dateType: DateType
+    var string: String?
+    var date: Date?
+}
