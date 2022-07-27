@@ -8,13 +8,13 @@
 import Foundation
 import AsyncDisplayKit
 
-protocol TagTableDelegate {
+protocol TagTableDelegate : AnyObject{
     func didClickTagInTable(tagStr: String)
 }
 
-class TagTableController : ASDKViewController<TagListNode> {
+class TagTableController : ASDKViewController<TagTableNode> {
     
-    var delegate : TagTableDelegate?
+    weak var delegate : TagTableDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()

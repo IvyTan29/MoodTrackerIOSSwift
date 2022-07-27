@@ -41,6 +41,7 @@ class EntriesNode: ASDisplayNode {
         return picker
     })
     
+    var weekPicker = ASCustomButton()
     var calendarImage = ASImageNode()
     var noEntriesLabel = ASTextNode()
     var entryTable = ASTableNode()
@@ -61,10 +62,16 @@ class EntriesNode: ASDisplayNode {
         calendarSegmentControl.style.height = .init(unit: .points, value: 50)
         
         dayDatePicker.style.height = .init(unit: .points, value: 40)
-        dayDatePicker.style.width = .init(unit: .fraction, value: 0.2)
+        dayDatePicker.style.width = .init(unit: .fraction, value: 0.3)
         
         monthPicker.style.height = .init(unit: .points, value: 85)
         monthPicker.style.width = .init(unit: .fraction, value: 0.6)
+//        monthPicker.
+        
+        weekPicker.style.height = .init(unit: .points, value: 40)
+        weekPicker.backgroundColor = .systemGray6
+        weekPicker.cornerRadius = 8
+//        weekPicker.view.titleLabel.font = 22
         
         calendarImage.image = UIImage(systemName: "calendar")
         
@@ -81,7 +88,7 @@ class EntriesNode: ASDisplayNode {
         if self.dateType == .dayControl {
             dateStackChildren += [calendarImage, dayDatePicker]
         } else if self.dateType == .weekControl {
-//            dateStackChildren += [calendarImage, dayDatePicker]
+            dateStackChildren += [calendarImage, weekPicker]
         } else if self.dateType == .monthControl {
             dateStackChildren += [calendarImage, monthPicker]
         }

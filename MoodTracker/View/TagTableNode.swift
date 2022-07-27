@@ -1,5 +1,5 @@
 //
-//  TagListNode.swift
+//  TagTableNode.swift
 //  MoodTracker
 //
 //  Created by Ivy Tan on 7/25/22.
@@ -7,7 +7,7 @@
 
 import AsyncDisplayKit
 
-class TagListNode : ASDisplayNode {
+class TagTableNode : ASDisplayNode {
     
     var tagsTitle = ASTextNode()
     var tagsTable = ASTableNode()
@@ -28,7 +28,11 @@ class TagListNode : ASDisplayNode {
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-        let stack = ASStackLayoutSpec(direction: .vertical, spacing: 10, justifyContent: .start, alignItems: .center, children: [tagsTitle, tagsTable])
+        let stack = ASStackLayoutSpec(direction: .vertical,
+                                      spacing: 10,
+                                      justifyContent: .start,
+                                      alignItems: .center,
+                                      children: [tagsTitle, tagsTable])
         
         return ASInsetLayoutSpec(insets: .init(top: 100, left: 10, bottom: 20, right: 10), child: stack)
     }

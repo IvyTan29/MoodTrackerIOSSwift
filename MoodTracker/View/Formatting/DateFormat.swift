@@ -9,6 +9,7 @@ import Foundation
 
 struct DateFormat {
     static let dateFormatter = DateFormatter()
+    static let dateIntervalFormatter = DateIntervalFormatter()
     
     static func dateFormatToString(format: String, date: Date) -> String {
         dateFormatter.dateFormat = format
@@ -20,5 +21,12 @@ struct DateFormat {
         dateFormatter.dateFormat = format
         
         return dateFormatter.date(from: dateStr) ?? Date()
+    }
+    
+    static func dateIntervalToString(from: Date, to: Date) -> String {
+        dateIntervalFormatter.timeStyle = .none
+        dateIntervalFormatter.dateStyle = .medium
+        
+        return dateIntervalFormatter.string(from: from, to: to)
     }
 }

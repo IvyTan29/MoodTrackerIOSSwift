@@ -48,7 +48,7 @@ class AddEditEntryNode : ASDisplayNode {
         super.didLoad()
         
         dateTimePicker.style.height = .init(unit: .points, value: 40)
-        dateTimePicker.style.width = .init(unit: .fraction, value: 0.5)
+        dateTimePicker.style.width = .init(unit: .fraction, value: 0.55)
         
         moodSlider.style.height = .init(unit: .points, value: 20)
         

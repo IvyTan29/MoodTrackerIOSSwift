@@ -93,7 +93,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         self.node.moreTagsBtn.rxTap
             .subscribe(
                 onNext: { [unowned self] tap in
-                    let vc = TagTableController(node: TagListNode())
+                    let vc = TagTableController(node: TagTableNode())
                     vc.delegate = self
                     self.present(vc, animated: true)
                 }

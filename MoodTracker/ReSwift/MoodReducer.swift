@@ -98,7 +98,6 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         
         switch filterMoodAction.dateType {
         case .dayControl:
-            print("DAY")
             filterResult = state?.allMoodList.filter({
                 Calendar.current.isDate($0.dateTime ?? Date(),
                                         equalTo: filterMoodAction.date ?? Date(),
@@ -107,17 +106,19 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
             
         case .weekControl:
             print("WEEK")
-            break
-            
-        case .monthControl:
-            let monthYearDate = DateFormat.stringFormatToDate(format: "MMMM yyyy", dateStr: filterMoodAction.string ?? "")
-            
             filterResult = state?.allMoodList.filter({
                 Calendar.current.isDate($0.dateTime ?? Date(),
-                                        equalTo: monthYearDate,
+                                        equalTo: filterMoodAction.date ?? Date(),
+                                        toGranularity: .weekOfYear)
+            }) ?? []
+            
+        case .monthControl:
+            filterResult = state?.allMoodList.filter({
+                Calendar.current.isDate($0.dateTime ?? Date(),
+                                        equalTo: filterMoodAction.date ?? Date(),
                                         toGranularity: .month) &&
                 Calendar.current.isDate($0.dateTime ?? Date(),
-                                        equalTo: monthYearDate,
+                                        equalTo: filterMoodAction.date ?? Date(),
                                         toGranularity: .year)
             }) ?? []
             

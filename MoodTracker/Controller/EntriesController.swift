@@ -14,7 +14,7 @@ import RxCocoa
 class EntriesController : ASDKViewController<EntriesNode> {
     
     private var disposeBag = DisposeBag()
-    var months: [String] = []
+    var months: [Date] = []
     var weeks: [WeekRange] = []
     
     override func viewDidLoad() {
@@ -44,13 +44,16 @@ class EntriesController : ASDKViewController<EntriesNode> {
                     case 1:
                         self.node.dateType = .weekControl
                         
+                        moodStore.dispatch(FilterMoodAction.init(dateType: self.node.dateType,
+                                                                 date: self.weeks[self.weeks.count - 1].from,
+                                                                 toDate: self.weeks[self.weeks.count - 1].to))
                         
                     case 2:
                         self.node.dateType = .monthControl
                         
                         let index = (self.node.monthPicker.view as? UIPickerView)?.selectedRow(inComponent: 0) ?? 0
                         moodStore.dispatch(FilterMoodAction.init(dateType: self.node.dateType,
-                                                                 string: months[index]))
+                                                                 date: months[index]))
                     default:
                         self.node.dateType = .allControl
                         moodStore.dispatch(FilterMoodAction.init(dateType: self.node.dateType))
@@ -70,8 +73,28 @@ class EntriesController : ASDKViewController<EntriesNode> {
                 }
             ).disposed(by: disposeBag)
         
+        // Week Picker
+        self.node.weekPicker.rxTap
+            .subscribe(
+                onNext: { [unowned self] tap in
+                    let vc = WeekTableController(node: WeekTableNode())
+                    
+                    vc.weeks = self.weeks
+                    vc.delegate = self
+                    
+                    self.present(vc, animated: true)
+                }
+            ).disposed(by: disposeBag)
+        
         self.populateLast12Months()
         self.populateLast52Weeks()
+        
+        let dateIntervalStr = DateFormat.dateIntervalToString(from: weeks[self.weeks.count-1].from, to: weeks[self.weeks.count-1].to)
+        
+        // select the latest week
+        self.node.weekPicker.setAttributedTitle(NSAttributedString(
+            string: dateIntervalStr,
+            attributes: AttributesFormat.weekPickerAttr), for: .normal)
         
         // select the latest month
         (self.node.monthPicker.view as? UIPickerView)?.selectRow(self.months.count - 1, inComponent: 0, animated: true)
@@ -146,7 +169,6 @@ extension EntriesController : UIPickerViewDataSource, UIPickerViewDelegate {
     
     func populateLast12Months() {
         let firstDayComponent = DateComponents(day: 1) // first day ng month
-        var last12Months: [Date] = []
 
         Calendar.current.enumerateDates(startingAfter: Date(),
                                         matching: firstDayComponent,
@@ -154,15 +176,14 @@ extension EntriesController : UIPickerViewDataSource, UIPickerViewDelegate {
                                         direction: .backward,
                                         using: { (date, idx, stop) in
                                             if let date = date {
-                                                last12Months.append(date)
+                                                self.months.append(date)
                                             }
             
-                                            if last12Months.count == 12 {
+                                            if self.months.count == 12 {
                                                 stop = true
                                             }
         })
-
-        self.months = last12Months.map({ DateFormat.dateFormatToString(format: "MMMM yyyy", date: $0)})
+        
         self.months.reverse()
     }
     
@@ -174,7 +195,6 @@ extension EntriesController : UIPickerViewDataSource, UIPickerViewDelegate {
 
         var sundayEpochInSeconds = Date().timeIntervalSince1970 - ((Double(components.weekday ?? 0) - 1) * oneDayInSeconds)
         var saturdayEpochInSeconds = Date().timeIntervalSince1970 + ((7 - Double(components.weekday ?? 0)) * oneDayInSeconds)
-    
         
         for _ in 1...52 {
             self.weeks.append(WeekRange(from: Date(timeIntervalSince1970: sundayEpochInSeconds),
@@ -199,13 +219,23 @@ extension EntriesController : UIPickerViewDataSource, UIPickerViewDelegate {
     
     // This function sets the text of the picker view
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return self.months[row]
+        return DateFormat.dateFormatToString(format: "MMMM yyyy", date: self.months[row])
     }
     
     // when a row in the picker is selected
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        moodStore.dispatch(FilterMoodAction.init(dateType: self.node.dateType,
-                                                 string: months[row]))
+        moodStore.dispatch(FilterMoodAction.init(dateType: .monthControl,
+                                                 date: months[row]))
     }
+}
 
+// MARK: - WeekTableControllerDelegate
+extension EntriesController : WeekTableControllerDelegate {
+    func didSelectWeek(from: Date, to: Date) {
+        self.node.weekPicker.setAttributedTitle(
+            NSAttributedString(string: DateFormat.dateIntervalToString(from: from, to: to),
+                               attributes: AttributesFormat.weekPickerAttr),
+            for: .normal
+        )
+    }
 }

@@ -53,6 +53,6 @@ struct DeleteMoodAction : Action {
 
 struct FilterMoodAction : Action {
     var dateType: DateType
-    var string: String?
     var date: Date?
+    var toDate: Date?
 }
