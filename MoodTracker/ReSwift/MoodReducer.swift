@@ -145,14 +145,17 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         state?.insightTags = [:] // reset
         var count = [String: Int]()
         
+        let floorVal = floor(getInsightsAction.moodLevel)
+        let ceilVal = ceil(getInsightsAction.moodLevel)
+        
         switch getInsightsAction.insightDateType {
         case 0: // this week
             let insightsResult = state?.allMoodList.filter({
                 Calendar.current.isDate($0.dateTime ?? Date(),
                                         equalTo: Date(),
                                         toGranularity: .weekOfYear) &&
-                ($0.moodValue ?? -5.00) >= floor(getInsightsAction.moodLevel) &&
-                ($0.moodValue ?? -5.00) < ceil(getInsightsAction.moodLevel)
+                ($0.moodValue ?? -5.00) >= floorVal &&
+                ($0.moodValue ?? -5.00) <= ceilVal
             }) ?? []
             
             // FIXME: - O(n^2) find a way to improve this
@@ -168,8 +171,8 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
                 Calendar.current.isDate($0.dateTime ?? Date(),
                                         equalTo: lastWeekDate,
                                         toGranularity: .weekOfYear) &&
-                ($0.moodValue ?? -5.00) >= floor(getInsightsAction.moodLevel) &&
-                ($0.moodValue ?? -5.00) < ceil(getInsightsAction.moodLevel)
+                ($0.moodValue ?? -5.00) >= floorVal &&
+                ($0.moodValue ?? -5.00) <= ceilVal
             }) ?? []
             
             // FIXME: - O(n^2) find a way to improve this
@@ -184,8 +187,8 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
                 Calendar.current.isDate($0.dateTime ?? Date(),
                                         equalTo: lastMonthDate,
                                         toGranularity: .month) &&
-                ($0.moodValue ?? -5.00) >= floor(getInsightsAction.moodLevel) &&
-                ($0.moodValue ?? -5.00) < ceil(getInsightsAction.moodLevel)
+                ($0.moodValue ?? -5.00) >= floorVal &&
+                ($0.moodValue ?? -5.00) <= ceilVal
             }) ?? []
             
             // FIXME: - O(n^2) find a way to improve this
@@ -195,8 +198,8 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
             
         default: // overall
             let insightsResult = state?.allMoodList.filter({
-                ($0.moodValue ?? -5.00) >= floor(getInsightsAction.moodLevel) &&
-                ($0.moodValue ?? -5.00) < ceil(getInsightsAction.moodLevel)
+                ($0.moodValue ?? -5.00) >= floorVal &&
+                ($0.moodValue ?? -5.00) <= ceilVal
             }) ?? []
             
             // FIXME: - O(n^2) find a way to improve this

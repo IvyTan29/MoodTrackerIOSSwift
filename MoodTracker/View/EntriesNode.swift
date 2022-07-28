@@ -30,7 +30,6 @@ class EntriesNode : ASDisplayNode {
         segmentControl.layer.masksToBounds = true
         
         if #available(iOS 13.0, *) {
-            //just to be sure it is full loaded
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 for i in 0...(segmentControl.numberOfSegments-1)  {
                     let backgroundSegmentView = segmentControl.subviews[i]

@@ -21,6 +21,7 @@
 		F1952B94288A83F3005BD0CC /* MoodReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1952B93288A83F3005BD0CC /* MoodReducer.swift */; };
 		F1952B97288A8416005BD0CC /* MoodActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1952B96288A8416005BD0CC /* MoodActions.swift */; };
 		F1952B9B288A8B38005BD0CC /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1952B9A288A8B38005BD0CC /* TabBarController.swift */; };
+		F196B97C2892DD0B00C36DD7 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F196B97B2892DD0B00C36DD7 /* CustomTextField.swift */; };
 		F1978E12289241FB0053ECAA /* InsightsNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1978E11289241FA0053ECAA /* InsightsNode.swift */; };
 		F1978E15289244050053ECAA /* TabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1978E14289244050053ECAA /* TabController.swift */; };
 		F1978E1728925B650053ECAA /* TagFreqComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1978E1628925B650053ECAA /* TagFreqComponent.swift */; };
@@ -65,6 +66,7 @@
 		F1952B93288A83F3005BD0CC /* MoodReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodReducer.swift; sourceTree = "<group>"; };
 		F1952B96288A8416005BD0CC /* MoodActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodActions.swift; sourceTree = "<group>"; };
 		F1952B9A288A8B38005BD0CC /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		F196B97B2892DD0B00C36DD7 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		F1978E11289241FA0053ECAA /* InsightsNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsNode.swift; sourceTree = "<group>"; };
 		F1978E14289244050053ECAA /* TabController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabController.swift; sourceTree = "<group>"; };
 		F1978E1628925B650053ECAA /* TagFreqComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagFreqComponent.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				F18C2A26288D349300008B07 /* CustomTabBar.swift */,
 				F19B36C8288E91040017B50F /* ASCustomButton.swift */,
 				F1978E1628925B650053ECAA /* TagFreqComponent.swift */,
+				F196B97B2892DD0B00C36DD7 /* CustomTextField.swift */,
 			);
 			path = CustomComponent;
 			sourceTree = "<group>";
@@ -383,6 +386,7 @@
 				F1978E15289244050053ECAA /* TabController.swift in Sources */,
 				F19B36CF288ECB770017B50F /* TagTableNode.swift in Sources */,
 				F1BBD080288910AB00C290B7 /* MoodLog.swift in Sources */,
+				F196B97C2892DD0B00C36DD7 /* CustomTextField.swift in Sources */,
 				F19B36C9288E91040017B50F /* ASCustomButton.swift in Sources */,
 				F1978E1728925B650053ECAA /* TagFreqComponent.swift in Sources */,
 				F1BC8A232887F5B500604C23 /* NavController.swift in Sources */,

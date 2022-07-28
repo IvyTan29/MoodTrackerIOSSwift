@@ -227,7 +227,7 @@ class InsightsNode : ASDisplayNode {
             tagFreq.tagLabel.cornerRadius = 15
             tagFreq.tagLabel.textContainerInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
             
-            tagFreq.freqLabel.attributedText = NSAttributedString(string: "x\(freq)", attributes: AttributesFormat.numEntryAttr)
+            tagFreq.freqLabel.attributedText = NSAttributedString(string: "x \(freq)", attributes: AttributesFormat.numEntryAttr)
             
             self.tags.append(tagFreq)
         }
