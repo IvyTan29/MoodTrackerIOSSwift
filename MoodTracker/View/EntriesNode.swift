@@ -43,7 +43,10 @@ class EntriesNode: ASDisplayNode {
     
     var weekPicker = ASCustomButton()
     var calendarImage = ASImageNode()
-    var noEntriesLabel = ASTextNode()
+    
+    var noEntryLabel = ASTextNode()
+    var noEntryImage = ASImageNode()
+    var numEntriesLabel = ASTextNode()
     var entryTable = ASTableNode()
     
     var dateType : DateType = .dayControl
@@ -75,10 +78,18 @@ class EntriesNode: ASDisplayNode {
         
         calendarImage.image = UIImage(systemName: "calendar")
         
+        noEntryLabel.attributedText = NSAttributedString(string: "No records found", attributes: AttributesFormat.recentLabelAttr)
+        
+        noEntryImage.image = UIImage(systemName: "nosign")
+        noEntryImage.style.width = .init(unit: .points, value: 30)
+        noEntryImage.style.height = .init(unit: .points, value: 30)
+        
+        numEntriesLabel.attributedText = NSAttributedString(string: "_ Entries", attributes: AttributesFormat.numEntryAttr)
+        
         entryTable.style.height = .init(unit: .fraction, value: 0.8)
         //        entryTable.style.flexBasis = ASDimensionMake("60%")
         
-        noEntriesLabel.attributedText = NSAttributedString(string: "_ Entries", attributes: AttributesFormat.numEntryAttr)
+        
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
@@ -100,13 +111,21 @@ class EntriesNode: ASDisplayNode {
                                            children: dateStackChildren)
         
         let numEntryContainer = ASInsetLayoutSpec(insets: .init(top: 0, left: 15, bottom: 0, right: 15),
-                                                  child: noEntriesLabel)
+                                                  child: numEntriesLabel)
+        
+        let noEntryFoundStack = ASStackLayoutSpec(direction: .vertical,
+                                                  spacing: 5,
+                                                  justifyContent: .center,
+                                                  alignItems: .center,
+                                                  children: [noEntryImage, noEntryLabel])
+        
+        noEntryFoundStack.style.height = .init(unit: .fraction, value: 0.7)
         
         let verticalStack = ASStackLayoutSpec(direction: .vertical,
                                               spacing: 5,
                                               justifyContent: .start,
                                               alignItems: .stretch,
-                                              children: [calendarSegmentControl, dateStack, numEntryContainer, entryTable])
+                                              children: [calendarSegmentControl, dateStack] + (moodStore.state.filterMoodList.count == 0 ? [noEntryFoundStack] : [numEntryContainer, entryTable]))
         
         return ASInsetLayoutSpec(insets: .init(top: 100, left: 10, bottom: 30, right: 10), child: verticalStack)
     }

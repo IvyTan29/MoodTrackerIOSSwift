@@ -120,7 +120,13 @@ class AddTagsController : ASDKViewController<AddTagNode> {
             moodStore.dispatch(EditMoodAction.init(index: indexPath))
         } else {
             moodStore.dispatch(AddMoodAction.init())
+            moodStore.dispatch(FilterMoodAction.init(
+                dateType: moodStore.state.dateTypeFilter,
+                date: moodStore.state.dateFilter)
+            )
         }
+        
+        
         
         self.navigationController?.popToRootViewController(animated: true)
         self.tabBarController?.tabBar.isHidden = false

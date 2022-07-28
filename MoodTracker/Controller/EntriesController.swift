@@ -69,6 +69,8 @@ class EntriesController : ASDKViewController<EntriesNode> {
                 onNext: { date in
                     moodStore.dispatch(FilterMoodAction.init(dateType: .dayControl,
                                                              date: date))
+                    
+                    self.node.setNeedsLayout()
                 }
             ).disposed(by: disposeBag)
         
@@ -163,8 +165,9 @@ extension EntriesController : StoreSubscriber {
     }
 
     func newState(state: MoodState) {
+        print("NEW STATE IN ENTRIES CONTROLLER")
         self.node.entryTable.reloadData()
-        self.node.noEntriesLabel.attributedText = NSAttributedString(string: "\(moodStore.state.filterMoodList.count) Entries", attributes: AttributesFormat.numEntryAttr)
+        self.node.numEntriesLabel.attributedText = NSAttributedString(string: "\(moodStore.state.filterMoodList.count) Entries", attributes: AttributesFormat.numEntryAttr)
     }
 }
 
@@ -230,6 +233,7 @@ extension EntriesController : UIPickerViewDataSource, UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         moodStore.dispatch(FilterMoodAction.init(dateType: .monthControl,
                                                  date: months[row]))
+        self.node.setNeedsLayout()
     }
 }
 
@@ -241,5 +245,6 @@ extension EntriesController : WeekTableControllerDelegate {
                                attributes: AttributesFormat.weekPickerAttr),
             for: .normal
         )
+        self.node.setNeedsLayout()
     }
 }

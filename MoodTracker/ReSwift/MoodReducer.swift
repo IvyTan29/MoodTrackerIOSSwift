@@ -126,6 +126,8 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
             filterResult = state?.allMoodList ?? []
         }
         
+        state?.dateTypeFilter = filterMoodAction.dateType
+        state?.dateFilter = filterMoodAction.date ?? Date()
         state?.filterMoodList = filterResult
         
         

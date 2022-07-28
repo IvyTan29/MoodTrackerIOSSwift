@@ -54,7 +54,7 @@ struct AttributesFormat {
     
     static let recentLabelAttr = [
         NSAttributedString.Key.font: UIFont(name: "Avenir-Medium", size: 22)!,
-        NSAttributedString.Key.foregroundColor: UIColor.black
+        NSAttributedString.Key.foregroundColor: UIColor.label
     ]
     
     static let addNoteBtnAttr = [
