@@ -158,8 +158,8 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         button.rxTap
             .subscribe(
                 onNext: { [unowned self] tap in
-                    moodStore.dispatch(AddTagAction.init(tagStr:  button.attributedTitle(for: .normal)?.string ?? ""))
                     self.removeRecentTagButton(asButton: button)
+                    moodStore.dispatch(AddTagAction.init(tagStr:  button.attributedTitle(for: .normal)?.string ?? ""))
                 }
             ).disposed(by: disposeBag)
     }
@@ -168,8 +168,8 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         button.rxTap
             .subscribe(
                 onNext: { [unowned self] tap in
-                    moodStore.dispatch(DeleteTagAction.init(tagStr: button.attributedTitle(for: .normal)?.string ?? ""))
                     self.removeChosenTagButton(asButton: button)
+                    moodStore.dispatch(DeleteTagAction.init(tagStr: button.attributedTitle(for: .normal)?.string ?? ""))
                 }
             ).disposed(by: disposeBag)
     }
@@ -179,6 +179,9 @@ class AddTagsController : ASDKViewController<AddTagNode> {
             let chosenBtn = self.node.createChosenTagBtn(string)
             assignActionForChosenTag(chosenBtn)
             self.node.chosenTagBtns.append(chosenBtn)
+            
+            // FIXME: - remove button from tag
+//            self.node.tagBtns.remove(c)
         }
     }
     
@@ -203,9 +206,11 @@ class AddTagsController : ASDKViewController<AddTagNode> {
             self.node.tagBtns.remove(at: idx)
             
             if let string = asButton.attributedTitle(for: .normal)?.string {
-                let chosenBtn = self.node.createChosenTagBtn(string)
-                assignActionForChosenTag(chosenBtn)
-                self.node.chosenTagBtns.append(chosenBtn)
+                if !(moodStore.state?.chosenTags.contains(string.capitalized) ?? false) {
+                    let chosenBtn = self.node.createChosenTagBtn(string)
+                    assignActionForChosenTag(chosenBtn)
+                    self.node.chosenTagBtns.append(chosenBtn)
+                }
             }
         }
     }
@@ -222,7 +227,7 @@ extension AddTagsController : StoreSubscriber {
     }
 
     func newState(state: MoodState) {
-        print("went here?")
+        print("NEW STATE IN ADD TAGS CONTROLLER")
         
         self.node.setNeedsLayout()
     }
