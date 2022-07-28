@@ -62,13 +62,28 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         
     
     case let addTagAction as AddTagAction:
-        state?.recentTags.remove(addTagAction.tagStr)
-        state?.tableTags.remove(addTagAction.tagStr)
-        state?.chosenTags.insert(addTagAction.tagStr)
+        let element = addTagAction.tagStr.capitalized
+        let inChosen = state?.chosenTags.contains(element) ?? false
+        
+        if !inChosen {
+            state?.chosenTags.insert(element)
+        }
+        
+        state?.recentTags.remove(element)
+        state?.tableTags.remove(element)
         
         
     case _ as AddMoodAction:
         let moodLog = state?.editorMood ?? MoodLog()
+//        let chosenTags = state?.chosenTags
+//
+//        var temp = state?.tagsDict.filter({ $0.value == true })
+//        state?.tagsDict = temp?.mapValues({ value in
+//            return false }) as? [String : Bool] ?? [:]
+//
+//        state?.chosenTags.forEach({ chosen in
+//            state?.tagsDict[chosen] = true
+//        })
         
         state?.allMoodList.append(moodLog)
         state?.editorMood = MoodLog()
@@ -99,7 +114,6 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
             }) ?? []
             
         case .weekControl:
-            print("WEEK")
             filterResult = state?.allMoodList.filter({
                 Calendar.current.isDate($0.dateTime ?? Date(),
                                         equalTo: filterMoodAction.date ?? Date(),

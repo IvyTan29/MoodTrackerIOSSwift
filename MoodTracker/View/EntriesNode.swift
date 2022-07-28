@@ -80,7 +80,7 @@ class EntriesNode: ASDisplayNode {
         
         noEntryLabel.attributedText = NSAttributedString(string: "No records found", attributes: AttributesFormat.recentLabelAttr)
         
-        noEntryImage.image = UIImage(systemName: "nosign")
+        noEntryImage.image = UIImage(systemName: "rectangle.on.rectangle.slash")
         noEntryImage.style.width = .init(unit: .points, value: 30)
         noEntryImage.style.height = .init(unit: .points, value: 30)
         

@@ -64,8 +64,8 @@ class AddTagsController : ASDKViewController<AddTagNode> {
                     
                     if let string = string {
                         if string != "" {
-                            moodStore.dispatch(AddTagAction.init(tagStr: string))
                             self.addChosenFromTableAndTF(string: string)
+                            moodStore.dispatch(AddTagAction.init(tagStr: string))
                         }
                     }
                 }
@@ -80,12 +80,6 @@ class AddTagsController : ASDKViewController<AddTagNode> {
                 onNext: { [unowned self] isEmpty in
                     self.node.isHiddenAddTagBtn = isEmpty
                     self.node.setNeedsLayout()
-                },
-                onError: { error in
-                    print(error)
-                },
-                onCompleted: {
-                    print("completed")
                 }
             ).disposed(by: disposeBag)
         
@@ -119,15 +113,13 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         if let indexPath = self.indexPath {
             moodStore.dispatch(EditMoodAction.init(index: indexPath))
         } else {
-            print("ADDED ENTRY \(moodStore.state.dateTypeFilter), \(moodStore.state.dateFilter)")
             moodStore.dispatch(AddMoodAction.init())
-            moodStore.dispatch(FilterMoodAction.init(
-                dateType: moodStore.state.dateTypeFilter,
-                date: moodStore.state.dateFilter)
-            )
         }
         
-        
+        moodStore.dispatch(FilterMoodAction.init(
+            dateType: moodStore.state.dateTypeFilter,
+            date: moodStore.state.dateFilter)
+        )
         
         self.navigationController?.popToRootViewController(animated: true)
         self.tabBarController?.tabBar.isHidden = false
@@ -183,9 +175,11 @@ class AddTagsController : ASDKViewController<AddTagNode> {
     }
     
     func addChosenFromTableAndTF(string: String) {
-        let chosenBtn = self.node.createChosenTagBtn(string)
-        assignActionForChosenTag(chosenBtn)
-        self.node.chosenTagBtns.append(chosenBtn)
+        if !(moodStore.state?.chosenTags.contains(string.capitalized) ?? false) {
+            let chosenBtn = self.node.createChosenTagBtn(string)
+            assignActionForChosenTag(chosenBtn)
+            self.node.chosenTagBtns.append(chosenBtn)
+        }
     }
     
     func removeChosenTagButton(asButton: ASCustomButton) {
@@ -193,7 +187,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
             self.node.chosenTagBtns.remove(at: idx)
             
             if let string = asButton.attributedTitle(for: .normal)?.string {
-                let isRecent = moodStore.state.tagsDict[string] ?? true
+                let isRecent = moodStore.state.tagsDict[string] ?? false
                     
                 if isRecent {
                     let recentBtn = self.node.createRecentTagBtn(string)
