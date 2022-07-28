@@ -100,67 +100,100 @@ class InsightsNode : ASDisplayNode {
         noTagImage.style.width = .init(unit: .points, value: 30)
         noTagImage.style.height = .init(unit: .points, value: 30)
         
-        grayBackground.backgroundColor = .systemGray5
-        grayBackground.style.flexGrow = 1
+        grayBackground.backgroundColor = .systemGray6
+        grayBackground.style.height = .init(unit: .points, value: 200)
+        grayBackground.style.width = .init(unit: .fraction, value: 1.0)
         
         setUpTagFrequency()
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-        let moodLevelStack = ASStackLayoutSpec(direction: .horizontal,
-                                               spacing: 40,
-                                               justifyContent: .spaceBetween,
-                                               alignItems: .stretch,
-                                               children: [lowLabel, highLabel])
+        let dateCompoInset = ASInsetLayoutSpec(
+            insets: .init(top: 0, left: 20, bottom: 0, right: 20),
+            child: dateComponentSegmentControl
+        )
         
-        let titleLabelCenter = ASCenterLayoutSpec(centeringOptions: .X,
-                                                  sizingOptions: .minimumY,
-                                                  child: titleLabel)
+        let moodLevelStack = ASStackLayoutSpec(
+            direction: .horizontal,
+            spacing: 40,
+            justifyContent: .spaceBetween,
+            alignItems: .stretch,
+            children: [lowLabel, highLabel]
+        )
         
-        let secTitleLabelCenter = ASCenterLayoutSpec(centeringOptions: .X,
-                                                  sizingOptions: .minimumY,
-                                                  child: instructLabel)
+        let titleLabelCenter = ASCenterLayoutSpec(
+            centeringOptions: .X,
+            sizingOptions: .minimumY,
+            child: titleLabel
+        )
         
-        let moodStack = ASStackLayoutSpec(direction: .vertical,
-                                          spacing: 10,
-                                          justifyContent: .start,
-                                          alignItems: .stretch,
-                                          children: [titleLabelCenter, moodSlider, moodLevelStack])
-//        moodStack.style.height = .init(unit: .fraction, value: 0.4)
+        let secTitleLabelCenter = ASCenterLayoutSpec(
+            centeringOptions: .X,
+            sizingOptions: .minimumY,
+            child: instructLabel
+        )
         
-        let insetContent = ASInsetLayoutSpec(insets: .init(top: 15, left: 15, bottom: 15, right: 15), child: moodStack)
+        let moodStack = ASStackLayoutSpec(
+            direction: .vertical,
+            spacing: 10,
+            justifyContent: .start,
+            alignItems: .stretch,
+            children: [titleLabelCenter, moodSlider, moodLevelStack]
+        )
         
-        let moodStackWithBG = ASOverlayLayoutSpec(child: grayBackground, overlay: insetContent)
+        let moodStackCenter = ASCenterLayoutSpec(
+            centeringOptions: .Y,
+            sizingOptions: .minimumX,
+            child: moodStack
+        )
         
+        let moodStackInset = ASInsetLayoutSpec(
+            insets: .init(top: 0, left: 20, bottom: 0, right: 20),
+            child: moodStackCenter
+        )
         
+        let moodStackWithBG = ASOverlayLayoutSpec(
+            child: grayBackground,
+            overlay: moodStackInset
+        )
         
-        let oftenLabelCenter = ASCenterLayoutSpec(centeringOptions: .X,
-                                                  sizingOptions: .minimumY,
-                                                  child: oftenLabel)
+        let oftenLabelCenter = ASCenterLayoutSpec(
+            centeringOptions: .X,
+            sizingOptions: .minimumY,
+            child: oftenLabel
+        )
         
-        let noTagFoundStack = ASStackLayoutSpec(direction: .vertical,
-                                                  spacing: 5,
-                                                  justifyContent: .center,
-                                                  alignItems: .center,
-                                                  children: [noTagImage, noTagLabel])
+        let noTagFoundStack = ASStackLayoutSpec(
+            direction: .vertical,
+            spacing: 5,
+            justifyContent: .center,
+            alignItems: .center,
+            children: [noTagImage, noTagLabel]
+        )
+        
         noTagFoundStack.style.height = .init(unit: .fraction, value: 0.3)
         
-        let tagLabelsStack = ASStackLayoutSpec(direction: .horizontal,
-                                               spacing: 20,
-                                               justifyContent: .start,
-                                               alignItems: .center,
-                                               flexWrap: .wrap,
-                                               alignContent: .center,
-                                               lineSpacing: 10,
-                                               children: tags)
+        let tagLabelsStack = ASStackLayoutSpec(
+            direction: .horizontal,
+            spacing: 20,
+            justifyContent: .start,
+            alignItems: .center,
+            flexWrap: .wrap,
+            alignContent: .center,
+            lineSpacing: 10,
+            children: tags
+        )
         
-        let titleTagStack = ASStackLayoutSpec(direction: .vertical,
-                                          spacing: 10,
-                                          justifyContent: .start,
-                                          alignItems: .center,
-                                          children: [oftenLabelCenter, tagLabelsStack])
+        let titleTagStack = ASStackLayoutSpec(
+            direction: .vertical,
+            spacing: 10,
+            justifyContent: .start,
+            alignItems: .center,
+            children: [oftenLabelCenter, tagLabelsStack]
+        )
         
         var lastStack : [ASLayoutElement] = []
+        
         if !self.movedToggle {
             lastStack.append(secTitleLabelCenter)
         } else if moodStore.state.insightTags.count != 0 {
@@ -169,13 +202,18 @@ class InsightsNode : ASDisplayNode {
             lastStack.append(noTagFoundStack)
         }
         
-        let bigVertStack = ASStackLayoutSpec(direction: .vertical,
-                                             spacing: 100,
-                                             justifyContent: .start,
-                                             alignItems: .stretch,
-                                             children: [dateComponentSegmentControl, moodStack] + lastStack)
+        let bigVertStack = ASStackLayoutSpec(
+            direction: .vertical,
+            spacing: 40,
+            justifyContent: .start,
+            alignItems: .stretch,
+            children: [dateCompoInset, moodStackWithBG] + lastStack
+        )
         
-        return ASInsetLayoutSpec(insets: .init(top: 120, left: 10, bottom: 30, right: 10), child: bigVertStack)
+        return ASInsetLayoutSpec(
+            insets: .init(top: 120, left: 0, bottom: 30, right: 0),
+            child: bigVertStack
+        )
     }
     
     func setUpTagFrequency() {
