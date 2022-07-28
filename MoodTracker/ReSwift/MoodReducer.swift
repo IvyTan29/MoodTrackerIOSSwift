@@ -155,7 +155,7 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
                 ($0.moodValue ?? -5.00) < ceil(getInsightsAction.moodLevel)
             }) ?? []
             
-            // FIXME: - O(n) find a way to improve this
+            // FIXME: - O(n^2) find a way to improve this
             for mood in insightsResult {
                 mood.tags?.forEach({ count[$0, default: 0] += 1 })
             }
@@ -172,7 +172,7 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
                 ($0.moodValue ?? -5.00) < ceil(getInsightsAction.moodLevel)
             }) ?? []
             
-            // FIXME: - O(n) find a way to improve this
+            // FIXME: - O(n^2) find a way to improve this
             for mood in insightsResult {
                 mood.tags?.forEach({ count[$0, default: 0] += 1 })
             }
@@ -188,7 +188,7 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
                 ($0.moodValue ?? -5.00) < ceil(getInsightsAction.moodLevel)
             }) ?? []
             
-            // FIXME: - O(n) find a way to improve this
+            // FIXME: - O(n^2) find a way to improve this
             for mood in insightsResult {
                 mood.tags?.forEach({ count[$0, default: 0] += 1 })
             }
@@ -199,7 +199,7 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
                 ($0.moodValue ?? -5.00) < ceil(getInsightsAction.moodLevel)
             }) ?? []
             
-            // FIXME: - O(n) find a way to improve this
+            // FIXME: - O(n^2) find a way to improve this
             for mood in insightsResult {
                 mood.tags?.forEach({ count[$0, default: 0] += 1 })
             }

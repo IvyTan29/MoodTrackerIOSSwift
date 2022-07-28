@@ -47,6 +47,8 @@ class InsightsNode : ASDisplayNode {
     
     var oftenLabel = ASTextNode()
     var tags: [TagFregComponent] = []
+    var noTagLabel = ASTextNode()
+    var noTagImage = ASImageNode()
     
     var grayBackground = ASDisplayNode()
     
@@ -89,6 +91,15 @@ class InsightsNode : ASDisplayNode {
             attributes: AttributesFormat.titleInsightsAttr
         )
         
+        noTagLabel.attributedText = NSAttributedString(
+            string: "No entries found",
+            attributes: AttributesFormat.recentLabelAttr
+        )
+        
+        noTagImage.image = UIImage(systemName: "rectangle.on.rectangle.slash")
+        noTagImage.style.width = .init(unit: .points, value: 30)
+        noTagImage.style.height = .init(unit: .points, value: 30)
+        
         grayBackground.backgroundColor = .systemGray5
         grayBackground.style.flexGrow = 1
         
@@ -127,6 +138,13 @@ class InsightsNode : ASDisplayNode {
                                                   sizingOptions: .minimumY,
                                                   child: oftenLabel)
         
+        let noTagFoundStack = ASStackLayoutSpec(direction: .vertical,
+                                                  spacing: 5,
+                                                  justifyContent: .center,
+                                                  alignItems: .center,
+                                                  children: [noTagImage, noTagLabel])
+        noTagFoundStack.style.height = .init(unit: .fraction, value: 0.3)
+        
         let tagLabelsStack = ASStackLayoutSpec(direction: .horizontal,
                                                spacing: 20,
                                                justifyContent: .start,
@@ -142,13 +160,20 @@ class InsightsNode : ASDisplayNode {
                                           alignItems: .center,
                                           children: [oftenLabelCenter, tagLabelsStack])
         
+        var lastStack : [ASLayoutElement] = []
+        if !self.movedToggle {
+            lastStack.append(secTitleLabelCenter)
+        } else if moodStore.state.insightTags.count != 0 {
+            lastStack.append(titleTagStack)
+        } else {
+            lastStack.append(noTagFoundStack)
+        }
         
         let bigVertStack = ASStackLayoutSpec(direction: .vertical,
                                              spacing: 100,
                                              justifyContent: .start,
                                              alignItems: .stretch,
-                                             children: [dateComponentSegmentControl, moodStack] +
-                                             (!self.movedToggle ? [secTitleLabelCenter] : [titleTagStack]) )
+                                             children: [dateComponentSegmentControl, moodStack] + lastStack)
         
         return ASInsetLayoutSpec(insets: .init(top: 120, left: 10, bottom: 30, right: 10), child: bigVertStack)
     }
