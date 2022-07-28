@@ -27,6 +27,7 @@ class TabBarController : UITabBarController {
     }()
     
     var entriesNav = NavController()
+    var insightsNav = NavController()
     
     var disposeBag = DisposeBag()
     
@@ -35,15 +36,15 @@ class TabBarController : UITabBarController {
         
         let addEntryNav = NavController() // no use because it will be disabled
         
-        // FIXME: - add in the future if needed...
-        let settings = InsightsController()
+        self.entriesNav.isListEntires = true
+        self.insightsNav.isListEntires = false
         
         self.entriesNav.tabBarItem = UITabBarItem(title: "Entries", image: UIImage(systemName: "list.bullet.rectangle.portrait"), selectedImage: UIImage(systemName: "list.bullet.rectangle.portrait.fill"))
         
         addEntryNav.tabBarItem = UITabBarItem(title: "Add", image: nil, selectedImage: nil)
-        settings.tabBarItem = UITabBarItem(title: "Insights", image: UIImage(systemName: "lightbulb"), selectedImage: UIImage(systemName: "lightbulb.fill"))
+        self.insightsNav.tabBarItem = UITabBarItem(title: "Insights", image: UIImage(systemName: "lightbulb"), selectedImage: UIImage(systemName: "lightbulb.fill"))
         
-        self.setViewControllers([self.entriesNav, addEntryNav, settings], animated: false)
+        self.setViewControllers([self.entriesNav, addEntryNav, self.insightsNav], animated: false)
         
         addMiddleButton()
         styleTab()
@@ -57,9 +58,14 @@ class TabBarController : UITabBarController {
         tabBarAppearance.backgroundColor = UIColor(named: "BlueBase")
         
         // color for title in tab bar items
-        tabBarItemAppearance.normal.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemGray4]
-        tabBarItemAppearance.disabled.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemGray4]
-        tabBarItemAppearance.selected.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        tabBarItemAppearance.normal.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont(name: "Avenir", size: 15)!,
+            NSAttributedString.Key.foregroundColor: UIColor.systemGray5
+        ]
+        tabBarItemAppearance.selected.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont(name: "Avenir", size: 15)!,
+            NSAttributedString.Key.foregroundColor: UIColor.white
+        ]
         
         // color for the image icon
         tabBarItemAppearance.normal.iconColor = UIColor.systemGray4
@@ -116,7 +122,12 @@ class TabBarController : UITabBarController {
         middleButton.rx.tap
             .subscribe(
                 onNext: { tap in
-                    self.entriesNav.pushViewController(AddEditEntryController(node: AddEditEntryNode()), animated: true)
+                    if self.selectedIndex == 0 {
+                        self.entriesNav.pushViewController(AddEditEntryController(node: AddEditEntryNode()), animated: true)
+                    } else {
+                        self.insightsNav.pushViewController(AddEditEntryController(node: AddEditEntryNode()), animated: true)
+                    }
+                    
                 }).disposed(by: disposeBag)
         
     }

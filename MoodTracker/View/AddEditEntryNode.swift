@@ -83,7 +83,7 @@ class AddEditEntryNode : ASDisplayNode {
                                                   child: titleLabel)
         
         let moodStack = ASStackLayoutSpec(direction: .vertical,
-                                          spacing: 40,
+                                          spacing: 10,
                                           justifyContent: .start,
                                           alignItems: .stretch,
                                           children: [titleLabelCenter, moodSlider, moodLevelStack])

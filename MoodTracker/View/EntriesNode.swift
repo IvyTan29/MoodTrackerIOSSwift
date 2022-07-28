@@ -8,18 +8,26 @@
 import Foundation
 import AsyncDisplayKit
 
-class EntriesNode: ASDisplayNode {
+class EntriesNode : ASDisplayNode {
     
     var calendarSegmentControl = ASDisplayNode { () -> UIView in
         let segmentControl = UISegmentedControl(items: ["Day", "Week", "Month", "All"])
         segmentControl.selectedSegmentIndex = 0
+        segmentControl.layer.backgroundColor = UIColor.clear.cgColor
         
         if #available(iOS 13.0, *) {
             segmentControl.selectedSegmentTintColor = UIColor(named: "OrangeSecondary")
         } else {
             segmentControl.tintColor = UIColor(named: "OrangeSecondary")
         }
+        
         segmentControl.setTitleTextAttributes([ .foregroundColor: UIColor.white ], for: .selected)
+        segmentControl.setTitleTextAttributes([ .foregroundColor: UIColor(named: "OrangeSecondary") ], for: .normal)
+        
+        segmentControl.layer.borderWidth = 2
+        segmentControl.layer.cornerRadius = 5.0
+        segmentControl.layer.borderColor = UIColor(named: "OrangeSecondary")?.cgColor
+        segmentControl.layer.masksToBounds = true
         
         return segmentControl
     }
@@ -62,10 +70,10 @@ class EntriesNode: ASDisplayNode {
         super.didLoad()
         
         // Attributes
-        calendarSegmentControl.style.height = .init(unit: .points, value: 50)
+        calendarSegmentControl.style.height = .init(unit: .points, value: 35)
         
         dayDatePicker.style.height = .init(unit: .points, value: 40)
-        dayDatePicker.style.width = .init(unit: .fraction, value: 0.3)
+        dayDatePicker.style.width = .init(unit: .fraction, value: 0.35)
         
         monthPicker.style.height = .init(unit: .points, value: 85)
         monthPicker.style.width = .init(unit: .fraction, value: 0.6)
@@ -74,11 +82,16 @@ class EntriesNode: ASDisplayNode {
         weekPicker.style.height = .init(unit: .points, value: 40)
         weekPicker.backgroundColor = .systemGray6
         weekPicker.cornerRadius = 8
+        weekPicker.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        
+        if #available(iOS 15.0, *) {
+            (weekPicker.view as? UIButton)?.configuration!.contentInsets = .init(top: 0, leading: 20, bottom: 0, trailing: 10)
+        }
 //        weekPicker.view.titleLabel.font = 22
         
         calendarImage.image = UIImage(systemName: "calendar")
         
-        noEntryLabel.attributedText = NSAttributedString(string: "No records found", attributes: AttributesFormat.recentLabelAttr)
+        noEntryLabel.attributedText = NSAttributedString(string: "No entries found", attributes: AttributesFormat.recentLabelAttr)
         
         noEntryImage.image = UIImage(systemName: "rectangle.on.rectangle.slash")
         noEntryImage.style.width = .init(unit: .points, value: 30)
@@ -113,6 +126,12 @@ class EntriesNode: ASDisplayNode {
         let numEntryContainer = ASInsetLayoutSpec(insets: .init(top: 0, left: 15, bottom: 0, right: 15),
                                                   child: numEntriesLabel)
         
+        let entryTableStack = ASStackLayoutSpec(direction: .vertical,
+                                                spacing: 5,
+                                                justifyContent: .start,
+                                                alignItems: .start,
+                                                children: [numEntryContainer, entryTable])
+        
         let noEntryFoundStack = ASStackLayoutSpec(direction: .vertical,
                                                   spacing: 5,
                                                   justifyContent: .center,
@@ -122,12 +141,12 @@ class EntriesNode: ASDisplayNode {
         noEntryFoundStack.style.height = .init(unit: .fraction, value: 0.7)
         
         let verticalStack = ASStackLayoutSpec(direction: .vertical,
-                                              spacing: 5,
+                                              spacing: 12,
                                               justifyContent: .start,
                                               alignItems: .stretch,
                                               children: [calendarSegmentControl, dateStack] + (moodStore.state.filterMoodList.count == 0 ? [noEntryFoundStack] : [numEntryContainer, entryTable]))
         
-        return ASInsetLayoutSpec(insets: .init(top: 100, left: 10, bottom: 30, right: 10), child: verticalStack)
+        return ASInsetLayoutSpec(insets: .init(top: 120, left: 10, bottom: 30, right: 10), child: verticalStack)
     }
 }
 

@@ -10,7 +10,7 @@ import AsyncDisplayKit
 import CoreImage
 
 protocol WeekTableControllerDelegate : AnyObject {
-    func didSelectWeek(from: Date, to: Date)
+    func didSelectWeek(from: Date, to: Date, weekIndex: Int)
 }
 
 class WeekTableController : ASDKViewController<WeekTableNode> {
@@ -50,7 +50,7 @@ extension WeekTableController : ASTableDelegate {
     func tableNode(_ tableNode: ASTableNode, didSelectRowAt indexPath: IndexPath) {
         moodStore.dispatch(FilterMoodAction.init(dateType: .weekControl,
                                                  date: self.weeks[indexPath.row].from))
-        self.delegate?.didSelectWeek(from: self.weeks[indexPath.row].from, to: self.weeks[indexPath.row].to)
+        self.delegate?.didSelectWeek(from: self.weeks[indexPath.row].from, to: self.weeks[indexPath.row].to, weekIndex: indexPath.row)
         self.dismiss(animated: true)
     }
 }

@@ -21,6 +21,11 @@
 		F1952B94288A83F3005BD0CC /* MoodReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1952B93288A83F3005BD0CC /* MoodReducer.swift */; };
 		F1952B97288A8416005BD0CC /* MoodActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1952B96288A8416005BD0CC /* MoodActions.swift */; };
 		F1952B9B288A8B38005BD0CC /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1952B9A288A8B38005BD0CC /* TabBarController.swift */; };
+		F1978E12289241FB0053ECAA /* InsightsNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1978E11289241FA0053ECAA /* InsightsNode.swift */; };
+		F1978E15289244050053ECAA /* TabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1978E14289244050053ECAA /* TabController.swift */; };
+		F1978E1728925B650053ECAA /* TagFreqComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1978E1628925B650053ECAA /* TagFreqComponent.swift */; };
+		F1978E1928927B7F0053ECAA /* Fetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1978E1828927B7F0053ECAA /* Fetch.swift */; };
+		F1978E1B289290250053ECAA /* InsightDateTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1978E1A289290250053ECAA /* InsightDateTypeEnum.swift */; };
 		F19B36C3288E624B0017B50F /* InsightsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36C2288E624B0017B50F /* InsightsController.swift */; };
 		F19B36C9288E91040017B50F /* ASCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36C8288E91040017B50F /* ASCustomButton.swift */; };
 		F19B36CD288ECB600017B50F /* TagTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36CC288ECB600017B50F /* TagTableController.swift */; };
@@ -60,6 +65,11 @@
 		F1952B93288A83F3005BD0CC /* MoodReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodReducer.swift; sourceTree = "<group>"; };
 		F1952B96288A8416005BD0CC /* MoodActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodActions.swift; sourceTree = "<group>"; };
 		F1952B9A288A8B38005BD0CC /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		F1978E11289241FA0053ECAA /* InsightsNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsNode.swift; sourceTree = "<group>"; };
+		F1978E14289244050053ECAA /* TabController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabController.swift; sourceTree = "<group>"; };
+		F1978E1628925B650053ECAA /* TagFreqComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagFreqComponent.swift; sourceTree = "<group>"; };
+		F1978E1828927B7F0053ECAA /* Fetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fetch.swift; sourceTree = "<group>"; };
+		F1978E1A289290250053ECAA /* InsightDateTypeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightDateTypeEnum.swift; sourceTree = "<group>"; };
 		F19B36C2288E624B0017B50F /* InsightsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsController.swift; sourceTree = "<group>"; };
 		F19B36C8288E91040017B50F /* ASCustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASCustomButton.swift; sourceTree = "<group>"; };
 		F19B36CC288ECB600017B50F /* TagTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagTableController.swift; sourceTree = "<group>"; };
@@ -111,6 +121,7 @@
 			children = (
 				F18ED372288D7196007E33B9 /* NoteEnum.swift */,
 				F18774A928902DFB00631330 /* DateTypeEnum.swift */,
+				F1978E1A289290250053ECAA /* InsightDateTypeEnum.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -134,11 +145,20 @@
 			path = ReSwift;
 			sourceTree = "<group>";
 		};
+		F1978E13289243F40053ECAA /* From Miss Carol */ = {
+			isa = PBXGroup;
+			children = (
+				F1978E14289244050053ECAA /* TabController.swift */,
+			);
+			path = "From Miss Carol";
+			sourceTree = "<group>";
+		};
 		F19B36C7288E90DE0017B50F /* CustomComponent */ = {
 			isa = PBXGroup;
 			children = (
 				F18C2A26288D349300008B07 /* CustomTabBar.swift */,
 				F19B36C8288E91040017B50F /* ASCustomButton.swift */,
+				F1978E1628925B650053ECAA /* TagFreqComponent.swift */,
 			);
 			path = CustomComponent;
 			sourceTree = "<group>";
@@ -188,6 +208,7 @@
 		F1BC8A3C2887FC0300604C23 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				F1978E13289243F40053ECAA /* From Miss Carol */,
 				F1BC8A222887F5B500604C23 /* NavController.swift */,
 				F1BC8A4228880A6D00604C23 /* AddEditEntryController.swift */,
 				F1BC8A4E2888344900604C23 /* AddTagsController.swift */,
@@ -197,6 +218,7 @@
 				F19B36C2288E624B0017B50F /* InsightsController.swift */,
 				F19B36CC288ECB600017B50F /* TagTableController.swift */,
 				F12C0F18289159D000E90D73 /* WeekTableController.swift */,
+				F1978E1828927B7F0053ECAA /* Fetch.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -215,6 +237,7 @@
 				F12C0F1A28915A0300E90D73 /* WeekTableNode.swift */,
 				F1BBD06F2888F54E00C290B7 /* AddNoteNode.swift */,
 				F1BBD076288902ED00C290B7 /* EntriesNode.swift */,
+				F1978E11289241FA0053ECAA /* InsightsNode.swift */,
 				F19B36CE288ECB770017B50F /* TagTableNode.swift */,
 			);
 			path = View;
@@ -357,14 +380,18 @@
 				F1BBD077288902ED00C290B7 /* EntriesNode.swift in Sources */,
 				F1BC8A522888345800604C23 /* AddTagNode.swift in Sources */,
 				F1952B94288A83F3005BD0CC /* MoodReducer.swift in Sources */,
+				F1978E15289244050053ECAA /* TabController.swift in Sources */,
 				F19B36CF288ECB770017B50F /* TagTableNode.swift in Sources */,
 				F1BBD080288910AB00C290B7 /* MoodLog.swift in Sources */,
 				F19B36C9288E91040017B50F /* ASCustomButton.swift in Sources */,
+				F1978E1728925B650053ECAA /* TagFreqComponent.swift in Sources */,
 				F1BC8A232887F5B500604C23 /* NavController.swift in Sources */,
+				F1978E1928927B7F0053ECAA /* Fetch.swift in Sources */,
 				F1BBD074288902D800C290B7 /* EntriesController.swift in Sources */,
 				F1BBD07D28890B5700C290B7 /* EntryCell.swift in Sources */,
 				F12C0F16289152F800E90D73 /* WeekRange.swift in Sources */,
 				F19B36D1288ECC9D0017B50F /* TagCell.swift in Sources */,
+				F1978E1B289290250053ECAA /* InsightDateTypeEnum.swift in Sources */,
 				F1BC8A1F2887F5B500604C23 /* AppDelegate.swift in Sources */,
 				F18ED373288D7196007E33B9 /* NoteEnum.swift in Sources */,
 				F1BC8A4F2888344900604C23 /* AddTagsController.swift in Sources */,
@@ -381,6 +408,7 @@
 				F12C0F1B28915A0300E90D73 /* WeekTableNode.swift in Sources */,
 				F18C2A27288D349300008B07 /* CustomTabBar.swift in Sources */,
 				F1BBD0702888F54E00C290B7 /* AddNoteNode.swift in Sources */,
+				F1978E12289241FB0053ECAA /* InsightsNode.swift in Sources */,
 				F1BC8A4928880EC500604C23 /* AddEditEntryNode.swift in Sources */,
 				F1952B90288A83E7005BD0CC /* MoodState.swift in Sources */,
 				F1952B7F288A8046005BD0CC /* AttributesFormat.swift in Sources */,

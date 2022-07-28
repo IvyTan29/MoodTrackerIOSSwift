@@ -55,3 +55,8 @@ struct FilterMoodAction : Action {
     var dateType: DateType
     var date: Date?
 }
+
+struct GetInsightsAction : Action {
+    var insightDateType: Int
+    var moodLevel: Float
+}

@@ -8,14 +8,19 @@
 import Foundation
 import AsyncDisplayKit
 
-class NavController: UINavigationController {
+class NavController : UINavigationController {
     
     static let backBarButton = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
+    var isListEntires = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.viewControllers = [EntriesController(node: EntriesNode())]
+        if self.isListEntires {
+            self.viewControllers = [EntriesController(node: EntriesNode())]
+        } else {
+            self.viewControllers = [InsightsController(node: InsightsNode())]
+        }
         
         styleNavBar()
     }

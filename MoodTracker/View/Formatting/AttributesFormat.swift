@@ -22,8 +22,13 @@ struct AttributesFormat {
         NSAttributedString.Key.foregroundColor: UIColor.label
     ]
     
+    static let titleInsightsAttr = [
+        NSAttributedString.Key.font: UIFont(name: "Avenir-Medium", size: 22)!,
+        NSAttributedString.Key.foregroundColor: UIColor.label
+    ]
+    
     static let moodLevelAttr = [
-        NSAttributedString.Key.font: UIFont(name: "Avenir-Medium", size: 12)!,
+        NSAttributedString.Key.font: UIFont(name: "Avenir-Medium", size: 18)!,
         NSAttributedString.Key.foregroundColor: UIColor.black
     ]
     
@@ -85,7 +90,7 @@ struct AttributesFormat {
     ] as [NSAttributedString.Key : Any]
     
     static let weekPickerAttr = [
-        NSAttributedString.Key.font: UIFont(name: "Helvetica", size: 18)!,
+        NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16.5),
         NSAttributedString.Key.foregroundColor: UIColor.label as Any
     ] as [NSAttributedString.Key : Any]
     

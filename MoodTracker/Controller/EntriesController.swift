@@ -17,6 +17,9 @@ class EntriesController : ASDKViewController<EntriesNode> {
     var months: [Date] = []
     var weeks: [WeekRange] = []
     
+    var monthIndex: Int = 11
+    var weekIndex: Int = 51
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,14 +48,13 @@ class EntriesController : ASDKViewController<EntriesNode> {
                         self.node.dateType = .weekControl
                         
                         moodStore.dispatch(FilterMoodAction.init(dateType: self.node.dateType,
-                                                                 date: self.weeks[self.weeks.count - 1].from))
+                                                                 date: self.weeks[self.weekIndex].from))
                         
                     case 2:
                         self.node.dateType = .monthControl
                         
-                        let index = (self.node.monthPicker.view as? UIPickerView)?.selectedRow(inComponent: 0) ?? 0
                         moodStore.dispatch(FilterMoodAction.init(dateType: self.node.dateType,
-                                                                 date: months[index]))
+                                                                 date: self.months[self.monthIndex]))
                     default:
                         self.node.dateType = .allControl
                         moodStore.dispatch(FilterMoodAction.init(dateType: self.node.dateType))
@@ -230,16 +232,19 @@ extension EntriesController : UIPickerViewDataSource, UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         moodStore.dispatch(FilterMoodAction.init(dateType: .monthControl,
                                                  date: months[row]))
+        self.monthIndex = row
     }
 }
 
 // MARK: - WeekTableControllerDelegate
 extension EntriesController : WeekTableControllerDelegate {
-    func didSelectWeek(from: Date, to: Date) {
+    func didSelectWeek(from: Date, to: Date, weekIndex: Int) {
         self.node.weekPicker.setAttributedTitle(
             NSAttributedString(string: DateFormat.dateIntervalToString(from: from, to: to),
                                attributes: AttributesFormat.weekPickerAttr),
             for: .normal
         )
+        
+        self.weekIndex = weekIndex
     }
 }
