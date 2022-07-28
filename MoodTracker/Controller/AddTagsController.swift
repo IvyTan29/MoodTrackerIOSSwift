@@ -119,6 +119,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         if let indexPath = self.indexPath {
             moodStore.dispatch(EditMoodAction.init(index: indexPath))
         } else {
+            print("ADDED ENTRY \(moodStore.state.dateTypeFilter), \(moodStore.state.dateFilter)")
             moodStore.dispatch(AddMoodAction.init())
             moodStore.dispatch(FilterMoodAction.init(
                 dateType: moodStore.state.dateTypeFilter,

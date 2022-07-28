@@ -31,7 +31,6 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         
         
     case _ as InitializeTagAction:
-        print("INITIALIZE TAG ACTION")
         let recentKeys = state?.tagsDict.filter({ $0.value == true }).keys
         let tableKeys = state?.tagsDict.filter({ $0.value == false }).keys
         
@@ -40,7 +39,6 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         
         
     case let initializeTagsEditAction as InitializeTagsEditAction:
-        print("INITIALIZE TAG EDIT ACTION")
         let recentTags = state?.recentTags
         let tableTags = state?.tableTags
         
@@ -52,7 +50,6 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         
         
     case let deleteTagAction as DeleteTagAction:
-        print("DELETE TAG ACTION")
         state?.chosenTags.remove(deleteTagAction.tagStr)
         
         let isRecent = state?.tagsDict[deleteTagAction.tagStr] ?? true
@@ -65,12 +62,9 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         
     
     case let addTagAction as AddTagAction:
-        print("ADD TAG ACTION")
         state?.recentTags.remove(addTagAction.tagStr)
         state?.tableTags.remove(addTagAction.tagStr)
         state?.chosenTags.insert(addTagAction.tagStr)
-        
-        print("TEst : \(addTagAction.tagStr)")
         
         
     case _ as AddMoodAction:
@@ -129,6 +123,8 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         state?.dateTypeFilter = filterMoodAction.dateType
         state?.dateFilter = filterMoodAction.date ?? Date()
         state?.filterMoodList = filterResult
+        
+        print(state?.filterMoodList)
         
         
     default:
