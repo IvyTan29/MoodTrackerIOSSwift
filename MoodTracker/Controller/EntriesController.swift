@@ -44,20 +44,21 @@ class EntriesController : ASDKViewController<EntriesNode> {
                         self.node.dateType = .dayControl
                         moodStore.dispatch(FilterMoodAction.init(dateType: self.node.dateType,
                                                                  date: (self.node.dayDatePicker.view as? UIDatePicker)?.date))
+                        
                     case 1:
                         self.node.dateType = .weekControl
-                        
                         moodStore.dispatch(FilterMoodAction.init(dateType: self.node.dateType,
                                                                  date: self.weeks[self.weekIndex].from))
                         
                     case 2:
                         self.node.dateType = .monthControl
-                        
                         moodStore.dispatch(FilterMoodAction.init(dateType: self.node.dateType,
                                                                  date: self.months[self.monthIndex]))
+                        
                     default:
                         self.node.dateType = .allControl
                         moodStore.dispatch(FilterMoodAction.init(dateType: self.node.dateType))
+                        
                     }
                 }
             ).disposed(by: disposeBag)
