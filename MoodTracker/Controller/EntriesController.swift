@@ -123,6 +123,7 @@ extension EntriesController : ASTableDataSource {
             cell.isShowNote = true
         }
         
+        print(indexPath)
         cell.indexPathInCell = indexPath
         cell.delegate = self
 

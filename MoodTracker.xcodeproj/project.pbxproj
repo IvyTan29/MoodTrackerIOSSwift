@@ -137,6 +137,20 @@
 			path = Formatting;
 			sourceTree = "<group>";
 		};
+		F18D9B5628938FFC0084D853 /* User Registration */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "User Registration";
+			sourceTree = "<group>";
+		};
+		F18D9B572893900B0084D853 /* User Registration */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "User Registration";
+			sourceTree = "<group>";
+		};
 		F1952B8E288A839B005BD0CC /* ReSwift */ = {
 			isa = PBXGroup;
 			children = (
@@ -211,6 +225,7 @@
 		F1BC8A3C2887FC0300604C23 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				F18D9B5628938FFC0084D853 /* User Registration */,
 				F1978E13289243F40053ECAA /* From Miss Carol */,
 				F1BC8A222887F5B500604C23 /* NavController.swift */,
 				F1BC8A4228880A6D00604C23 /* AddEditEntryController.swift */,
@@ -242,6 +257,7 @@
 				F1BBD076288902ED00C290B7 /* EntriesNode.swift */,
 				F1978E11289241FA0053ECAA /* InsightsNode.swift */,
 				F19B36CE288ECB770017B50F /* TagTableNode.swift */,
+				F18D9B572893900B0084D853 /* User Registration */,
 			);
 			path = View;
 			sourceTree = "<group>";

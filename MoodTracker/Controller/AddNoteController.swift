@@ -27,6 +27,7 @@ class AddNoteController: ASDKViewController<AddNoteNode> {
             self.navigationItem.rightBarButtonItem?.rx.tap
                 .subscribe(
                     onNext: { tap in
+                        print(self.indexPath)
                         moodStore.dispatch(EditorNoteAction.init(note: self.node.noteTextView.textView.text ?? "",
                                                                  index: self.indexPath))
                         
@@ -53,13 +54,6 @@ class AddNoteController: ASDKViewController<AddNoteNode> {
         if self.isMovingFromParent && self.noteOperation == .display {
             self.tabBarController?.tabBar.isHidden = false
         }
-    }
-    
-    @objc func donePressed() {
-        moodStore.dispatch(EditorNoteAction.init(note: self.node.noteTextView.textView.text ?? "",
-                                                 index: self.indexPath))
-        
-        self.navigationController?.popViewController(animated: true)
     }
     
     func load(_ indexPath: IndexPath?, _ noteOperation: Note) {
