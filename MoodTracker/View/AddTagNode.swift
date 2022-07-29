@@ -37,18 +37,17 @@ class AddTagNode : ASDisplayNode {
         
         tagTextField.borderColor = UIColor.lightGray.cgColor
         tagTextField.borderWidth = 1
-        //        tagTextField.typingAttributes = AttributesFormat.addTagTFAttr
         tagTextField.attributedPlaceholderText = NSAttributedString(string: "Type to add Tag", attributes: AttributesFormat.addTagTFAttr)
-//        tagTextField.textView.contentInset = .init(top: 8, left: 10, bottom: 8, right: 10)
         tagTextField.textView.textContainerInset = .init(top: 8, left: 10, bottom: 8, right: 10)
         tagTextField.textView.font =  UIFont.init(name: "Avenir", size: 18.0)
+        tagTextField.textView.textColor = .gray
+        
         tagTextField.style.height = .init(unit: .points, value: 40)
         tagTextField.style.flexGrow = 1
         
         addTagBtn.setAttributedTitle(NSAttributedString(string: "Add Tag", attributes: AttributesFormat.addTagBtnAttr), for: .normal)
 //        addTagBtn.style.width = .init(unit: .points, value: 60)
         addTagBtn.style.height = .init(unit: .points, value: 40)
-        
         
         recentLabel.attributedText = NSAttributedString(string: "Recent", attributes: AttributesFormat.recentLabelAttr)
         

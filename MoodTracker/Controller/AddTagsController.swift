@@ -19,8 +19,10 @@ class AddTagsController : ASDKViewController<AddTagNode> {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if indexPath != nil {
+        if let index = self.indexPath {
             self.navigationItem.title = "Edit Tags"
+            moodStore.dispatch(EditorNoteAction.init(note: moodStore.state.allMoodList[index.row].note ?? "",
+                                                     index: index))
         } else {
             self.navigationItem.title = "Add Tags"
         }

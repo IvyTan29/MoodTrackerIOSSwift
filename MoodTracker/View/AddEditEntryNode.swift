@@ -15,6 +15,7 @@ class AddEditEntryNode : ASDisplayNode {
         
         picker.preferredDatePickerStyle = .compact
         picker.datePickerMode = .dateAndTime
+        picker.maximumDate = Date()
         
         return picker
     })

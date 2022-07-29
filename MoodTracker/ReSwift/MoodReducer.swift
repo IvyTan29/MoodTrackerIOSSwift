@@ -138,8 +138,6 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         state?.dateFilter = filterMoodAction.date ?? Date()
         state?.filterMoodList = filterResult
         
-        print(state?.filterMoodList)
-        
     
     case let getInsightsAction as GetInsightsAction:
         state?.insightTags = [:] // reset
