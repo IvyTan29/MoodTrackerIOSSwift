@@ -12,11 +12,9 @@ class InsightsNode : ASDisplayNode {
     
     var dateComponentSegmentControl = ASDisplayNode { () -> UIView in
         let segmentControl = UISegmentedControl(items: ["This Week", "Last Week", "Last Month", "Overall"])
+        
         segmentControl.selectedSegmentIndex = 0
-        
         segmentControl.setTitleTextAttributes([ .underlineStyle: NSUnderlineStyle.single.rawValue ], for: .selected)
-//        segmentControl.setTitleTextAttributes([ .foregroundColor: UIColor(named: "OrangeSecondary") ], for: .normal)
-        
         segmentControl.layer.borderWidth = 1
         segmentControl.layer.cornerRadius = 3
         segmentControl.layer.borderColor = UIColor.systemGray4.cgColor

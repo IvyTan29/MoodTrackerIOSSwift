@@ -22,16 +22,13 @@ class AddNoteNode : ASDisplayNode {
     override func didLoad() {
         super.didLoad()
         
-//        let notePhAttr = [NSAttributedString.Key.font: UIFont(name: "Avenir-Medium", size: 22)!,
-//                         NSAttributedString.Key.foregroundColor: UIColor.gray]
-        
-        noteTextView.textView.textContainerInset = .init(top: 8, left: 10, bottom: 8, right: 10)
+        noteTextView.textContainerInset = .init(top: 8, left: 10, bottom: 8, right: 10)
         noteTextView.textView.font =  UIFont.init(name: "Avenir-Medium", size: 22.0)
         noteTextView.textView.textColor = .gray
-        
-        // FIXME: - change to place holder and adjust insets
-//        noteTextView.textView.text = "Add a note..."
-//        noteTextView.attributedPlaceholderText = NSAttributedString(string: "Add a note...", attributes: notePhAttr)
+        noteTextView.attributedPlaceholderText = NSAttributedString(
+            string: "Add a note...",
+            attributes: AttributesFormat.notePhAttr
+        )
         
         NotificationCenter.default.addObserver(
             self,
@@ -39,7 +36,6 @@ class AddNoteNode : ASDisplayNode {
             name: UIResponder.keyboardWillShowNotification,
             object: nil
         )
-        
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {

@@ -8,7 +8,7 @@
 import Foundation
 import AsyncDisplayKit
 
-class NavController : UINavigationController {
+class NavController : ASDKNavigationController {
     
     static let backBarButton = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
     var isListEntires = true

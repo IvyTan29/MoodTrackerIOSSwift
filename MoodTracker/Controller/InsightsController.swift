@@ -20,6 +20,20 @@ class InsightsController : ASDKViewController<InsightsNode> {
         
         self.navigationItem.title = "Insights"
         self.navigationItem.backBarButtonItem = NavController.backBarButton
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(
+            image: UIImage(systemName: "rectangle.portrait.and.arrow.right"),
+            style: .plain,
+            target: self,
+            action: nil
+        )
+        self.navigationItem.rightBarButtonItem?.rx.tap
+            .subscribe(
+                onNext: { tap in
+                    let landingVC = LandingPageController(node: LandingPageNode())
+                    landingVC.modalPresentationStyle = .overFullScreen
+                    self.present(landingVC, animated: true, completion: nil)
+                }
+            ).disposed(by: disposeBag)
         
         self.tabBarController?.tabBar.isHidden = false
         

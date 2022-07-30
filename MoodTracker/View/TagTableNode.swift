@@ -22,7 +22,10 @@ class TagTableNode : ASDisplayNode {
     override func didLoad() {
         super.didLoad()
         
-        tagsTitle.attributedText = NSAttributedString(string: "More Tags", attributes: AttributesFormat.timeLabelAttr)
+        tagsTitle.attributedText = NSAttributedString(
+            string: "More Tags",
+            attributes: AttributesFormat.timeLabelAttr
+        )
         
         tagsTable.style.height = .init(unit: .fraction, value: 0.8)
     }

@@ -21,7 +21,6 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         
         if let index = self.indexPath {
             self.navigationItem.title = "Edit Tags"
-            print("HOW MANY TIMES RUN")
             moodStore.dispatch(EditorNoteAction.init(note: moodStore.state.allMoodList[index.row].note ?? "",
                                                      index: index))
         } else {

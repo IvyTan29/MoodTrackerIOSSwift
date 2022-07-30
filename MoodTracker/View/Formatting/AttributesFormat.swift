@@ -94,6 +94,25 @@ struct AttributesFormat {
         NSAttributedString.Key.foregroundColor: UIColor.label as Any
     ] as [NSAttributedString.Key : Any]
     
+    static let loginBtnAttr = [
+        NSAttributedString.Key.font: UIFont(name: "Avenir-Medium", size: 22)!,
+        NSAttributedString.Key.foregroundColor: UIColor.white
+    ]
+    
+    static let titleLogRegAttr = [
+        NSAttributedString.Key.font: UIFont(name: "Avenir-Black", size: 40)!,
+        NSAttributedString.Key.foregroundColor: UIColor(named: "BlueBase") as Any
+    ] as [NSAttributedString.Key : Any]
+    
+    static let notePhAttr = [
+        NSAttributedString.Key.font: UIFont(name: "Avenir-Medium", size: 22)!,
+        NSAttributedString.Key.foregroundColor: UIColor.systemGray4
+    ]
+    
+    static let switchBtnAttr = [
+        NSAttributedString.Key.font: UIFont(name: "Avenir-Medium", size: 18)!,
+        NSAttributedString.Key.foregroundColor: UIColor(named: "OrangeSecondary")
+    ]
     
     static func attributeConvert(string: String) -> NSAttributedString {
         return NSAttributedString(string: string)
