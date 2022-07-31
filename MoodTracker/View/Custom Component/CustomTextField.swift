@@ -7,10 +7,11 @@
 
 import Foundation
 import AsyncDisplayKit
+import ASTextFieldNode
 
 class CustomTextField : ASDisplayNode {
     
-    let textField = ASEditableTextNode()
+    let customTF = ASTextFieldNode()
     var placeHolderText = ""
     
     convenience init(text: String) {
@@ -25,25 +26,26 @@ class CustomTextField : ASDisplayNode {
     override func didLoad() {
         super.didLoad()
         
-        textField.borderColor = UIColor.lightGray.cgColor
-        textField.borderWidth = 0.5
-//        textField.cornerRadius =
-        textField.attributedPlaceholderText = NSAttributedString(
+        customTF.borderColor = UIColor.lightGray.cgColor
+        customTF.borderWidth = 0.5
+//        customTF.cornerRadius =
+        customTF.textField.attributedPlaceholder = NSAttributedString(
             string: self.placeHolderText,
             attributes: AttributesFormat.addTagTFAttr
         )
-        textField.textView.font = UIFont.init(name: "Avenir", size: 18.0)
-        textField.textContainerInset = .init(top: 12.5, left: 10, bottom: 10, right: 10)
+        customTF.font = UIFont.init(name: "Avenir", size: 18.0)
+        customTF.textContainerInset = .init(top: 12.5, left: 10, bottom: 10, right: 10)
         
-        textField.maximumLinesToDisplay = 1
-        textField.enablesReturnKeyAutomatically = false
-        textField.style.height = .init(unit: .points, value: 50)
+//        customTF.maximumLinesToDisplay = 1
+        customTF.enablesReturnKeyAutomatically = false
+        customTF.style.height = .init(unit: .points, value: 50)
+        customTF.autocorrectionType = .no
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         return ASInsetLayoutSpec(
             insets: .zero,
-            child: textField
+            child: customTF
         )
     }
 }

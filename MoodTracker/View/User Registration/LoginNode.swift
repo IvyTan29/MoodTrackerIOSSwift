@@ -35,6 +35,13 @@ class LoginNode: ASDisplayNode {
             attributes: AttributesFormat.titleLogRegAttr
         )
         
+        emailTF.customTF.autocapitalizationType = .none
+        emailTF.customTF.keyboardType = .emailAddress
+        
+        passwordTF.customTF.isSecureTextEntry = true
+        passwordTF.customTF.autocapitalizationType = .none
+        passwordTF.customTF.keyboardType = .asciiCapable
+        
         loginBtn.setAttributedTitle(NSAttributedString(
             string: "LOGIN",
             attributes: AttributesFormat.loginBtnAttr),

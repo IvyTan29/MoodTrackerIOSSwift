@@ -37,6 +37,17 @@ class RegisterNode: ASDisplayNode {
             attributes: AttributesFormat.titleLogRegAttr
         )
         
+        emailTF.customTF.autocapitalizationType = .none
+        emailTF.customTF.keyboardType = .emailAddress
+        
+        passwordTF.customTF.isSecureTextEntry = true
+        passwordTF.customTF.autocapitalizationType = .none
+        passwordTF.customTF.keyboardType = .asciiCapable
+        
+        confirmPassTF.customTF.isSecureTextEntry = true
+        confirmPassTF.customTF.autocapitalizationType = .none
+        confirmPassTF.customTF.keyboardType = .asciiCapable
+        
         registerBtn.setAttributedTitle(NSAttributedString(
             string: "REGISTER",
             attributes: AttributesFormat.loginBtnAttr),
