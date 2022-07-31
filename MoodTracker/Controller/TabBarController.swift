@@ -8,6 +8,7 @@
 import UIKit
 import RxCocoa
 import RxSwift
+import AsyncDisplayKit
 
 class TabBarController : UITabBarController {
     
@@ -33,6 +34,9 @@ class TabBarController : UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // SET CUSTOM TAB BAR TO TAB BAR VIEW CONTROLLER PROGRAMMATICALLY
+        self.setValue(CustomTabBar(), forKey: "tabBar")
         
         let addEntryNav = NavController() // no use because it will be disabled
         
@@ -128,7 +132,8 @@ class TabBarController : UITabBarController {
                         self.insightsNav.pushViewController(AddEditEntryController(node: AddEditEntryNode()), animated: true)
                     }
                     
-                }).disposed(by: disposeBag)
+                }
+            ).disposed(by: disposeBag)
         
     }
 }
