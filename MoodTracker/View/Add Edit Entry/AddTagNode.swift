@@ -10,17 +10,17 @@ import AsyncDisplayKit
 
 class AddTagNode : ASDisplayNode {
     
-    var tagTextField = ASEditableTextNode()
-    var addTagBtn = ASCustomButton()
+    let tagTextField = ASEditableTextNode()
+    let addTagBtn = ASCustomButton()
     
     var chosenTagBtns: [ASCustomButton] = []
-    var recentLabel = ASTextNode()
+    let recentLabel = ASTextNode()
     var tagBtns: [ASCustomButton] = []
-    var moreTagsBtn = ASCustomButton()
+    let moreTagsBtn = ASCustomButton()
     
-    var addNoteBtn = ASCustomButton()
-    var doneBtn = ASCustomButton()
-    var cancelBtn = ASCustomButton()
+    let addNoteBtn = ASCustomButton()
+    let doneBtn = ASCustomButton()
+    let cancelBtn = ASCustomButton()
     
     var addNoteStr : String?
     var isHiddenAddTagBtn = true

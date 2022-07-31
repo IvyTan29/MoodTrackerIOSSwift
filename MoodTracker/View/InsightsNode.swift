@@ -10,7 +10,7 @@ import AsyncDisplayKit
 
 class InsightsNode : ASDisplayNode {
     
-    var dateComponentSegmentControl = ASDisplayNode { () -> UIView in
+    let dateComponentSegmentControl = ASDisplayNode { () -> UIView in
         let segmentControl = UISegmentedControl(items: ["This Week", "Last Week", "Last Month", "Overall"])
         
         segmentControl.selectedSegmentIndex = 0
@@ -23,7 +23,7 @@ class InsightsNode : ASDisplayNode {
         return segmentControl
     }
     
-    var moodSlider = ASDisplayNode(viewBlock: {() -> UIView in
+    let moodSlider = ASDisplayNode(viewBlock: {() -> UIView in
         let slider = UISlider()
         
         slider.minimumValue = -3
@@ -36,19 +36,19 @@ class InsightsNode : ASDisplayNode {
         return slider
     })
     
-    var titleLabel = ASTextNode()
-    var lowLabel = ASTextNode()
-    var highLabel = ASTextNode()
+    let titleLabel = ASTextNode()
+    let lowLabel = ASTextNode()
+    let highLabel = ASTextNode()
     
     var movedToggle = false
-    var instructLabel = ASTextNode()
+    let instructLabel = ASTextNode()
     
-    var oftenLabel = ASTextNode()
+    let oftenLabel = ASTextNode()
     var tags: [TagFregComponent] = []
-    var noTagLabel = ASTextNode()
-    var noTagImage = ASImageNode()
+    let noTagLabel = ASTextNode()
+    let noTagImage = ASImageNode()
     
-    var grayBackground = ASDisplayNode()
+    let grayBackground = ASDisplayNode()
     
     override init() {
         super.init()

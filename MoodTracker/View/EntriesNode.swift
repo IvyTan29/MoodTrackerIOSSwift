@@ -10,7 +10,7 @@ import AsyncDisplayKit
 
 class EntriesNode : ASDisplayNode {
     
-    var calendarSegmentControl = ASDisplayNode { () -> UIView in
+    let calendarSegmentControl = ASDisplayNode { () -> UIView in
         let segmentControl = UISegmentedControl(items: ["Day", "Week", "Month", "All"])
         segmentControl.selectedSegmentIndex = 0
         segmentControl.layer.backgroundColor = UIColor.clear.cgColor
@@ -42,7 +42,7 @@ class EntriesNode : ASDisplayNode {
         return segmentControl
     }
 
-    var dayDatePicker = ASDisplayNode(viewBlock: {() -> UIView in
+    let dayDatePicker = ASDisplayNode(viewBlock: {() -> UIView in
         let picker = UIDatePicker()
         
         picker.preferredDatePickerStyle = .compact
@@ -53,19 +53,19 @@ class EntriesNode : ASDisplayNode {
         return picker
     })
     
-    var monthPicker = ASDisplayNode(viewBlock: {() -> UIView in
+    let monthPicker = ASDisplayNode(viewBlock: {() -> UIView in
         let picker = UIPickerView()
         
         return picker
     })
     
-    var weekPicker = ASCustomButton()
-    var calendarImage = ASImageNode()
+    let weekPicker = ASCustomButton()
+    let calendarImage = ASImageNode()
     
-    var noEntryLabel = ASTextNode()
-    var noEntryImage = ASImageNode()
-    var numEntriesLabel = ASTextNode()
-    var entryTable = ASTableNode()
+   let noEntryLabel = ASTextNode()
+   let noEntryImage = ASImageNode()
+   let numEntriesLabel = ASTextNode()
+   let entryTable = ASTableNode()
     
     var dateType : DateType = .dayControl
     

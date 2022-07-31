@@ -10,7 +10,7 @@ import AsyncDisplayKit
 
 class AddEditEntryNode : ASDisplayNode {
     
-    var dateTimePicker = ASDisplayNode(viewBlock: {() -> UIView in
+    let dateTimePicker = ASDisplayNode(viewBlock: {() -> UIView in
         let picker = UIDatePicker()
         
         picker.preferredDatePickerStyle = .compact
@@ -20,7 +20,7 @@ class AddEditEntryNode : ASDisplayNode {
         return picker
     })
     
-    var moodSlider = ASDisplayNode(viewBlock: {() -> UIView in
+    let moodSlider = ASDisplayNode(viewBlock: {() -> UIView in
         let slider = UISlider()
         
         slider.minimumValue = -3
@@ -32,11 +32,11 @@ class AddEditEntryNode : ASDisplayNode {
         return slider
     })
     
-    var titleLabel = ASTextNode()
-    var lowLabel = ASTextNode()
-    var highLabel = ASTextNode()
-    var nextBtn = ASCustomButton()
-    var cancelBtn = ASCustomButton()
+    let titleLabel = ASTextNode()
+    let lowLabel = ASTextNode()
+    let highLabel = ASTextNode()
+    let nextBtn = ASCustomButton()
+    let cancelBtn = ASCustomButton()
     
     override init() {
         super.init()

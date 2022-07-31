@@ -73,6 +73,13 @@ class AddNoteController: ASDKViewController<AddNoteNode> {
         
         if self.noteOperation == .add {
             self.node.noteTextView.textView.text = moodStore.state.editorMood?.note
+            
+            if self.node.noteTextView.textView.text.isEmpty {
+                self.node.noteTextView.attributedPlaceholderText = NSAttributedString(
+                    string: "Add a note...",
+                    attributes: AttributesFormat.notePhAttr
+                )
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ import AsyncDisplayKit
 
 class AddNoteNode : ASDisplayNode {
     
-    var noteTextView = ASEditableTextNode()
+    let noteTextView = ASEditableTextNode()
     
     override init() {
         super.init()
@@ -25,10 +25,7 @@ class AddNoteNode : ASDisplayNode {
         noteTextView.textContainerInset = .init(top: 8, left: 10, bottom: 8, right: 10)
         noteTextView.textView.font =  UIFont.init(name: "Avenir-Medium", size: 22.0)
         noteTextView.textView.textColor = .gray
-        noteTextView.attributedPlaceholderText = NSAttributedString(
-            string: "Add a note...",
-            attributes: AttributesFormat.notePhAttr
-        )
+        noteTextView.autocorrectionType = .no
         
         NotificationCenter.default.addObserver(
             self,

@@ -10,8 +10,8 @@ import AsyncDisplayKit
 
 class WeekTableNode : ASDisplayNode {
     
-    var weeksTitle = ASTextNode()
-    var weeksTable = ASTableNode()
+    let weeksTitle = ASTextNode()
+    let weeksTable = ASTableNode()
     
     override init() {
         super.init()

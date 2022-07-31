@@ -9,8 +9,8 @@ import AsyncDisplayKit
 
 class TagTableNode : ASDisplayNode {
     
-    var tagsTitle = ASTextNode()
-    var tagsTable = ASTableNode()
+    let tagsTitle = ASTextNode()
+    let tagsTable = ASTableNode()
     
     override init() {
         super.init()
