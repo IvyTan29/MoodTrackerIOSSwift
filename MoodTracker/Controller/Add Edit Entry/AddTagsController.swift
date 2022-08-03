@@ -112,9 +112,13 @@ class AddTagsController : ASDKViewController<AddTagNode> {
     func donePressed() {
         moodStore.dispatch(EditorTagsAction.init())
         
+        var httpEntry = HttpEntry()
+        httpEntry.delegate = self
+        
         if let indexPath = self.indexPath {
             moodStore.dispatch(EditMoodAction.init(index: indexPath))
         } else {
+            httpEntry.postEntryHTTP(moodStore.state.editorMood ?? MoodLog())
             moodStore.dispatch(AddMoodAction.init())
         }
         
@@ -235,9 +239,22 @@ extension AddTagsController : StoreSubscriber {
     }
 }
 
-
+// MARK: - TagTableDelegate
 extension AddTagsController : TagTableDelegate {
     func didClickTagInTable(tagStr: String) {
         self.addChosenFromTableAndTF(string: tagStr)
     }
 }
+
+// MARK: - HttpEntryDelegate
+extension AddTagsController : HttpEntryDelegate {
+    func didAddEntry(_ statusCode: Int, _ entryId: String) {
+        print("WENT HERE")
+        if statusCode == 201 {
+            // FIXME: add tag?
+            print(entryId)
+        }
+    }
+}
+
+
