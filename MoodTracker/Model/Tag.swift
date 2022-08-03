@@ -1,0 +1,15 @@
+//
+//  Tag.swift
+//  MoodTracker
+//
+//  Created by Ivy Tan on 8/3/22.
+//
+
+import Foundation
+
+struct Tag : Codable {
+    var _id : [String:String]?
+    var name: String
+    var dateTime: Date
+    var moodValue: Float
+}

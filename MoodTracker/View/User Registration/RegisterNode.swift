@@ -85,7 +85,7 @@ class RegisterNode: ASDisplayNode {
             spacing: 10,
             justifyContent: .start,
             alignItems: .stretch,
-            children: [nameTF, emailTF, passwordTF, confirmPassTF]
+            children: [nameTF, emailTF, passwordTF]
         )
 
         let centerBtn = ASCenterLayoutSpec(

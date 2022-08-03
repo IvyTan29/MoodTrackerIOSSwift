@@ -9,7 +9,6 @@ import Foundation
 import RxSwift
 
 func httpPost() {
-    print("TEST RUN")
     let url = URL(
         string: "https://discord.com/api/webhooks/1002121201751183392/Jlo25kTxCtheUgUmFIqm5K4ofIOjJ7xEYjKU83Bvlm0qZIEjohixMOR4QjKQkj2SFsrs"
     )!
@@ -17,7 +16,6 @@ func httpPost() {
     var request = URLRequest(url: url)
     request.httpMethod = "POST" // get post put
     request.addValue("application/json", forHTTPHeaderField: "content-type")
-//    request.addValue("Bearer ssffsdfsdf", forHTTPHeaderField: "Authorization")
     
     request.httpBody = "{\"content\": \"IOS is fun (hopefully)\"}".data(using: .utf8)
     

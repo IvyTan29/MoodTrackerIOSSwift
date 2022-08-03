@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MoodLog {
+struct MoodLog : Codable {
     var dateTime: Date?
     var moodValue: Float?
     var tags: Set<String>?

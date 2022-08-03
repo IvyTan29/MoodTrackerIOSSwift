@@ -23,17 +23,13 @@ class LoginController : ASDKViewController<LoginNode> {
         self.node.loginBtn.rxTap
             .subscribe(
                 onNext: {
-                    let mainVC = TabBarController()
-                    mainVC.modalPresentationStyle = .fullScreen
+                    var httpUser = HttpUser()
+                    httpUser.delegate = self
                     
-                    let transition = CATransition()
-                    transition.duration = 0.5
-                    transition.type = CATransitionType.push
-                    transition.subtype = CATransitionSubtype.fromRight
-                    transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
-                    
-                    self.view.window!.layer.add(transition, forKey: kCATransition)
-                    self.present(mainVC, animated: false, completion: nil)
+                    httpUser.loginUserHTTP(
+                        Login(email: self.node.emailTF.customTF.textField.text ?? "",
+                             password: self.node.passwordTF.customTF.textField.text ?? "")
+                    )
                 }
             ).disposed(by: disposeBag)
         
@@ -45,5 +41,28 @@ class LoginController : ASDKViewController<LoginNode> {
                     self.pvc?.present(RegisterController(node: RegisterNode()), animated: true, completion: nil)
                 }
             ).disposed(by: disposeBag)
+    }
+}
+
+extension LoginController : HttpUserDelegate {
+    func didLogin(_ statusCode: Int, _ strData: String) {
+        if statusCode == 200 {
+            DispatchQueue.main.async {
+                let mainVC = TabBarController()
+                mainVC.modalPresentationStyle = .fullScreen
+                
+                let transition = CATransition()
+                transition.duration = 0.5
+                transition.type = CATransitionType.push
+                transition.subtype = CATransitionSubtype.fromRight
+                transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+                
+                self.view.window!.layer.add(transition, forKey: kCATransition)
+                self.present(mainVC, animated: false, completion: nil)
+            }
+        } else {
+            // FIXME: add error message display
+            print(strData)
+        }
     }
 }
