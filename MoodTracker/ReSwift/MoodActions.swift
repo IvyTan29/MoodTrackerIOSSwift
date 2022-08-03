@@ -60,3 +60,7 @@ struct GetInsightsAction : Action {
     var insightDateType: Int
     var moodLevel: Float
 }
+
+struct UpdateEntries : Action {
+    var entriesArray: [MoodLog]
+}

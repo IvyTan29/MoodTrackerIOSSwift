@@ -113,7 +113,9 @@ class EntriesController : ASDKViewController<EntriesNode> {
         // select the latest month
         (self.node.monthPicker.view as? UIPickerView)?.selectRow(self.months.count - 1, inComponent: 0, animated: true)
         
-        moodStore.dispatch(FilterMoodAction.init(dateType: .dayControl, date: Date()))
+        var httpEntry = HttpEntry()
+        httpEntry.delegate = self
+        httpEntry.getEntriesOfUserHTTP()
     }
 }
 
@@ -188,7 +190,6 @@ extension EntriesController : StoreSubscriber {
 
 // MARK: - UIPickerViewDataSource, UIPickerViewDelegate (For PickerView)
 extension EntriesController : UIPickerViewDataSource, UIPickerViewDelegate {
-    
     func populateLast12Months() {
         let firstDayComponent = DateComponents(day: 1) // first day ng month
 
@@ -262,5 +263,17 @@ extension EntriesController : WeekTableControllerDelegate {
         )
         
         self.weekIndex = weekIndex
+    }
+}
+
+// MARK: - HttpEntryDelegate
+extension EntriesController : HttpEntryDelegate {
+    func didGetEntries(_ statusCode: Int, _ entries: [MoodLog]) {
+        if statusCode == 200 {
+            DispatchQueue.main.async {
+                moodStore.dispatch(UpdateEntries.init(entriesArray: entries))
+                moodStore.dispatch(FilterMoodAction.init(dateType: .dayControl, date: Date()))
+            }
+        }
     }
 }

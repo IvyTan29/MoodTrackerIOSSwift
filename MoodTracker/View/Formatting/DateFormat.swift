@@ -10,6 +10,7 @@ import Foundation
 struct DateFormat {
     static let dateFormatter = DateFormatter()
     static let dateIntervalFormatter = DateIntervalFormatter()
+    static let iSO8601DateFormatter = ISO8601DateFormatter()
     
     static func dateFormatToString(format: String, date: Date) -> String {
         dateFormatter.dateFormat = format
@@ -28,5 +29,16 @@ struct DateFormat {
         dateIntervalFormatter.dateStyle = .medium
         
         return dateIntervalFormatter.string(from: from, to: to)
+    }
+    
+    static func ISOToDate(dateStr: String) -> Date {
+        iSO8601DateFormatter.formatOptions = [
+            .withFullDate,
+            .withTime,
+            .withDashSeparatorInDate,
+            .withColonSeparatorInTime
+        ]
+        
+        return iSO8601DateFormatter.date(from: dateStr) ?? Date()
     }
 }

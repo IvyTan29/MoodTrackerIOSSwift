@@ -55,14 +55,14 @@ extension RegisterController : HttpUserDelegate {
                 let mainVC = TabBarController()
                 mainVC.modalPresentationStyle = .fullScreen
                 
-                let transition = CATransition()
-                transition.duration = 0.5
-                transition.type = CATransitionType.push
-                transition.subtype = CATransitionSubtype.fromRight
-                transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
-                
-                self.view.window!.layer.add(transition, forKey: kCATransition)
-                self.present(mainVC, animated: false, completion: nil)
+//                let transition = CATransition()
+//                transition.duration = 0.5
+//                transition.type = CATransitionType.push
+//                transition.subtype = CATransitionSubtype.fromRight
+//                transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+//                
+//                self.view.window!.layer.add(transition, forKey: kCATransition)
+                self.present(mainVC, animated: true, completion: nil)
             }
         } else if statusCode == 404 {
             print(strData)

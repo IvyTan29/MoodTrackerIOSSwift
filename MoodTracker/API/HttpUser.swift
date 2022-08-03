@@ -13,6 +13,7 @@ protocol HttpUserDelegate : AnyObject {
     func didLogin(_ statusCode: Int, _ strData: String)
 }
 
+// PARA THE DELEGATE DOES NOT NEED TO INHERIT EVERY FUNCTION
 extension HttpUserDelegate {
     func didRegister(_ statusCode: Int, _ strData: String) {
         // leave empty

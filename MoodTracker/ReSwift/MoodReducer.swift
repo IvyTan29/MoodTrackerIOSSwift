@@ -208,6 +208,9 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         
         state?.insightTags = count
         
+    
+    case let updateEntries as UpdateEntries:
+        state?.allMoodList = updateEntries.entriesArray
         
     default:
         break
