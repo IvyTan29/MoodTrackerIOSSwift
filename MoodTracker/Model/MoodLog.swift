@@ -11,6 +11,6 @@ struct MoodLog : Codable {
     var id: String?
     var dateTime: Date?
     var moodValue: Float?
-    var tags: Set<Tag>?
+    var tags: Set<Tag>? = []
     var note: String?
 }

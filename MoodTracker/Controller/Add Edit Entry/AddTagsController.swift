@@ -114,8 +114,6 @@ class AddTagsController : ASDKViewController<AddTagNode> {
     }
     
     func donePressed() {
-        moodStore.dispatch(EditorTagsAction.init())
-        
         var httpEntry = HttpEntry()
         httpEntry.delegate = self
         
@@ -253,21 +251,10 @@ extension AddTagsController : HttpEntryDelegate {
     func didAddEntry(_ statusCode: Int, _ entryId: String) {
         if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
             DispatchQueue.main.async {
-                moodStore.dispatch(AddMoodAction.init())
                 
-                moodStore.dispatch(FilterMoodAction.init(
-                    dateType: moodStore.state.dateTypeFilter,
-                    date: moodStore.state.dateFilter)
-                )
-                
-                self.navigationController?.popToRootViewController(animated: true)
-                self.tabBarController?.tabBar.isHidden = false
-                
-                // FIXME: add tag?
-    //            var httpTag = HttpTag()
-    //            httpTag.delegate = self
-    //            httpTag.addTagsToUserAndEntryHttp(<#T##String#>, <#T##[Tag]#>)
-                print(entryId)
+                var httpTag = HttpTag()
+                httpTag.delegate = self
+                httpTag.postTagsToUserAndEntryHttp(entryId, moodStore.state.chosenTags)
             }
         }
     }
@@ -284,6 +271,26 @@ extension AddTagsController : HttpTagDelegate {
                 self.assignActionForRecentTags()
                 self.node.setMoreTagBtn()
             }
+        }
+    }
+    
+    func didAddTags(_ statusCode: Int, _ strData: String) {
+        print(statusCode)
+        if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
+            DispatchQueue.main.async {
+                moodStore.dispatch(EditorTagsAction.init())
+                moodStore.dispatch(AddMoodAction.init())
+                
+                moodStore.dispatch(FilterMoodAction.init(
+                    dateType: moodStore.state.dateTypeFilter,
+                    date: moodStore.state.dateFilter)
+                )
+                
+                self.navigationController?.popToRootViewController(animated: true)
+                self.tabBarController?.tabBar.isHidden = false
+            }
+        } else {
+            print(strData)
         }
     }
 }

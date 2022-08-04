@@ -9,10 +9,16 @@ import Foundation
 
 protocol HttpTagDelegate : AnyObject {
     func didGetRecentTags(_ statusCode: Int, _ tags: Set<Tag>)
+    
+    func didAddTags(_ statusCode: Int, _ strData: String)
 }
 
 extension HttpTagDelegate {
     func didGetRecentTags(_ statusCode: Int, _ tags: Set<Tag>) {
+        // leave empty
+    }
+    
+    func didAddTags(_ statusCode: Int, _ strData: String) {
         // leave empty
     }
 }
@@ -23,21 +29,18 @@ struct HttpTag {
     
     weak var delegate: HttpTagDelegate?
     
-    func addTagsToUserAndEntryHttp(_ entryId: String, _ tagList: [Tag]) {
+    func postTagsToUserAndEntryHttp(_ entryId: String, _ tagSet: Set<Tag>) {
         NetworkHelper.performDataTask(
-            urlString: "\(NetworkHelper.BASE_URL)/user/entries/\(entryId)\tags",
+            urlString: "\(NetworkHelper.BASE_URL)/user/entry/\(entryId)/tags",
             httpMethod: "POST",
-            jsonData: encodeTagList(tagList)) { data, response, error in
+            jsonData: encodeTagSet(tagSet)) { data, response, error in
                 if let error = error {
                     print("Error took place \(error)")
                     return
                 }
                 
                 if let response = response as? HTTPURLResponse, let data = data {
-//                    delegate?.didGetEntries(response.statusCode, entries)
-//                    if let entries = decodeTags(data) {
-//                        delegate?.didGetEntries(response.statusCode, entries)
-//                    }
+                    delegate?.didAddTags(response.statusCode, String(data: data, encoding: .utf8) ?? "")
                 }
             }
     }
@@ -60,9 +63,9 @@ struct HttpTag {
             }
     }
     
-    func encodeTagList(_ tagList: [Tag]) -> Data? {
+    func encodeTagSet(_ tagSet: Set<Tag>) -> Data? {
         do {
-            return try encoder.encode(tagList)
+            return try encoder.encode(tagSet)
         } catch {
             print(error)
             return nil
