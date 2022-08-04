@@ -34,6 +34,7 @@
 		F1978E1728925B650053ECAA /* TagFreqComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1978E1628925B650053ECAA /* TagFreqComponent.swift */; };
 		F1978E1928927B7F0053ECAA /* Fetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1978E1828927B7F0053ECAA /* Fetch.swift */; };
 		F1978E1B289290250053ECAA /* InsightDateTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1978E1A289290250053ECAA /* InsightDateTypeEnum.swift */; };
+		F1990136289B4D7900AE168D /* HttpTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1990135289B4D7900AE168D /* HttpTag.swift */; };
 		F19B36C3288E624B0017B50F /* InsightsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36C2288E624B0017B50F /* InsightsController.swift */; };
 		F19B36C9288E91040017B50F /* ASCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36C8288E91040017B50F /* ASCustomButton.swift */; };
 		F19B36CD288ECB600017B50F /* TagTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36CC288ECB600017B50F /* TagTableController.swift */; };
@@ -94,6 +95,7 @@
 		F1978E1628925B650053ECAA /* TagFreqComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagFreqComponent.swift; sourceTree = "<group>"; };
 		F1978E1828927B7F0053ECAA /* Fetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fetch.swift; sourceTree = "<group>"; };
 		F1978E1A289290250053ECAA /* InsightDateTypeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightDateTypeEnum.swift; sourceTree = "<group>"; };
+		F1990135289B4D7900AE168D /* HttpTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpTag.swift; sourceTree = "<group>"; };
 		F19B36C2288E624B0017B50F /* InsightsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsController.swift; sourceTree = "<group>"; };
 		F19B36C8288E91040017B50F /* ASCustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASCustomButton.swift; sourceTree = "<group>"; };
 		F19B36CC288ECB600017B50F /* TagTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagTableController.swift; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 				F1BA28B4289A566C003A1893 /* HttpUser.swift */,
 				F1BA28BC289A9492003A1893 /* HttpEntry.swift */,
 				F1BA28B6289A5797003A1893 /* Server.swift */,
+				F1990135289B4D7900AE168D /* HttpTag.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -464,6 +467,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1990136289B4D7900AE168D /* HttpTag.swift in Sources */,
 				F1952B84288A8135005BD0CC /* DateFormat.swift in Sources */,
 				F1BBD077288902ED00C290B7 /* EntriesNode.swift in Sources */,
 				F1BC8A522888345800604C23 /* AddTagNode.swift in Sources */,

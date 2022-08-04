@@ -30,7 +30,7 @@ struct HttpEntry {
     weak var delegate: HttpEntryDelegate?
     
     func getEntriesOfUserHTTP() {
-        if let url = URL(string: "\(Server.url)/user/entries") {
+        if let url = URL(string: "\(Server.BASE_URL)/user/entries") {
             var request = URLRequest(url: url)
             request.httpMethod = "GET"
             
@@ -52,7 +52,7 @@ struct HttpEntry {
     }
     
     func postEntryHTTP(_ entry: MoodLog) {
-        if let url = URL(string: "\(Server.url)/user/entries") {
+        if let url = URL(string: "\(Server.BASE_URL)/user/entries") {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             
@@ -84,16 +84,29 @@ struct HttpEntry {
             let decodedData = try decoder.decode([EntryJsonData].self, from: data)
             
             decodedData.forEach({ item in
-                moodLogs.append(MoodLog(
-                    id: item.entry._id,
-                    dateTime: DateFormat.ISOToDate(dateStr: item.entry.dateTime),
-                    moodValue: item.entry.moodValue,
-                    tags: item.entry.tags,
-                    note: item.entry.note)
-                )
+                
+                do {
+                    let note = try item.entry.note
+                    
+                    moodLogs.append(MoodLog(
+                        id: item.entry._id,
+                        dateTime: DateFormat.ISOToDate(dateStr: item.entry.dateTime),
+                        moodValue: item.entry.moodValue,
+                        tags: item.entry.tags,
+                        note: note)
+                    )
+                } catch {
+                    print(error)
+                    moodLogs.append(MoodLog(
+                        id: item.entry._id,
+                        dateTime: DateFormat.ISOToDate(dateStr: item.entry.dateTime),
+                        moodValue: item.entry.moodValue,
+                        tags: item.entry.tags)
+                    )
+                }
             })
-            return moodLogs
             
+            return moodLogs
         } catch {
             print(error)
             return nil
@@ -101,6 +114,8 @@ struct HttpEntry {
     }
     
     func encodeEntry(_ moodLog: MoodLog) -> Data? {
+        encoder.dateEncodingStrategy = .iso8601
+        
         do {
             return try encoder.encode(moodLog)
         } catch {
@@ -111,16 +126,9 @@ struct HttpEntry {
     
     func decodeAnEntry(_ data: Data) -> String? {
         do {
-            let decodedData = try decoder.decode(EntryJsonData.self, from: data)
+            let decodedData = try decoder.decode(Entry.self, from: data)
             
-            return decodedData.entry._id
-//            return MoodLog(
-//                id: decodedData.entry._id,
-//                dateTime: DateFormat.ISOToDate(dateStr: decodedData.entry.dateTime),
-//                moodValue: decodedData.entry.moodValue,
-//                tags: decodedData.entry.tags,
-//                note: decodedData.entry.note
-//            )
+            return decodedData._id
         } catch {
             print(error)
             return nil

@@ -30,7 +30,7 @@ struct HttpUser {
     weak var delegate: HttpUserDelegate?
 
     func registerUserHTTP(_ user: User) {
-        if let url = URL(string: "\(Server.url)/user") {
+        if let url = URL(string: "\(Server.BASE_URL)/user") {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             
@@ -54,7 +54,7 @@ struct HttpUser {
     }
     
     func loginUserHTTP(_ login: Login) {
-        if let url = URL(string: "\(Server.url)/user/login") {
+        if let url = URL(string: "\(Server.BASE_URL)/user/login") {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             

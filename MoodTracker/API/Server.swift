@@ -8,5 +8,5 @@
 import Foundation
 
 struct Server {
-    static let url = "http://localhost:8080"
+    static let BASE_URL = "http://localhost:8080"
 }

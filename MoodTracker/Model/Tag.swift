@@ -8,7 +8,7 @@
 import Foundation
 
 struct Tag : Codable {
-    var _id : [String:String]?
+    var _id : String?
     var name: String
     var dateTime: Date
     var moodValue: Float

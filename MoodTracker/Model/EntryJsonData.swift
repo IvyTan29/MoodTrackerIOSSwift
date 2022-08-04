@@ -16,5 +16,5 @@ struct Entry : Codable {
     let dateTime: String
     let moodValue: Float
     let tags: Set<String>
-    let note: String
+    let note: String?
 }
