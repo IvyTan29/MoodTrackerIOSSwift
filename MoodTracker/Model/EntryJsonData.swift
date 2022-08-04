@@ -23,5 +23,6 @@ struct TagJsonData : Codable {
     let _id: String?
     let name: String
     let dateTime: String
-//    let required: Bool
+    let moodValue: Float
+    let recent: Int
 }

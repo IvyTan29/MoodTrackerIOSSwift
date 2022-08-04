@@ -30,16 +30,10 @@ struct HttpUser {
     weak var delegate: HttpUserDelegate?
 
     func registerUserHTTP(_ user: User) {
-        if let url = URL(string: "\(Server.BASE_URL)/user") {
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            
-            let json = encodeUser(user)
-            request.addValue("application/json", forHTTPHeaderField: "content-type")
-            request.httpBody = json
-            
-            // this is asynchronous
-            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+        NetworkHelper.performDataTask(
+            urlString: "\(NetworkHelper.BASE_URL)/user",
+            httpMethod: "POST",
+            jsonData: encodeUser(user)) { data, response, error in
                 if let error = error {
                     print("Error took place \(error)")
                     return
@@ -49,21 +43,14 @@ struct HttpUser {
                     delegate?.didRegister(response.statusCode, String(data: data, encoding: .utf8) ?? "")
                 }
             }
-            task.resume()
-        }
     }
     
     func loginUserHTTP(_ login: Login) {
-        if let url = URL(string: "\(Server.BASE_URL)/user/login") {
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            
-            let json = encodeLogin(login)
-            request.addValue("application/json", forHTTPHeaderField: "content-type")
-            request.httpBody = json
-            
-            // this is asynchronous
-            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+        
+        NetworkHelper.performDataTask(
+            urlString: "\(NetworkHelper.BASE_URL)/user/login",
+            httpMethod: "POST",
+            jsonData: encodeLogin(login)) { data, response, error in
                 if let error = error {
                     print("Error took place \(error)")
                     return
@@ -73,8 +60,6 @@ struct HttpUser {
                     delegate?.didLogin(response.statusCode, String(data: data, encoding: .utf8) ?? "")
                 }
             }
-            task.resume()
-        }
     }
     
     func encodeUser(_ user: User) -> Data? {

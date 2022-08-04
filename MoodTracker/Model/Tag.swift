@@ -12,4 +12,5 @@ struct Tag : Codable {
     var name: String
     var dateTime: Date
     var moodValue: Float
+    var recent: Int
 }

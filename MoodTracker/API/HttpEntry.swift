@@ -30,12 +30,10 @@ struct HttpEntry {
     weak var delegate: HttpEntryDelegate?
     
     func getEntriesOfUserHTTP() {
-        if let url = URL(string: "\(Server.BASE_URL)/user/entries") {
-            var request = URLRequest(url: url)
-            request.httpMethod = "GET"
-            
-            // this is asynchronous
-            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+        NetworkHelper.performDataTask(
+            urlString: "\(NetworkHelper.BASE_URL)/user/entries",
+            httpMethod: "GET",
+            jsonData: nil) { data, response, error in
                 if let error = error {
                     print("Error took place \(error)")
                     return
@@ -47,21 +45,13 @@ struct HttpEntry {
                     }
                 }
             }
-            task.resume()
-        }
     }
     
     func postEntryHTTP(_ entry: MoodLog) {
-        if let url = URL(string: "\(Server.BASE_URL)/user/entries") {
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            
-            let json = encodeEntry(entry)
-            request.addValue("application/json", forHTTPHeaderField: "content-type")
-            request.httpBody = json
-            
-            // this is asynchronous
-            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+        NetworkHelper.performDataTask(
+            urlString: "\(NetworkHelper.BASE_URL)/user/entries",
+            httpMethod: "POST",
+            jsonData: encodeEntry(entry)) { data, response, error in
                 if let error = error {
                     print("Error took place \(error)")
                     return
@@ -73,8 +63,6 @@ struct HttpEntry {
                     }
                 }
             }
-            task.resume()
-        }
     }
     
     func decodeEntries(_ data: Data) -> [MoodLog]? {

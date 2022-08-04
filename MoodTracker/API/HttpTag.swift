@@ -7,24 +7,27 @@
 
 import Foundation
 
+protocol HttpTagDelegate : AnyObject {
+    func didGetRecentTags(_ statusCode: Int, _ tags: Set<String>)
+}
+
+extension HttpTagDelegate {
+    func didGetRecentTags(_ statusCode: Int, _ tags: Set<String>) {
+        // leave empty
+    }
+}
 
 struct HttpTag {
     let encoder = JSONEncoder()
     let decoder = JSONDecoder()
     
-//    weak
+    weak var delegate: HttpTagDelegate?
     
     func addTagsToUserAndEntryHttp(_ entryId: String, _ tagList: [Tag]) {
-        if let url = URL(string: "\(Server.BASE_URL)/user/entries/\(entryId)\tags") {
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            
-            let json = encodeTagList(tagList)
-            request.addValue("application/json", forHTTPHeaderField: "content-type")
-            request.httpBody = json
-            
-            // this is asynchronous
-            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+        NetworkHelper.performDataTask(
+            urlString: "\(NetworkHelper.BASE_URL)/user/entries/\(entryId)\tags",
+            httpMethod: "POST",
+            jsonData: encodeTagList(tagList)) { data, response, error in
                 if let error = error {
                     print("Error took place \(error)")
                     return
@@ -37,13 +40,46 @@ struct HttpTag {
 //                    }
                 }
             }
-            task.resume()
-        }
+    }
+    
+    func getRecentTagsHttp() {
+        NetworkHelper.performDataTask(
+            urlString: "\(NetworkHelper.BASE_URL)/user/recent/tags",
+            httpMethod: "GET",
+            jsonData: nil) { data, response, error in
+                if let error = error {
+                    print("Error took place \(error)")
+                    return
+                }
+                
+                if let response = response as? HTTPURLResponse, let data = data {
+                    if let recentTags = decodeTagList(data) {
+                        delegate?.didGetRecentTags(response.statusCode, recentTags)
+                    }
+                }
+            }
     }
     
     func encodeTagList(_ tagList: [Tag]) -> Data? {
         do {
             return try encoder.encode(tagList)
+        } catch {
+            print(error)
+            return nil
+        }
+    }
+    
+    func decodeTagList(_ data: Data) -> Set<String>? {
+        var tagStrSet = Set<String>()
+        
+        do {
+            let decodedData = try decoder.decode([TagJsonData].self, from: data)
+            
+            decodedData.forEach({ item in
+                tagStrSet.insert(item._id ?? "")
+            })
+            
+            return tagStrSet
         } catch {
             print(error)
             return nil

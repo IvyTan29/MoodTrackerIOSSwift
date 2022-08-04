@@ -43,7 +43,7 @@
 		F1BA28AE289A5084003A1893 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BA28AD289A5084003A1893 /* User.swift */; };
 		F1BA28B0289A5091003A1893 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BA28AF289A5091003A1893 /* Tag.swift */; };
 		F1BA28B5289A566C003A1893 /* HttpUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BA28B4289A566C003A1893 /* HttpUser.swift */; };
-		F1BA28B7289A5797003A1893 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BA28B6289A5797003A1893 /* Server.swift */; };
+		F1BA28B7289A5797003A1893 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BA28B6289A5797003A1893 /* NetworkHelper.swift */; };
 		F1BA28B9289A8D9E003A1893 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BA28B8289A8D9E003A1893 /* Login.swift */; };
 		F1BA28BB289A931F003A1893 /* TempMoodList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BA28BA289A931F003A1893 /* TempMoodList.swift */; };
 		F1BA28BD289A9492003A1893 /* HttpEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BA28BC289A9492003A1893 /* HttpEntry.swift */; };
@@ -104,7 +104,7 @@
 		F1BA28AD289A5084003A1893 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F1BA28AF289A5091003A1893 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		F1BA28B4289A566C003A1893 /* HttpUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpUser.swift; sourceTree = "<group>"; };
-		F1BA28B6289A5797003A1893 /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
+		F1BA28B6289A5797003A1893 /* NetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
 		F1BA28B8289A8D9E003A1893 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		F1BA28BA289A931F003A1893 /* TempMoodList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempMoodList.swift; sourceTree = "<group>"; };
 		F1BA28BC289A9492003A1893 /* HttpEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpEntry.swift; sourceTree = "<group>"; };
@@ -243,7 +243,7 @@
 			children = (
 				F1BA28B4289A566C003A1893 /* HttpUser.swift */,
 				F1BA28BC289A9492003A1893 /* HttpEntry.swift */,
-				F1BA28B6289A5797003A1893 /* Server.swift */,
+				F1BA28B6289A5797003A1893 /* NetworkHelper.swift */,
 				F1990135289B4D7900AE168D /* HttpTag.swift */,
 			);
 			path = API;
@@ -513,7 +513,7 @@
 				F1BA28B5289A566C003A1893 /* HttpUser.swift in Sources */,
 				F12C0F1B28915A0300E90D73 /* WeekTableNode.swift in Sources */,
 				F1BA28BB289A931F003A1893 /* TempMoodList.swift in Sources */,
-				F1BA28B7289A5797003A1893 /* Server.swift in Sources */,
+				F1BA28B7289A5797003A1893 /* NetworkHelper.swift in Sources */,
 				F18C2A27288D349300008B07 /* CustomTabBar.swift in Sources */,
 				F1BBD0702888F54E00C290B7 /* AddNoteNode.swift in Sources */,
 				F1978E12289241FB0053ECAA /* InsightsNode.swift in Sources */,

@@ -138,8 +138,7 @@ extension EntriesController : ASTableDataSource {
         if entryNote != nil || !(entryNote?.isEmpty ?? true) {
             cell.isShowNote = true
         }
-        
-        print(indexPath)
+
         cell.indexPathInCell = indexPath
         cell.delegate = self
 

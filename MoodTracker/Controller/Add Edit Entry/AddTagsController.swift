@@ -259,4 +259,16 @@ extension AddTagsController : HttpEntryDelegate {
     }
 }
 
+// MARK: - HttpTagDelegate
+extension AddTagsController : HttpTagDelegate {
+    func didGetRecentTags(_ statusCode: Int, _ tags: Set<String>) {
+        if statusCode == 201 {
+            // FIXME: add tag?
+            var httpTag = HttpTag()
+//            httpTag.delegate = self
+//            httpTag.addTagsToUserAndEntryHttp(<#T##String#>, <#T##[Tag]#>)
+        }
+    }
+}
+
 
