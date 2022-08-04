@@ -67,7 +67,12 @@ class AddTagsController : ASDKViewController<AddTagNode> {
                     if let string = string {
                         if string != "" {
                             self.addChosenFromTableAndTF(string: string)
-                            moodStore.dispatch(AddTagAction.init(tagStr: string))
+                            moodStore.dispatch(AddTagAction.init(tag:
+                                Tag(
+                                    name: string,
+                                    recent: 1)
+                                )
+                            )
                         }
                     }
                 }
@@ -95,18 +100,17 @@ class AddTagsController : ASDKViewController<AddTagNode> {
                 }
             ).disposed(by: disposeBag)
         
-        moodStore.dispatch(InitializeTagAction.init())
+        var httpTag = HttpTag()
+        httpTag.delegate = self
+        httpTag.getRecentTagsHttp()
         
         // for editing purposes
         if let indexPath = self.indexPath {
             moodStore.dispatch(InitializeTagsEditAction(index: indexPath))
         }
         
-        self.node.loadFirstRecentTags()
-        
-        self.assignActionForRecentTags()
         self.assignActionForChosenTags()
-        self.node.setMoreTagBtn()
+        
     }
     
     func donePressed() {
@@ -119,16 +123,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
             moodStore.dispatch(EditMoodAction.init(index: indexPath))
         } else {
             httpEntry.postEntryHTTP(moodStore.state.editorMood ?? MoodLog())
-            moodStore.dispatch(AddMoodAction.init())
         }
-        
-        moodStore.dispatch(FilterMoodAction.init(
-            dateType: moodStore.state.dateTypeFilter,
-            date: moodStore.state.dateFilter)
-        )
-        
-        self.navigationController?.popToRootViewController(animated: true)
-        self.tabBarController?.tabBar.isHidden = false
     }
     
     func addNotePressed() {
@@ -150,6 +145,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
     
     func assignActionForRecentTags() {
         self.node.tagBtns.forEach({ button in
+            button.view.tag = 1
             assignActionForRecentTag(button)
         })
     }
@@ -165,7 +161,10 @@ class AddTagsController : ASDKViewController<AddTagNode> {
             .subscribe(
                 onNext: { [unowned self] tap in
                     self.removeRecentTagButton(asButton: button)
-                    moodStore.dispatch(AddTagAction.init(tagStr:  button.attributedTitle(for: .normal)?.string ?? ""))
+                    moodStore.dispatch(AddTagAction.init(
+                        tag: Tag(name: button.attributedTitle(for: .normal)?.string ?? "",
+                                 recent: 1)
+                    ))
                 }
             ).disposed(by: disposeBag)
     }
@@ -175,20 +174,25 @@ class AddTagsController : ASDKViewController<AddTagNode> {
             .subscribe(
                 onNext: { [unowned self] tap in
                     self.removeChosenTagButton(asButton: button)
-                    moodStore.dispatch(DeleteTagAction.init(tagStr: button.attributedTitle(for: .normal)?.string ?? ""))
+                    
+                    moodStore.dispatch(DeleteTagAction.init(
+                        tag: Tag(name: button.attributedTitle(for: .normal)?.string ?? "",
+                                 recent: button.view.tag)
+                    ))
                 }
             ).disposed(by: disposeBag)
     }
     
     func addChosenFromTableAndTF(string: String) {
-        if !(moodStore.state?.chosenTags.contains(string.capitalized) ?? false) {
-            let chosenBtn = self.node.createChosenTagBtn(string)
-            assignActionForChosenTag(chosenBtn)
-            self.node.chosenTagBtns.append(chosenBtn)
+//        if !(moodStore.state?.chosenTags.contains(string.capitalized) ?? false) {
+        let chosenBtn = self.node.createChosenTagBtn(string)
+        chosenBtn.view.tag = 0
+        assignActionForChosenTag(chosenBtn)
+        self.node.chosenTagBtns.append(chosenBtn)
             
             // FIXME: - remove button from tag
 //            self.node.tagBtns.remove(c)
-        }
+//        }
     }
     
     func removeChosenTagButton(asButton: ASCustomButton) {
@@ -196,9 +200,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
             self.node.chosenTagBtns.remove(at: idx)
             
             if let string = asButton.attributedTitle(for: .normal)?.string {
-                let isRecent = moodStore.state.tagsDict[string] ?? false
-                    
-                if isRecent {
+                if asButton.view.tag == 1 {
                     let recentBtn = self.node.createRecentTagBtn(string)
                     assignActionForRecentTag(recentBtn)
                     self.node.tagBtns.insert(recentBtn, at: self.node.tagBtns.count - 1)
@@ -212,11 +214,11 @@ class AddTagsController : ASDKViewController<AddTagNode> {
             self.node.tagBtns.remove(at: idx)
             
             if let string = asButton.attributedTitle(for: .normal)?.string {
-                if !(moodStore.state?.chosenTags.contains(string.capitalized) ?? false) {
-                    let chosenBtn = self.node.createChosenTagBtn(string)
-                    assignActionForChosenTag(chosenBtn)
-                    self.node.chosenTagBtns.append(chosenBtn)
-                }
+//                if !(moodStore.state?.chosenTags.contains(string.capitalized) ?? false) {
+                let chosenBtn = self.node.createChosenTagBtn(string)
+                assignActionForChosenTag(chosenBtn)
+                self.node.chosenTagBtns.append(chosenBtn)
+//                }
             }
         }
     }
@@ -249,24 +251,39 @@ extension AddTagsController : TagTableDelegate {
 // MARK: - HttpEntryDelegate
 extension AddTagsController : HttpEntryDelegate {
     func didAddEntry(_ statusCode: Int, _ entryId: String) {
-        if statusCode == 201 {
-            // FIXME: add tag?
-            var httpTag = HttpTag()
-//            httpTag.delegate = self
-//            httpTag.addTagsToUserAndEntryHttp(<#T##String#>, <#T##[Tag]#>)
-            print(entryId)
+        if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
+            DispatchQueue.main.async {
+                moodStore.dispatch(AddMoodAction.init())
+                
+                moodStore.dispatch(FilterMoodAction.init(
+                    dateType: moodStore.state.dateTypeFilter,
+                    date: moodStore.state.dateFilter)
+                )
+                
+                self.navigationController?.popToRootViewController(animated: true)
+                self.tabBarController?.tabBar.isHidden = false
+                
+                // FIXME: add tag?
+    //            var httpTag = HttpTag()
+    //            httpTag.delegate = self
+    //            httpTag.addTagsToUserAndEntryHttp(<#T##String#>, <#T##[Tag]#>)
+                print(entryId)
+            }
         }
     }
 }
 
 // MARK: - HttpTagDelegate
 extension AddTagsController : HttpTagDelegate {
-    func didGetRecentTags(_ statusCode: Int, _ tags: Set<String>) {
-        if statusCode == 201 {
-            // FIXME: add tag?
-            var httpTag = HttpTag()
-//            httpTag.delegate = self
-//            httpTag.addTagsToUserAndEntryHttp(<#T##String#>, <#T##[Tag]#>)
+    func didGetRecentTags(_ statusCode: Int, _ tags: Set<Tag>) {
+        if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
+            DispatchQueue.main.async {
+                moodStore.dispatch(InitializeRecentTagAction.init(recentTags: tags))
+                
+                self.node.setRecentTagBtn()
+                self.assignActionForRecentTags()
+                self.node.setMoreTagBtn()
+            }
         }
     }
 }

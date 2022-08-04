@@ -8,11 +8,11 @@
 import Foundation
 
 protocol HttpTagDelegate : AnyObject {
-    func didGetRecentTags(_ statusCode: Int, _ tags: Set<String>)
+    func didGetRecentTags(_ statusCode: Int, _ tags: Set<Tag>)
 }
 
 extension HttpTagDelegate {
-    func didGetRecentTags(_ statusCode: Int, _ tags: Set<String>) {
+    func didGetRecentTags(_ statusCode: Int, _ tags: Set<Tag>) {
         // leave empty
     }
 }
@@ -53,7 +53,7 @@ struct HttpTag {
                 }
                 
                 if let response = response as? HTTPURLResponse, let data = data {
-                    if let recentTags = decodeTagList(data) {
+                    if let recentTags = decodeTagRecent(data) {
                         delegate?.didGetRecentTags(response.statusCode, recentTags)
                     }
                 }
@@ -69,17 +69,21 @@ struct HttpTag {
         }
     }
     
-    func decodeTagList(_ data: Data) -> Set<String>? {
-        var tagStrSet = Set<String>()
+    func decodeTagRecent(_ data: Data) -> Set<Tag>? {
+        var tagSet = Set<Tag>()
         
         do {
-            let decodedData = try decoder.decode([TagJsonData].self, from: data)
+            let decodedData = try decoder.decode([TagGroupJsonData].self, from: data)
             
             decodedData.forEach({ item in
-                tagStrSet.insert(item._id ?? "")
+                tagSet.insert(
+                    Tag(name: item._id,
+                        recent: 1
+                       )
+                )
             })
             
-            return tagStrSet
+            return tagSet
         } catch {
             print(error)
             return nil

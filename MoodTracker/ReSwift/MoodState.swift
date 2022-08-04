@@ -14,7 +14,6 @@ struct MoodState {
             allMoodList: [],
             filterMoodList: [],
             editorMood: MoodLog(),
-            tagsDict: [:],
             chosenTags: [],
             recentTags: [],
             tableTags: [],
@@ -27,10 +26,9 @@ struct MoodState {
     var allMoodList = [MoodLog]()
     var filterMoodList = [MoodLog]()
     var editorMood: MoodLog?
-    var tagsDict = [String: Bool]() // bool marks if it's recent or not
-    var chosenTags: Set<String> = []
-    var recentTags: Set<String> = []
-    var tableTags: Set<String> = []
+    var chosenTags: Set<Tag> = []
+    var recentTags: Set<Tag> = []
+    var tableTags: Set<Tag> = []
     var dateTypeFilter: DateType = .dayControl
     var dateFilter: Date = Date()
     var insightTags = [String: Int]()

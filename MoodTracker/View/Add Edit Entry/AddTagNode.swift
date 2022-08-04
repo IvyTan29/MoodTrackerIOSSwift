@@ -121,13 +121,13 @@ class AddTagNode : ASDisplayNode {
         self.addNoteStr = string
     }
     
-    func loadFirstRecentTags() {
-        print("LOAD FIRST RECENT TAGS")
-        
-        
-        setRecentTagBtn()
-        setChosenTagButton()
-    }
+//    func loadFirstRecentTags() {
+//        print("LOAD FIRST RECENT TAGS")
+//
+//
+//        setRecentTagBtn()
+//        setChosenTagButton()
+//    }
     
     func setMoreTagBtn() {
         self.moreTagsBtn.setAttributedTitle(NSAttributedString(string: "...", attributes: AttributesFormat.tagBtnAttr), for: .normal)
@@ -144,7 +144,7 @@ class AddTagNode : ASDisplayNode {
         self.tagBtns = []
         
         for recentTag in moodStore.state.recentTags {
-            self.tagBtns.append(createRecentTagBtn(recentTag))
+            self.tagBtns.append(createRecentTagBtn(recentTag.name))
         }
     }
     
@@ -166,7 +166,7 @@ class AddTagNode : ASDisplayNode {
         self.chosenTagBtns = []
         
         for chosenTag in moodStore.state.chosenTags {
-            self.chosenTagBtns.append(createChosenTagBtn(chosenTag))
+            self.chosenTagBtns.append(createChosenTagBtn(chosenTag.name))
         }
     }
     

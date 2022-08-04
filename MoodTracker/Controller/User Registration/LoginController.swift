@@ -27,7 +27,7 @@ class LoginController : ASDKViewController<LoginNode> {
                     httpUser.delegate = self
                     
                     httpUser.loginUserHTTP(
-                        Login(email: self.node.emailTF.customTF.textField.text ?? "",
+                        LoginJsonData(email: self.node.emailTF.customTF.textField.text ?? "",
                              password: self.node.passwordTF.customTF.textField.text ?? "")
                     )
                 }
@@ -46,7 +46,7 @@ class LoginController : ASDKViewController<LoginNode> {
 
 extension LoginController : HttpUserDelegate {
     func didLogin(_ statusCode: Int, _ strData: String) {
-        if statusCode == 200 {
+        if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
             DispatchQueue.main.async {
                 let mainVC = TabBarController()
                 mainVC.modalPresentationStyle = .fullScreen

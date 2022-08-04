@@ -9,6 +9,7 @@ import Foundation
 
 struct NetworkHelper {
     static let BASE_URL = "http://localhost:8080"
+    static let goodStatusResponseCode = 200..<299
     
     static func performDataTask(urlString: String,
                                 httpMethod: String,
@@ -20,7 +21,6 @@ struct NetworkHelper {
             request.httpMethod = httpMethod
             
             if let jsonData = jsonData {
-                print("WENT HERE IN NETWORK HELPER")
                 request.addValue("application/json", forHTTPHeaderField: "content-type")
                 request.httpBody = jsonData
             }

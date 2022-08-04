@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct Tag : Codable {
-    var _id : String?
+struct Tag : Codable, Hashable {
+//    var _id : String?
     var name: String
-    var dateTime: Date
-    var moodValue: Float
+//    var dateTime: Date
+//    var moodValue: Float
     var recent: Int
 }

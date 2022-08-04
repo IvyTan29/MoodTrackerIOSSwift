@@ -27,7 +27,7 @@ class RegisterController : ASDKViewController<RegisterNode> {
                     httpUser.delegate = self
                     
                     httpUser.registerUserHTTP(
-                        User(name: self.node.nameTF.customTF.textField.text ?? "",
+                        UserJsonData(name: self.node.nameTF.customTF.textField.text ?? "",
                              email: self.node.emailTF.customTF.textField.text ?? "",
                              password: self.node.passwordTF.customTF.textField.text ?? "",
                              entries: [],
@@ -50,7 +50,7 @@ class RegisterController : ASDKViewController<RegisterNode> {
 extension RegisterController : HttpUserDelegate {
     func didRegister(_ statusCode: Int, _ strData: String) {
         print(statusCode)
-        if statusCode == 201 {
+        if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
             DispatchQueue.main.async {
                 let mainVC = TabBarController()
                 mainVC.modalPresentationStyle = .fullScreen

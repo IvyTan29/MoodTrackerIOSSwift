@@ -1,5 +1,5 @@
 //
-//  EntryJsonData.swift
+//  JsonDataModel.swift
 //  MoodTracker
 //
 //  Created by Ivy Tan on 8/3/22.
@@ -7,9 +7,14 @@
 
 import Foundation
 
-//struct EntryJsonData : Decodable {
-//    let entry: Entry
-//}
+struct UserJsonData : Codable {
+    var _id: String?
+    var name: String
+    var email: String
+    var password: String
+    var entries: [String]
+    var tags: [String]
+}
 
 struct EntryJsonData : Codable {
     let _id: String?
@@ -25,4 +30,13 @@ struct TagJsonData : Codable {
     let dateTime: String
     let moodValue: Float
     let recent: Int
+}
+
+struct LoginJsonData : Encodable {
+    let email: String
+    let password: String
+}
+
+struct TagGroupJsonData : Codable {
+    let _id: String
 }

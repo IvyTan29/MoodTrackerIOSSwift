@@ -29,7 +29,7 @@ class EntryCell : ASCellNode {
         return slider
     }
     
-    var tagStrSet: Set<String> = []
+    var tagSet: Set<Tag> = []
     var tagLabels: [ASTextNode] = []
     
     var showNoteBtn = ASCustomButton()
@@ -40,10 +40,10 @@ class EntryCell : ASCellNode {
     weak var delegate: EntryCellDelegate?
     var disposeBag = DisposeBag()
     
-    init(tagStrSet: Set<String>) {
-        self.tagStrSet = tagStrSet
+    init(tagSet: Set<Tag>) {
+        self.tagSet = tagSet
         
-        for _ in self.tagStrSet {
+        for _ in self.tagSet {
             self.tagLabels.append(ASTextNode())
         }
         
@@ -116,7 +116,7 @@ class EntryCell : ASCellNode {
         moodSlider.style.width = .init(unit: .fraction, value: 0.7)
         
         for (idx, element) in tagLabels.enumerated() {
-            element.attributedText = NSAttributedString(string: tagStrSet[tagStrSet.index(tagStrSet.startIndex, offsetBy: idx)], attributes: AttributesFormat.tagLabelAttr)
+            element.attributedText = NSAttributedString(string: tagSet[tagSet.index(tagSet.startIndex, offsetBy: idx)].name, attributes: AttributesFormat.tagLabelAttr)
         }
         
         tagLabels.forEach { (tagLabel) in

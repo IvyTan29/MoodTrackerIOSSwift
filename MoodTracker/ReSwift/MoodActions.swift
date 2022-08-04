@@ -23,8 +23,12 @@ struct EditorNoteAction : Action {
 }
 
 
-struct InitializeTagAction : Action {
-    
+struct InitializeRecentTagAction : Action {
+    var recentTags: Set<Tag>
+}
+
+struct InitializeTableTagAction : Action {
+    var tableTags: Set<Tag>
 }
 
 struct InitializeTagsEditAction : Action {
@@ -32,11 +36,11 @@ struct InitializeTagsEditAction : Action {
 }
 
 struct DeleteTagAction : Action {
-    var tagStr: String
+    var tag: Tag
 }
 
 struct AddTagAction : Action {
-    var tagStr: String
+    var tag: Tag
 }
 
 struct AddMoodAction : Action {

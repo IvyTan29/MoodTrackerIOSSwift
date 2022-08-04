@@ -40,14 +40,12 @@
 		F19B36CD288ECB600017B50F /* TagTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36CC288ECB600017B50F /* TagTableController.swift */; };
 		F19B36CF288ECB770017B50F /* TagTableNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36CE288ECB770017B50F /* TagTableNode.swift */; };
 		F19B36D1288ECC9D0017B50F /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19B36D0288ECC9D0017B50F /* TagCell.swift */; };
-		F1BA28AE289A5084003A1893 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BA28AD289A5084003A1893 /* User.swift */; };
 		F1BA28B0289A5091003A1893 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BA28AF289A5091003A1893 /* Tag.swift */; };
 		F1BA28B5289A566C003A1893 /* HttpUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BA28B4289A566C003A1893 /* HttpUser.swift */; };
 		F1BA28B7289A5797003A1893 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BA28B6289A5797003A1893 /* NetworkHelper.swift */; };
-		F1BA28B9289A8D9E003A1893 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BA28B8289A8D9E003A1893 /* Login.swift */; };
 		F1BA28BB289A931F003A1893 /* TempMoodList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BA28BA289A931F003A1893 /* TempMoodList.swift */; };
 		F1BA28BD289A9492003A1893 /* HttpEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BA28BC289A9492003A1893 /* HttpEntry.swift */; };
-		F1BA28BF289AA8D3003A1893 /* EntryJsonData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BA28BE289AA8D3003A1893 /* EntryJsonData.swift */; };
+		F1BA28BF289AA8D3003A1893 /* JsonDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BA28BE289AA8D3003A1893 /* JsonDataModel.swift */; };
 		F1BBD06D2888F53000C290B7 /* AddNoteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BBD06C2888F53000C290B7 /* AddNoteController.swift */; };
 		F1BBD0702888F54E00C290B7 /* AddNoteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BBD06F2888F54E00C290B7 /* AddNoteNode.swift */; };
 		F1BBD074288902D800C290B7 /* EntriesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BBD073288902D800C290B7 /* EntriesController.swift */; };
@@ -101,14 +99,12 @@
 		F19B36CC288ECB600017B50F /* TagTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagTableController.swift; sourceTree = "<group>"; };
 		F19B36CE288ECB770017B50F /* TagTableNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagTableNode.swift; sourceTree = "<group>"; };
 		F19B36D0288ECC9D0017B50F /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
-		F1BA28AD289A5084003A1893 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F1BA28AF289A5091003A1893 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		F1BA28B4289A566C003A1893 /* HttpUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpUser.swift; sourceTree = "<group>"; };
 		F1BA28B6289A5797003A1893 /* NetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
-		F1BA28B8289A8D9E003A1893 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		F1BA28BA289A931F003A1893 /* TempMoodList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempMoodList.swift; sourceTree = "<group>"; };
 		F1BA28BC289A9492003A1893 /* HttpEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpEntry.swift; sourceTree = "<group>"; };
-		F1BA28BE289AA8D3003A1893 /* EntryJsonData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryJsonData.swift; sourceTree = "<group>"; };
+		F1BA28BE289AA8D3003A1893 /* JsonDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonDataModel.swift; sourceTree = "<group>"; };
 		F1BBD06C2888F53000C290B7 /* AddNoteController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoteController.swift; sourceTree = "<group>"; };
 		F1BBD06F2888F54E00C290B7 /* AddNoteNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoteNode.swift; sourceTree = "<group>"; };
 		F1BBD073288902D800C290B7 /* EntriesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesController.swift; sourceTree = "<group>"; };
@@ -241,9 +237,9 @@
 		F1BA28B3289A564F003A1893 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				F1BA28B6289A5797003A1893 /* NetworkHelper.swift */,
 				F1BA28B4289A566C003A1893 /* HttpUser.swift */,
 				F1BA28BC289A9492003A1893 /* HttpEntry.swift */,
-				F1BA28B6289A5797003A1893 /* NetworkHelper.swift */,
 				F1990135289B4D7900AE168D /* HttpTag.swift */,
 			);
 			path = API;
@@ -335,11 +331,9 @@
 			children = (
 				F12C0F17289152FD00E90D73 /* Enum */,
 				F1BBD07F288910AB00C290B7 /* MoodLog.swift */,
-				F1BA28AD289A5084003A1893 /* User.swift */,
 				F1BA28AF289A5091003A1893 /* Tag.swift */,
 				F12C0F15289152F700E90D73 /* WeekRange.swift */,
-				F1BA28B8289A8D9E003A1893 /* Login.swift */,
-				F1BA28BE289AA8D3003A1893 /* EntryJsonData.swift */,
+				F1BA28BE289AA8D3003A1893 /* JsonDataModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -489,16 +483,14 @@
 				F1BBD07D28890B5700C290B7 /* EntryCell.swift in Sources */,
 				F12C0F16289152F800E90D73 /* WeekRange.swift in Sources */,
 				F18D9B5B28939A030084D853 /* LoginController.swift in Sources */,
-				F1BA28B9289A8D9E003A1893 /* Login.swift in Sources */,
 				F19B36D1288ECC9D0017B50F /* TagCell.swift in Sources */,
 				F1978E1B289290250053ECAA /* InsightDateTypeEnum.swift in Sources */,
 				F1BC8A1F2887F5B500604C23 /* AppDelegate.swift in Sources */,
 				F18D9B5D28939A180084D853 /* RegisterController.swift in Sources */,
-				F1BA28AE289A5084003A1893 /* User.swift in Sources */,
 				F18ED373288D7196007E33B9 /* NoteEnum.swift in Sources */,
 				F1BC8A4F2888344900604C23 /* AddTagsController.swift in Sources */,
 				F12C0F19289159D000E90D73 /* WeekTableController.swift in Sources */,
-				F1BA28BF289AA8D3003A1893 /* EntryJsonData.swift in Sources */,
+				F1BA28BF289AA8D3003A1893 /* JsonDataModel.swift in Sources */,
 				F1952B97288A8416005BD0CC /* MoodActions.swift in Sources */,
 				F19B36CD288ECB600017B50F /* TagTableController.swift in Sources */,
 				F1BC8A212887F5B500604C23 /* SceneDelegate.swift in Sources */,

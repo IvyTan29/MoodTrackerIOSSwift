@@ -29,7 +29,7 @@ struct HttpUser {
     let encoder = JSONEncoder()
     weak var delegate: HttpUserDelegate?
 
-    func registerUserHTTP(_ user: User) {
+    func registerUserHTTP(_ user: UserJsonData) {
         NetworkHelper.performDataTask(
             urlString: "\(NetworkHelper.BASE_URL)/user",
             httpMethod: "POST",
@@ -45,7 +45,7 @@ struct HttpUser {
             }
     }
     
-    func loginUserHTTP(_ login: Login) {
+    func loginUserHTTP(_ login: LoginJsonData) {
         
         NetworkHelper.performDataTask(
             urlString: "\(NetworkHelper.BASE_URL)/user/login",
@@ -62,7 +62,7 @@ struct HttpUser {
             }
     }
     
-    func encodeUser(_ user: User) -> Data? {
+    func encodeUser(_ user: UserJsonData) -> Data? {
         do {
             return try encoder.encode(user)
         } catch {
@@ -71,7 +71,7 @@ struct HttpUser {
         }
     }
     
-    func encodeLogin(_ login: Login) -> Data? {
+    func encodeLogin(_ login: LoginJsonData) -> Data? {
         do {
             return try encoder.encode(login)
         } catch {

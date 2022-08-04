@@ -80,7 +80,7 @@ struct HttpEntry {
                         id: item._id,
                         dateTime: DateFormat.ISOToDate(dateStr: item.dateTime),
                         moodValue: item.moodValue,
-                        tags: self.getTagString(item.tags),
+                        tags: self.getTagSet(item.tags),
                         note: note)
                     )
                 } catch {
@@ -89,7 +89,7 @@ struct HttpEntry {
                         id: item._id,
                         dateTime: DateFormat.ISOToDate(dateStr: item.dateTime),
                         moodValue: item.moodValue,
-                        tags: self.getTagString(item.tags))
+                        tags: self.getTagSet(item.tags))
                     )
                 }
             })
@@ -101,11 +101,14 @@ struct HttpEntry {
         }
     }
     
-    func getTagString(_ tags: [TagJsonData]) -> Set<String> {
-        var tagStr = Set<String>()
+    func getTagSet(_ tags: [TagJsonData]) -> Set<Tag> {
+        var tagStr = Set<Tag>()
         
         tags.forEach({ tagItem in
-            tagStr.insert(tagItem.name)
+            tagStr.insert(Tag(
+                name: tagItem.name,
+                recent: tagItem.recent)
+            )
         })
         
         return tagStr

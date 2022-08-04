@@ -37,7 +37,7 @@ extension TagTableController : ASTableDataSource {
         let index =  moodStore.state.tableTags.index(moodStore.state.tableTags.startIndex, offsetBy: indexPath.row)
         
         cell.designCell()
-        cell.tag.attributedText = NSAttributedString(string: moodStore.state.tableTags[index],
+        cell.tag.attributedText = NSAttributedString(string: moodStore.state.tableTags[index].name,
                                                      attributes: AttributesFormat.tagBtnAttr)
                                                      
         return cell
@@ -51,9 +51,9 @@ extension TagTableController : ASTableDelegate {
         
         tableNode.deselectRow(at: indexPath, animated: true)
     
-        self.delegate?.didClickTagInTable(tagStr: moodStore.state.tableTags[index])
+        self.delegate?.didClickTagInTable(tagStr: moodStore.state.tableTags[index].name)
         
-        moodStore.dispatch(AddTagAction.init(tagStr: moodStore.state.tableTags[index]))
+        moodStore.dispatch(AddTagAction.init(tag: moodStore.state.tableTags[index]))
         
         self.node.tagsTable.reloadData()
     }

@@ -127,7 +127,7 @@ extension EntriesController : ASTableDataSource {
     }
     
     func tableNode(_ tableNode: ASTableNode, nodeForRowAt indexPath: IndexPath) -> ASCellNode {
-        let cell = EntryCell(tagStrSet: moodStore.state.filterMoodList[indexPath.row].tags ?? [])
+        let cell = EntryCell(tagSet: moodStore.state.filterMoodList[indexPath.row].tags ?? [])
         let entryNote = moodStore.state.filterMoodList[indexPath.row].note
         
         cell.designCell()
@@ -268,7 +268,7 @@ extension EntriesController : WeekTableControllerDelegate {
 // MARK: - HttpEntryDelegate
 extension EntriesController : HttpEntryDelegate {
     func didGetEntries(_ statusCode: Int, _ entries: [MoodLog]) {
-        if statusCode == 200 {
+        if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
             DispatchQueue.main.async {
                 moodStore.dispatch(UpdateEntries.init(entriesArray: entries))
                 moodStore.dispatch(FilterMoodAction.init(dateType: .dayControl, date: Date()))
