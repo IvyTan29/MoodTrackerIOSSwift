@@ -18,25 +18,3 @@ import Foundation
 //                MoodLog(dateTime: ISO8601DateFormatter().date(from: "2022-06-16T10:44:00+0000"), moodValue: 0, tags: ["Dinner", "Neutral"], note: "testing WOAHH"),
 //                MoodLog(dateTime: ISO8601DateFormatter().date(from: "2022-06-18T10:44:00+0000"), moodValue: 0, tags: ["Neutral", "Dinner", "Dry Fish"], note: "testing WOAHH")
 //                ]
-
-let tags = [
-    "Work" : true,
-    "Difficult Conversation" : true,
-    "Good Meal" : true,
-    "Presentation" : true,
-    "Swimming" : true,
-    "Energized" : true,
-    "Heart Broken" : false,
-    "Sleep" : false,
-    "Nervous" : false,
-    "Breakfast" : false,
-    "Positive" : false,
-    "Dinner" : false,
-    "Lunch" : false,
-    "Exercise" : false,
-    "Study" : false,
-    "Read Book" : false,
-    "Read Webtoon" : false,
-    "Watch Series" : false,
-    "Watch Movie" : false
-]

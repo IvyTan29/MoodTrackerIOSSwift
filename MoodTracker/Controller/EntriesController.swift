@@ -116,6 +116,16 @@ class EntriesController : ASDKViewController<EntriesNode> {
         var httpEntry = HttpEntry()
         httpEntry.delegate = self
         httpEntry.getEntriesOfUserHTTP()
+        
+        let alert = UIAlertController(title: nil, message: "Loading...", preferredStyle: .alert)
+
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.style = UIActivityIndicatorView.Style.medium
+        loadingIndicator.startAnimating();
+
+        alert.view.addSubview(loadingIndicator)
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
@@ -272,6 +282,8 @@ extension EntriesController : HttpEntryDelegate {
             DispatchQueue.main.async {
                 moodStore.dispatch(UpdateEntries.init(entriesArray: entries))
                 moodStore.dispatch(FilterMoodAction.init(dateType: .dayControl, date: Date()))
+                
+                self.dismiss(animated: false, completion: nil)
             }
         }
     }

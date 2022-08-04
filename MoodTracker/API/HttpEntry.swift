@@ -10,7 +10,7 @@ import Foundation
 protocol HttpEntryDelegate : AnyObject {
     func didGetEntries(_ statusCode: Int, _ entries: [MoodLog])
     
-    func didAddEntry(_ statusCode: Int, _ entryId: String)
+    func didAddEntry(_ statusCode: Int, _ entryJsonData: EntryJsonData)
 }
 
 extension HttpEntryDelegate {
@@ -18,7 +18,7 @@ extension HttpEntryDelegate {
         // leave empty
     }
     
-    func didAddEntry(_ statusCode: Int, _ entryId: String) {
+    func didAddEntry(_ statusCode: Int, _ entryJsonData: EntryJsonData) {
         // leave empty
     }
 }
@@ -58,8 +58,8 @@ struct HttpEntry {
                 }
                 
                 if let response = response as? HTTPURLResponse, let data = data {
-                    if let entryId = decodeAnEntry(data) {
-                        delegate?.didAddEntry(response.statusCode, entryId)
+                    if let entryJson = decodeAnEntry(data) {
+                        delegate?.didAddEntry(response.statusCode, entryJson)
                     }
                 }
             }
@@ -125,11 +125,9 @@ struct HttpEntry {
         }
     }
     
-    func decodeAnEntry(_ data: Data) -> String? {
+    func decodeAnEntry(_ data: Data) -> EntryJsonData? {
         do {
-            let decodedData = try decoder.decode(EntryJsonData.self, from: data)
-            
-            return decodedData._id
+            return try decoder.decode(EntryJsonData.self, from: data)
         } catch {
             print(error)
             return nil

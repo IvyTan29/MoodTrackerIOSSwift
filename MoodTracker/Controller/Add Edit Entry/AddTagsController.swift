@@ -103,6 +103,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         var httpTag = HttpTag()
         httpTag.delegate = self
         httpTag.getRecentTagsHttp()
+        httpTag.getTableTagsHttp()
         
         // for editing purposes
         if let indexPath = self.indexPath {
@@ -171,7 +172,10 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         button.rxTap
             .subscribe(
                 onNext: { [unowned self] tap in
+                    print(button.view.tag)
+                    
                     self.removeChosenTagButton(asButton: button)
+                    
                     
                     moodStore.dispatch(DeleteTagAction.init(
                         tag: Tag(name: button.attributedTitle(for: .normal)?.string ?? "",
@@ -214,6 +218,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
             if let string = asButton.attributedTitle(for: .normal)?.string {
 //                if !(moodStore.state?.chosenTags.contains(string.capitalized) ?? false) {
                 let chosenBtn = self.node.createChosenTagBtn(string)
+                chosenBtn.view.tag = 1
                 assignActionForChosenTag(chosenBtn)
                 self.node.chosenTagBtns.append(chosenBtn)
 //                }
@@ -248,14 +253,21 @@ extension AddTagsController : TagTableDelegate {
 
 // MARK: - HttpEntryDelegate
 extension AddTagsController : HttpEntryDelegate {
-    func didAddEntry(_ statusCode: Int, _ entryId: String) {
+    func didAddEntry(_ statusCode: Int, _ entryJsonData: EntryJsonData) {
         if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
-            DispatchQueue.main.async {
-                
-                var httpTag = HttpTag()
-                httpTag.delegate = self
-                httpTag.postTagsToUserAndEntryHttp(entryId, moodStore.state.chosenTags)
-            }
+            var newChosen = [TagJsonData]()
+            
+            moodStore.state.chosenTags.forEach({tag in
+                newChosen.append(TagJsonData(_id: nil,
+                                             name: tag.name,
+                                             dateTime: entryJsonData.dateTime,
+                                             moodValue: entryJsonData.moodValue,
+                                             recent: tag.recent))
+            })
+            
+            var httpTag = HttpTag()
+            httpTag.delegate = self
+            httpTag.postTagsToUserAndEntryHttp(entryJsonData._id ?? "", newChosen)
         }
     }
 }
@@ -270,6 +282,14 @@ extension AddTagsController : HttpTagDelegate {
                 self.node.setRecentTagBtn()
                 self.assignActionForRecentTags()
                 self.node.setMoreTagBtn()
+            }
+        }
+    }
+    
+    func didGetTableTags(_ statusCode: Int, _ tags: Set<Tag>) {
+        if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
+            DispatchQueue.main.async {
+                moodStore.dispatch(InitializeTableTagAction.init(tableTags: tags))
             }
         }
     }

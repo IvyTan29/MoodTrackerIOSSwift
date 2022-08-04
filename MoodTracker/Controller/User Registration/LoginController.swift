@@ -60,6 +60,7 @@ extension LoginController : HttpUserDelegate {
 //                self.view.window!.layer.add(transition, forKey: kCATransition)
                 self.present(mainVC, animated: true, completion: nil)
             }
+            
         } else {
             // FIXME: add error message display
             print(strData)

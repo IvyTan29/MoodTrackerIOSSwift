@@ -10,11 +10,17 @@ import Foundation
 protocol HttpTagDelegate : AnyObject {
     func didGetRecentTags(_ statusCode: Int, _ tags: Set<Tag>)
     
+    func didGetTableTags(_ statusCode: Int, _ tags: Set<Tag>)
+    
     func didAddTags(_ statusCode: Int, _ strData: String)
 }
 
 extension HttpTagDelegate {
     func didGetRecentTags(_ statusCode: Int, _ tags: Set<Tag>) {
+        // leave empty
+    }
+    
+    func didGetTableTags(_ statusCode: Int, _ tags: Set<Tag>) {
         // leave empty
     }
     
@@ -29,11 +35,11 @@ struct HttpTag {
     
     weak var delegate: HttpTagDelegate?
     
-    func postTagsToUserAndEntryHttp(_ entryId: String, _ tagSet: Set<Tag>) {
+    func postTagsToUserAndEntryHttp(_ entryId: String, _ tagArray: [TagJsonData]) {
         NetworkHelper.performDataTask(
             urlString: "\(NetworkHelper.BASE_URL)/user/entry/\(entryId)/tags",
             httpMethod: "POST",
-            jsonData: encodeTagSet(tagSet)) { data, response, error in
+            jsonData: encodeTagSet(tagArray)) { data, response, error in
                 if let error = error {
                     print("Error took place \(error)")
                     return
@@ -56,23 +62,41 @@ struct HttpTag {
                 }
                 
                 if let response = response as? HTTPURLResponse, let data = data {
-                    if let recentTags = decodeTagRecent(data) {
+                    if let recentTags = decodeTag(data, 1) {
                         delegate?.didGetRecentTags(response.statusCode, recentTags)
                     }
                 }
             }
     }
     
-    func encodeTagSet(_ tagSet: Set<Tag>) -> Data? {
+    func getTableTagsHttp() {
+        NetworkHelper.performDataTask(
+            urlString: "\(NetworkHelper.BASE_URL)/user/table/tags",
+            httpMethod: "GET",
+            jsonData: nil) { data, response, error in
+                if let error = error {
+                    print("Error took place \(error)")
+                    return
+                }
+                
+                if let response = response as? HTTPURLResponse, let data = data {
+                    if let tableTags = decodeTag(data, 0) {
+                        delegate?.didGetTableTags(response.statusCode, tableTags)
+                    }
+                }
+            }
+    }
+    
+    func encodeTagSet(_ tagArray: [TagJsonData]) -> Data? {
         do {
-            return try encoder.encode(tagSet)
+            return try encoder.encode(tagArray)
         } catch {
             print(error)
             return nil
         }
     }
     
-    func decodeTagRecent(_ data: Data) -> Set<Tag>? {
+    func decodeTag(_ data: Data, _ recent: Int) -> Set<Tag>? {
         var tagSet = Set<Tag>()
         
         do {
@@ -81,7 +105,7 @@ struct HttpTag {
             decodedData.forEach({ item in
                 tagSet.insert(
                     Tag(name: item._id,
-                        recent: 1
+                        recent: recent
                        )
                 )
             })
