@@ -113,10 +113,6 @@ class EntriesController : ASDKViewController<EntriesNode> {
         // select the latest month
         (self.node.monthPicker.view as? UIPickerView)?.selectRow(self.months.count - 1, inComponent: 0, animated: true)
         
-        var httpEntry = HttpEntry()
-        httpEntry.delegate = self
-        httpEntry.getEntriesOfUserHTTP()
-        
         let alert = UIAlertController(title: nil, message: "Loading...", preferredStyle: .alert)
 
         let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
@@ -126,6 +122,10 @@ class EntriesController : ASDKViewController<EntriesNode> {
 
         alert.view.addSubview(loadingIndicator)
         self.present(alert, animated: true, completion: nil)
+        
+        var httpEntry = HttpEntry()
+        httpEntry.delegate = self
+        httpEntry.getEntriesOfUserHTTP()
     }
 }
 

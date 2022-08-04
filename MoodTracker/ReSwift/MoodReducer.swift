@@ -17,10 +17,10 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         state?.editorMood?.dateTime = editorDateLevelAction.dateTime
         state?.editorMood?.moodValue = editorDateLevelAction.moodValue
         
-//    case let editorTagsAction as EditorTagsAction:
-//        let chosenTags = state?.chosenTags
-//
-//        state?.editorMood?.tags = chosenTags
+    case let editorTagsAction as EditorTagsAction:
+        let chosenTags = state?.chosenTags
+
+        state?.editorMood?.tags = chosenTags
         
     case let editorNoteAction as EditorNoteAction:
         state?.editorMood?.note = editorNoteAction.note
@@ -40,7 +40,7 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         let recentTags = state?.recentTags
         let tableTags = state?.tableTags
         
-        let chosenTags = state?.allMoodList[initializeTagsEditAction.index.row].tags ?? []
+        let chosenTags = state?.filterMoodList[initializeTagsEditAction.index.row].tags ?? []
         
         state?.recentTags = recentTags?.subtracting(chosenTags) ?? []
         state?.tableTags = tableTags?.subtracting(chosenTags) ?? []

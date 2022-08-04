@@ -24,6 +24,14 @@ struct EntryJsonData : Codable {
     let note: String?
 }
 
+struct EntryJsonDataEmptyTag : Codable {
+    let _id: String?
+    let dateTime: String
+    let moodValue: Float
+    let tags: [String]
+    let note: String?
+}
+
 struct TagJsonData : Codable {
     let _id: String?
     let name: String

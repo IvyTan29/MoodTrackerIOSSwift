@@ -13,6 +13,8 @@ protocol HttpTagDelegate : AnyObject {
     func didGetTableTags(_ statusCode: Int, _ tags: Set<Tag>)
     
     func didAddTags(_ statusCode: Int, _ strData: String)
+    
+    func didEditTags(_ statusCode: Int, _ strData: String, _ indexPath: IndexPath)
 }
 
 extension HttpTagDelegate {
@@ -27,6 +29,10 @@ extension HttpTagDelegate {
     func didAddTags(_ statusCode: Int, _ strData: String) {
         // leave empty
     }
+    
+    func didEditTags(_ statusCode: Int, _ strData: String, _ indexPath: IndexPath){
+        // leave empty
+    }
 }
 
 struct HttpTag {
@@ -34,22 +40,6 @@ struct HttpTag {
     let decoder = JSONDecoder()
     
     weak var delegate: HttpTagDelegate?
-    
-    func postTagsToUserAndEntryHttp(_ entryId: String, _ tagArray: [TagJsonData]) {
-        NetworkHelper.performDataTask(
-            urlString: "\(NetworkHelper.BASE_URL)/user/entry/\(entryId)/tags",
-            httpMethod: "POST",
-            jsonData: encodeTagSet(tagArray)) { data, response, error in
-                if let error = error {
-                    print("Error took place \(error)")
-                    return
-                }
-                
-                if let response = response as? HTTPURLResponse, let data = data {
-                    delegate?.didAddTags(response.statusCode, String(data: data, encoding: .utf8) ?? "")
-                }
-            }
-    }
     
     func getRecentTagsHttp() {
         NetworkHelper.performDataTask(
@@ -83,6 +73,38 @@ struct HttpTag {
                     if let tableTags = decodeTag(data, 0) {
                         delegate?.didGetTableTags(response.statusCode, tableTags)
                     }
+                }
+            }
+    }
+    
+    func postTagsToUserAndEntryHttp(_ entryId: String, _ tagArray: [TagJsonData]) {
+        NetworkHelper.performDataTask(
+            urlString: "\(NetworkHelper.BASE_URL)/user/entry/\(entryId)/tags",
+            httpMethod: "POST",
+            jsonData: encodeTagSet(tagArray)) { data, response, error in
+                if let error = error {
+                    print("Error took place \(error)")
+                    return
+                }
+                
+                if let response = response as? HTTPURLResponse, let data = data {
+                    delegate?.didAddTags(response.statusCode, String(data: data, encoding: .utf8) ?? "")
+                }
+            }
+    }
+    
+    func putTagsToUserAndEntryHttp(_ entryId: String, _ tagArray: [TagJsonData], _ indexPath: IndexPath) {
+        NetworkHelper.performDataTask(
+            urlString: "\(NetworkHelper.BASE_URL)/user/entry/\(entryId)/tags",
+            httpMethod: "PUT",
+            jsonData: encodeTagSet(tagArray)) { data, response, error in
+                if let error = error {
+                    print("Error took place \(error)")
+                    return
+                }
+                
+                if let response = response as? HTTPURLResponse, let data = data {
+                    delegate?.didEditTags(response.statusCode, String(data: data, encoding: .utf8) ?? "", indexPath)
                 }
             }
     }

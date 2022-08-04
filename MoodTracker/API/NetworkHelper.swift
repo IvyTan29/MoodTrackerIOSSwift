@@ -16,7 +16,7 @@ struct NetworkHelper {
                                 jsonData: Data?,
                                 completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
         
-        print(urlString)
+        print("\(httpMethod) \(urlString)")
         if let url = URL(string: urlString) {
             var request = URLRequest(url: url)
             request.httpMethod = httpMethod

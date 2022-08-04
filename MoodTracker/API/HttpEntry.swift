@@ -11,6 +11,8 @@ protocol HttpEntryDelegate : AnyObject {
     func didGetEntries(_ statusCode: Int, _ entries: [MoodLog])
     
     func didAddEntry(_ statusCode: Int, _ entryJsonData: EntryJsonData)
+    
+    func didEditEntry(_ statusCode: Int, _ entryJsonData: EntryJsonData, _ indexPath: IndexPath)
 }
 
 extension HttpEntryDelegate {
@@ -19,6 +21,10 @@ extension HttpEntryDelegate {
     }
     
     func didAddEntry(_ statusCode: Int, _ entryJsonData: EntryJsonData) {
+        // leave empty
+    }
+    
+    func didEditEntry(_ statusCode: Int, _ entryJsonData: EntryJsonData, _ indexPath: IndexPath) {
         // leave empty
     }
 }
@@ -60,6 +66,24 @@ struct HttpEntry {
                 if let response = response as? HTTPURLResponse, let data = data {
                     if let entryJson = decodeAnEntry(data) {
                         delegate?.didAddEntry(response.statusCode, entryJson)
+                    }
+                }
+            }
+    }
+    
+    func putEntryHTTP(_ indexPath: IndexPath, _ entry: MoodLog) {
+        NetworkHelper.performDataTask(
+            urlString: "\(NetworkHelper.BASE_URL)/user/entries/\(moodStore.state.filterMoodList[indexPath.row].id ?? "")",
+            httpMethod: "PUT",
+            jsonData: encodeEntry(entry)) { data, response, error in
+                if let error = error {
+                    print("Error took place \(error)")
+                    return
+                }
+                
+                if let response = response as? HTTPURLResponse, let data = data {
+                    if let entryJson = decodeAnEntry(data) {
+                        delegate?.didEditEntry(response.statusCode, entryJson, indexPath)
                     }
                 }
             }

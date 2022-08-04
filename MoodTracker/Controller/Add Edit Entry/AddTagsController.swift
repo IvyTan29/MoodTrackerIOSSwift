@@ -15,6 +15,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
     
     var indexPath: IndexPath?
     var disposeBag = DisposeBag()
+    var httpTag = HttpTag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,26 +101,33 @@ class AddTagsController : ASDKViewController<AddTagNode> {
                 }
             ).disposed(by: disposeBag)
         
-        var httpTag = HttpTag()
+        self.displayLoadingScreen()
         httpTag.delegate = self
         httpTag.getRecentTagsHttp()
-        httpTag.getTableTagsHttp()
-        
-        // for editing purposes
-        if let indexPath = self.indexPath {
-            moodStore.dispatch(InitializeTagsEditAction(index: indexPath))
-        }
-        
-        self.assignActionForChosenTags()
-        
+    }
+    
+    func displayLoadingScreen() {
+        // LOADING SCREEN
+        let alert = UIAlertController(title: nil, message: "Loading...", preferredStyle: .alert)
+
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.style = UIActivityIndicatorView.Style.medium
+        loadingIndicator.startAnimating();
+
+        alert.view.addSubview(loadingIndicator)
+        self.present(alert, animated: true, completion: nil)
     }
     
     func donePressed() {
+        self.displayLoadingScreen()
+        
         var httpEntry = HttpEntry()
         httpEntry.delegate = self
         
+        print(moodStore.state.editorMood)
         if let indexPath = self.indexPath {
-            moodStore.dispatch(EditMoodAction.init(index: indexPath))
+            httpEntry.putEntryHTTP(indexPath, moodStore.state.editorMood ?? MoodLog())
         } else {
             httpEntry.postEntryHTTP(moodStore.state.editorMood ?? MoodLog())
         }
@@ -225,6 +233,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
             }
         }
     }
+    
 }
 
 // MARK: - StoreSubscriber
@@ -270,6 +279,30 @@ extension AddTagsController : HttpEntryDelegate {
             httpTag.postTagsToUserAndEntryHttp(entryJsonData._id ?? "", newChosen)
         }
     }
+    
+    func didEditEntry(_ statusCode: Int, _ entryJsonData: EntryJsonData, _ indexPath: IndexPath) {
+        if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
+            var newChosen = [TagJsonData]()
+            
+            print("HERE IN ADD TAGS \(moodStore.state.chosenTags)")
+            
+            moodStore.state.chosenTags.forEach({tag in
+                newChosen.append(TagJsonData(_id: nil,
+                                             name: tag.name,
+                                             dateTime: entryJsonData.dateTime,
+                                             moodValue: entryJsonData.moodValue,
+                                             recent: tag.recent))
+            })
+            
+            var httpTag = HttpTag()
+            httpTag.delegate = self
+            httpTag.putTagsToUserAndEntryHttp(entryJsonData._id ?? "", newChosen, indexPath)
+        } else {
+            DispatchQueue.main.async {
+                self.dismiss(animated: false, completion: nil)
+            }
+        }
+    }
 }
 
 // MARK: - HttpTagDelegate
@@ -279,9 +312,7 @@ extension AddTagsController : HttpTagDelegate {
             DispatchQueue.main.async {
                 moodStore.dispatch(InitializeRecentTagAction.init(recentTags: tags))
                 
-                self.node.setRecentTagBtn()
-                self.assignActionForRecentTags()
-                self.node.setMoreTagBtn()
+                self.httpTag.getTableTagsHttp()
             }
         }
     }
@@ -290,12 +321,25 @@ extension AddTagsController : HttpTagDelegate {
         if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
             DispatchQueue.main.async {
                 moodStore.dispatch(InitializeTableTagAction.init(tableTags: tags))
+                
+                // for editing purposes
+                if let indexPath = self.indexPath {
+                    moodStore.dispatch(InitializeTagsEditAction(index: indexPath))
+                    print(moodStore.state.chosenTags)
+                    self.node.setChosenTagButton()
+                    self.assignActionForChosenTags()
+                }
+                
+                self.node.setRecentTagBtn()
+                self.assignActionForRecentTags()
+                self.node.setMoreTagBtn()
+                
+                self.dismiss(animated: false, completion: nil)
             }
         }
     }
     
     func didAddTags(_ statusCode: Int, _ strData: String) {
-        print(statusCode)
         if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
             DispatchQueue.main.async {
                 moodStore.dispatch(EditorTagsAction.init())
@@ -306,11 +350,39 @@ extension AddTagsController : HttpTagDelegate {
                     date: moodStore.state.dateFilter)
                 )
                 
+                self.dismiss(animated: false, completion: nil)
                 self.navigationController?.popToRootViewController(animated: true)
                 self.tabBarController?.tabBar.isHidden = false
             }
         } else {
-            print(strData)
+            DispatchQueue.main.async {
+                print(strData)
+                self.dismiss(animated: false, completion: nil)
+            }
+        }
+    }
+    
+    func didEditTags(_ statusCode: Int, _ strData: String, _ indexPath: IndexPath) {
+        if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
+            DispatchQueue.main.async {
+                print("EDIT TAGS")
+                moodStore.dispatch(EditorTagsAction.init())
+                moodStore.dispatch(EditMoodAction.init(index: indexPath))
+                
+                moodStore.dispatch(FilterMoodAction.init(
+                    dateType: moodStore.state.dateTypeFilter,
+                    date: moodStore.state.dateFilter)
+                )
+                
+                self.dismiss(animated: false, completion: nil)
+                self.navigationController?.popToRootViewController(animated: true)
+                self.tabBarController?.tabBar.isHidden = false
+            }
+        } else {
+            DispatchQueue.main.async {
+                print(strData)
+                self.dismiss(animated: false, completion: nil)
+            }
         }
     }
 }
