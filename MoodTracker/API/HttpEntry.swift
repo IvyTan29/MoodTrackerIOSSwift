@@ -86,22 +86,22 @@ struct HttpEntry {
             decodedData.forEach({ item in
                 
                 do {
-                    let note = try item.entry.note
+                    let note = try item.note
                     
                     moodLogs.append(MoodLog(
-                        id: item.entry._id,
-                        dateTime: DateFormat.ISOToDate(dateStr: item.entry.dateTime),
-                        moodValue: item.entry.moodValue,
-                        tags: item.entry.tags,
+                        id: item._id,
+                        dateTime: DateFormat.ISOToDate(dateStr: item.dateTime),
+                        moodValue: item.moodValue,
+                        tags: self.getTagString(item.tags),
                         note: note)
                     )
                 } catch {
                     print(error)
                     moodLogs.append(MoodLog(
-                        id: item.entry._id,
-                        dateTime: DateFormat.ISOToDate(dateStr: item.entry.dateTime),
-                        moodValue: item.entry.moodValue,
-                        tags: item.entry.tags)
+                        id: item._id,
+                        dateTime: DateFormat.ISOToDate(dateStr: item.dateTime),
+                        moodValue: item.moodValue,
+                        tags: self.getTagString(item.tags))
                     )
                 }
             })
@@ -111,6 +111,16 @@ struct HttpEntry {
             print(error)
             return nil
         }
+    }
+    
+    func getTagString(_ tags: [TagJsonData]) -> Set<String> {
+        var tagStr = Set<String>()
+        
+        tags.forEach({ tagItem in
+            tagStr.insert(tagItem.name)
+        })
+        
+        return tagStr
     }
     
     func encodeEntry(_ moodLog: MoodLog) -> Data? {
@@ -126,7 +136,7 @@ struct HttpEntry {
     
     func decodeAnEntry(_ data: Data) -> String? {
         do {
-            let decodedData = try decoder.decode(Entry.self, from: data)
+            let decodedData = try decoder.decode(EntryJsonData.self, from: data)
             
             return decodedData._id
         } catch {

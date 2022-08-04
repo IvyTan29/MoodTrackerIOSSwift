@@ -38,16 +38,15 @@ struct HttpTag {
                 }
             }
             task.resume()
+        }
     }
     
-        func encodeTagList(_ tagList: [Tag]) -> Data? {
-            do {
-                return try encoder.encode(tagList)
-            } catch {
-                print(error)
-                return nil
-            }
+    func encodeTagList(_ tagList: [Tag]) -> Data? {
+        do {
+            return try encoder.encode(tagList)
+        } catch {
+            print(error)
+            return nil
         }
-    
-    
+    }
 }
