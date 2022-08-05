@@ -19,7 +19,8 @@ struct MoodState {
             tableTags: [],
             dateTypeFilter: .dayControl,
             dateFilter: Date(),
-            insightTags: [:]
+            insightTags: [:],
+            jwtClient: ""
         )
     }
     
@@ -32,6 +33,7 @@ struct MoodState {
     var dateTypeFilter: DateType = .dayControl
     var dateFilter: Date = Date()
     var insightTags = [String: Int]()
+    var jwtClient: String?
 }
 
 var moodStore = Store<MoodState>.init(reducer: moodReducer, state: MoodState.createInitialState())

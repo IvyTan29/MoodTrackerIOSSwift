@@ -68,6 +68,10 @@ struct GetInsightsAction : Action {
     var moodLevel: Float
 }
 
-struct UpdateEntries : Action {
+struct UpdateEntriesAction : Action {
     var entriesArray: [MoodLog]
+}
+
+struct StoreJWTAction : Action {
+    var jwt: String
 }

@@ -47,6 +47,7 @@ class LoginController : ASDKViewController<LoginNode> {
 extension LoginController : HttpUserDelegate {
     func didLogin(_ statusCode: Int, _ strData: String) {
         if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
+            moodStore.dispatch(StoreJWTAction.init(jwt: strData))
             DispatchQueue.main.async {
                 let mainVC = TabBarController()
                 mainVC.modalPresentationStyle = .fullScreen
@@ -60,7 +61,6 @@ extension LoginController : HttpUserDelegate {
 //                self.view.window!.layer.add(transition, forKey: kCATransition)
                 self.present(mainVC, animated: true, completion: nil)
             }
-            
         } else {
             // FIXME: add error message display
             print(strData)

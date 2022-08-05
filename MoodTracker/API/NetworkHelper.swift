@@ -14,6 +14,7 @@ struct NetworkHelper {
     static func performDataTask(urlString: String,
                                 httpMethod: String,
                                 jsonData: Data?,
+                                authorization: String?,
                                 completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
         
         print("\(httpMethod) \(urlString)")
@@ -24,6 +25,10 @@ struct NetworkHelper {
             if let jsonData = jsonData {
                 request.addValue("application/json", forHTTPHeaderField: "content-type")
                 request.httpBody = jsonData
+            }
+            
+            if let jwt = authorization {
+                request.addValue(jwt, forHTTPHeaderField: "authorization")
             }
             
             let task = URLSession.shared.dataTask(with: request, completionHandler: completionHandler)

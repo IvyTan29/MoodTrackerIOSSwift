@@ -209,8 +209,11 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         state?.insightTags = count
         
     
-    case let updateEntries as UpdateEntries:
+    case let updateEntries as UpdateEntriesAction:
         state?.allMoodList = updateEntries.entriesArray
+        
+    case let storeJWT as StoreJWTAction:
+        state?.jwtClient = storeJWT.jwt.replacingOccurrences(of: "\"", with: "")
         
     default:
         break

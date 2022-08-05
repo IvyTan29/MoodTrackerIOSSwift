@@ -45,16 +45,23 @@ struct HttpTag {
         NetworkHelper.performDataTask(
             urlString: "\(NetworkHelper.BASE_URL)/user/recent/tags",
             httpMethod: "GET",
-            jsonData: nil) { data, response, error in
+            jsonData: nil,
+            authorization: moodStore.state.jwtClient) { data, response, error in
                 if let error = error {
                     print("Error took place \(error)")
                     return
                 }
                 
                 if let response = response as? HTTPURLResponse, let data = data {
-                    if let recentTags = decodeTag(data, 1) {
-                        delegate?.didGetRecentTags(response.statusCode, recentTags)
+                    if NetworkHelper.goodStatusResponseCode.contains(response.statusCode) {
+                        if let recentTags = decodeTag(data, 1) {
+                            delegate?.didGetRecentTags(response.statusCode, recentTags)
+                        }
+                    } else {
+                        print(String(data: data, encoding: .utf8))
+//                        self.dismiss(animated: true)
                     }
+                    
                 }
             }
     }
@@ -63,15 +70,21 @@ struct HttpTag {
         NetworkHelper.performDataTask(
             urlString: "\(NetworkHelper.BASE_URL)/user/table/tags",
             httpMethod: "GET",
-            jsonData: nil) { data, response, error in
+            jsonData: nil,
+            authorization: moodStore.state.jwtClient) { data, response, error in
                 if let error = error {
                     print("Error took place \(error)")
                     return
                 }
                 
                 if let response = response as? HTTPURLResponse, let data = data {
-                    if let tableTags = decodeTag(data, 0) {
-                        delegate?.didGetTableTags(response.statusCode, tableTags)
+                    if NetworkHelper.goodStatusResponseCode.contains(response.statusCode) {
+                        if let tableTags = decodeTag(data, 0) {
+                            delegate?.didGetTableTags(response.statusCode, tableTags)
+                        }
+                    } else {
+                        print(String(data: data, encoding: .utf8))
+//                        self.dismiss(animated: true)
                     }
                 }
             }
@@ -81,7 +94,8 @@ struct HttpTag {
         NetworkHelper.performDataTask(
             urlString: "\(NetworkHelper.BASE_URL)/user/entry/\(entryId)/tags",
             httpMethod: "POST",
-            jsonData: encodeTagSet(tagArray)) { data, response, error in
+            jsonData: encodeTagSet(tagArray),
+            authorization: moodStore.state.jwtClient) { data, response, error in
                 if let error = error {
                     print("Error took place \(error)")
                     return
@@ -97,7 +111,8 @@ struct HttpTag {
         NetworkHelper.performDataTask(
             urlString: "\(NetworkHelper.BASE_URL)/user/entry/\(entryId)/tags",
             httpMethod: "PUT",
-            jsonData: encodeTagSet(tagArray)) { data, response, error in
+            jsonData: encodeTagSet(tagArray),
+            authorization: moodStore.state.jwtClient) { data, response, error in
                 if let error = error {
                     print("Error took place \(error)")
                     return

@@ -39,15 +39,21 @@ struct HttpEntry {
         NetworkHelper.performDataTask(
             urlString: "\(NetworkHelper.BASE_URL)/user/entries",
             httpMethod: "GET",
-            jsonData: nil) { data, response, error in
+            jsonData: nil,
+            authorization: moodStore.state.jwtClient) { data, response, error in
+                
                 if let error = error {
                     print("Error took place \(error)")
                     return
                 }
                 
                 if let response = response as? HTTPURLResponse, let data = data {
-                    if let entries = decodeEntries(data) {
-                        delegate?.didGetEntries(response.statusCode, entries)
+                    if NetworkHelper.goodStatusResponseCode.contains(response.statusCode) {
+                        if let entries = decodeEntries(data) {
+                            delegate?.didGetEntries(response.statusCode, entries)
+                        }
+                    } else {
+                        print(String(data: data, encoding: .utf8))
                     }
                 }
             }
@@ -57,15 +63,21 @@ struct HttpEntry {
         NetworkHelper.performDataTask(
             urlString: "\(NetworkHelper.BASE_URL)/user/entries",
             httpMethod: "POST",
-            jsonData: encodeEntry(entry)) { data, response, error in
+            jsonData: encodeEntry(entry),
+            authorization: moodStore.state.jwtClient) { data, response, error in
                 if let error = error {
                     print("Error took place \(error)")
                     return
                 }
                 
                 if let response = response as? HTTPURLResponse, let data = data {
-                    if let entryJson = decodeAnEntry(data) {
-                        delegate?.didAddEntry(response.statusCode, entryJson)
+                    if NetworkHelper.goodStatusResponseCode.contains(response.statusCode) {
+                        if let entryJson = decodeAnEntry(data) {
+                            delegate?.didAddEntry(response.statusCode, entryJson)
+                        }
+                    } else {
+                        print(String(data: data, encoding: .utf8))
+//                        self.dismiss(animated: true)
                     }
                 }
             }
@@ -75,15 +87,21 @@ struct HttpEntry {
         NetworkHelper.performDataTask(
             urlString: "\(NetworkHelper.BASE_URL)/user/entries/\(moodStore.state.filterMoodList[indexPath.row].id ?? "")",
             httpMethod: "PUT",
-            jsonData: encodeEntry(entry)) { data, response, error in
+            jsonData: encodeEntry(entry),
+            authorization: moodStore.state.jwtClient) { data, response, error in
                 if let error = error {
                     print("Error took place \(error)")
                     return
                 }
                 
                 if let response = response as? HTTPURLResponse, let data = data {
-                    if let entryJson = decodeAnEntry(data) {
-                        delegate?.didEditEntry(response.statusCode, entryJson, indexPath)
+                    if NetworkHelper.goodStatusResponseCode.contains(response.statusCode) {
+                        if let entryJson = decodeAnEntry(data) {
+                            delegate?.didEditEntry(response.statusCode, entryJson, indexPath)
+                        }
+                    } else {
+                        print(String(data: data, encoding: .utf8))
+//                        self.dismiss(animated: true)
                     }
                 }
             }

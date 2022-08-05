@@ -280,7 +280,7 @@ extension EntriesController : HttpEntryDelegate {
     func didGetEntries(_ statusCode: Int, _ entries: [MoodLog]) {
         if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
             DispatchQueue.main.async {
-                moodStore.dispatch(UpdateEntries.init(entriesArray: entries))
+                moodStore.dispatch(UpdateEntriesAction.init(entriesArray: entries))
                 moodStore.dispatch(FilterMoodAction.init(dateType: .dayControl, date: Date()))
                 
                 self.dismiss(animated: false, completion: nil)

@@ -33,7 +33,8 @@ struct HttpUser {
         NetworkHelper.performDataTask(
             urlString: "\(NetworkHelper.BASE_URL)/user",
             httpMethod: "POST",
-            jsonData: encodeUser(user)) { data, response, error in
+            jsonData: encodeUser(user),
+            authorization: nil) { data, response, error in
                 if let error = error {
                     print("Error took place \(error)")
                     return
@@ -50,7 +51,8 @@ struct HttpUser {
         NetworkHelper.performDataTask(
             urlString: "\(NetworkHelper.BASE_URL)/user/login",
             httpMethod: "POST",
-            jsonData: encodeLogin(login)) { data, response, error in
+            jsonData: encodeLogin(login),
+            authorization: nil) { data, response, error in
                 if let error = error {
                     print("Error took place \(error)")
                     return
