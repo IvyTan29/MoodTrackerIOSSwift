@@ -166,11 +166,11 @@ class AddTagNode : ASDisplayNode {
         self.chosenTagBtns = []
         
         for chosenTag in moodStore.state.chosenTags {
-            self.chosenTagBtns.append(createChosenTagBtn(chosenTag.name))
+            self.chosenTagBtns.append(createChosenTagBtn(chosenTag.name, chosenTag.recent))
         }
     }
     
-    func createChosenTagBtn(_ string: String) -> ASCustomButton {
+    func createChosenTagBtn(_ string: String, _ recent: Int) -> ASCustomButton {
         let tempTagBtn = ASCustomButton()
         tempTagBtn.setAttributedTitle(NSAttributedString(string: string, attributes: AttributesFormat.tagPickBtnAttr), for: .selected)
         tempTagBtn.setAttributedTitle(NSAttributedString(string: string, attributes: AttributesFormat.tagPickBtnAttr), for: .normal)
@@ -180,6 +180,7 @@ class AddTagNode : ASDisplayNode {
         tempTagBtn.cornerRadius = 20
         tempTagBtn.contentEdgeInsets = UIEdgeInsets(top: 5, left: 30, bottom: 5, right: 30)
         //        tempTagBtn.isSelected = true
+        tempTagBtn.view.tag = recent
         
         return tempTagBtn
     }

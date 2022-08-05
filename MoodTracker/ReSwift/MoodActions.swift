@@ -22,6 +22,9 @@ struct EditorNoteAction : Action {
     var index: IndexPath?
 }
 
+struct EditorIdAction : Action {
+    var id: String
+}
 
 struct InitializeRecentTagAction : Action {
     var recentTags: Set<Tag>

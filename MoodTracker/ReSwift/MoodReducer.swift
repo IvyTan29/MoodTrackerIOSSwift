@@ -28,6 +28,9 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
             state?.allMoodList[index.row].note = editorNoteAction.note
         }
         
+    case let editorIdAction as EditorIdAction:
+        state?.editorMood?.id = editorIdAction.id
+        
         
     case let initRecentTagAction as InitializeRecentTagAction:
         state?.recentTags = initRecentTagAction.recentTags
@@ -48,7 +51,13 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         
         
     case let deleteTagAction as DeleteTagAction:
+        print("REDUCER \(state?.chosenTags)")
+        print(deleteTagAction.tag)
         state?.chosenTags.remove(deleteTagAction.tag)
+        
+        let removedChosenTags = state?.chosenTags.filter { $0.name != deleteTagAction.tag.name}
+        state?.chosenTags = removedChosenTags ?? []
+        print("REDUCER \(state?.chosenTags)")
         
         if deleteTagAction.tag.recent == 1 {
             state?.recentTags.insert(deleteTagAction.tag)
