@@ -14,43 +14,18 @@ const entryCtrl = {
                   }
             })
             .then(result => {
-                if (result.entries.length === 0) {
-                    res.status(404).send('Entries not found');
-                } else {
-                    res.status(200).json(result.entries)
-                }
+                res.status(200).json(result.entries)
             })
             .catch(err => {
                 console.log(err)
-                res.status(404).send('Entries not found');
+                res.status(400).send(err.message);
             });
-        // User.aggregate([
-        //         {$match: { $expr : { $eq: ['$_id' , { $toObjectId: req.session.userId }] } }},
-        //         {$lookup: { 
-        //         localField: 'entries', 
-        //         from: 'Entry', 
-        //         foreignField: '_id', 
-        //         as: 'entry' 
-        //         }},
-        //         {$unwind: "$entry"},
-        //         {$project: {entry: 1, _id: 0}}
-        //     ])
-        //     .then(listEntries => {
-        //         console.log(listEntries)
-        
-        //         if (listEntries.length === 0) {
-        //             res.status(404).send('Entries not found');
-        //         } else {
-        //             res.status(200).json(listEntries)
-        //         }
-        //     })
-        //     .catch(err => {
-        //         console.log(err)
-        //         res.status(404).send('Entries not found');
-        //     });
     },
 
-    getEntriesDay: (req, res) => {
+    getEntriesWithDateRange: (req, res) => {
+        console.log(req.query.fromDate)
+        console.log(req.query.toDate)
+
         User.findById(req.session.userId)
             .populate({
                 path: 'entries',
@@ -61,21 +36,21 @@ const entryCtrl = {
                 match: {
                     'dateTime': {
                         $gte: req.query.fromDate, 
-                        $lt: req.query.toDate 
+                        $lt: req.query.toDate
+                    }
+                },
+                options: {
+                    sort: {
+                        'entries.dateTime': 'desc'
                     }
                 }
             })
             .then(result => {
-                if (result.entries.length === 0) {
-                    res.status(404).send('Entries not found');
-                } else {
-                    return res.status(200).
-                    res.status(200).json(result.entries)
-                }
+                res.status(200).json(result.entries)
             })
             .catch(err => {
                 console.log(err)
-                res.status(404).send('Entries not found');
+                res.status(400).send(err.message);
             });
     },
 

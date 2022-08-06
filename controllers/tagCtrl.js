@@ -3,34 +3,7 @@ import { Entry } from '../model/Entry.js';
 import { Tag } from '../model/Tag.js';
 
 const tagCtrl = {
-    // FIXME: edit it to insights
-    getTagsOfUser: (req, res) => {
-        User.aggregate([
-                {$match: { $expr : { $eq: ['$_id' , { $toObjectId: req.session.userId }] } }},
-                {$lookup: { 
-                localField: 'tags', 
-                from: 'Tag', 
-                foreignField: '_id', 
-                as: 'tag' 
-                }},
-                {$unwind: "$tag"},
-                {$project: {tag: 1, _id: 0}}
-            ])
-            .then(listTags => {
-                console.log(listTags)
-        
-                if (listTags.length === 0) {
-                    res.status(404).error('Tags not found');
-                } else {
-                    res.status(200).json(listTags)
-                }
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(404).send('Tags not found');
-            });
-    },
-
+    
     getRecentTags: (req, res) => {
         Tag.aggregate([
             {$match: { "recent": 1}},
@@ -67,33 +40,125 @@ const tagCtrl = {
         });
     },
 
+    getInsightTags: (req, res) => {
+        User.aggregate([
+            {$match: { 
+                $expr : { 
+                    $eq: ['$_id' , { $toObjectId: req.session.userId }] 
+                } 
+            }},
+            {$lookup: { 
+                localField: 'tags', 
+                from: 'Tag', 
+                foreignField: '_id', 
+                as: 'tag' 
+            }},
+            {$unwind: "$tag"},
+            {$project: {
+                name: "$tag.name", 
+                dateTime: "$tag.dateTime", 
+                moodValue: "$tag.moodValue"
+            }},
+            {$match: {
+                $and: [
+                    {moodValue: { 
+                        $eq: req.query.moodValue
+                    }},
+                    {dateTime: {
+                        $gte: req.query.fromDate, 
+                        $lt: req.query.toDate
+                    }}
+                ]
+            }},
+            {$group: {
+                _id: "$name", 
+                count: {$sum: 1}
+            }}
+        ])
+        .then(listTags => {
+            console.log(listTags)
+
+            res.status(200).json(listTags)
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(404).send('Tags not found');
+        });
+    },
+
+    postTagToEntryAndUser: (req, res) => {
+        let arrayIds
+
+        Tag.insertMany(
+                req.body
+            )
+            .then(tagDocs => {
+                arrayIds = tagDocs.map( tagItem => { return tagItem._id })
+                return User.findByIdAndUpdate(
+                        req.session.userId,
+                        {$push: {
+                            "tags": {
+                                $each: arrayIds
+                            }
+                        }}
+                    ) 
+            })
+            .then(userDoc => {
+                return Entry.findByIdAndUpdate(
+                    req.params.entryId,
+                    {"tags": arrayIds}
+                ) 
+            })
+            .then(entryDoc => {
+                res.status(200).send("Tag Array Updated")
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(404).send(err.message);
+            })
+    },
+
     putTags: (req, res) => {
+        let tagsInEntry, arrayIds
+
         Entry.findById(req.params.entryId)
             .then(entryDoc => {
-                console.log(entryDoc.tags)
+                tagsInEntry = entryDoc.tags
 
                 return Tag.deleteMany(
                     {_id: {$in: entryDoc.tags}}
                 )
             })
             .then(deletedTags => {
+                console.log(tagsInEntry)
+                return User.findByIdAndUpdate(
+                        req.session.userId,
+                        {$pullAll: {
+                            "tags": tagsInEntry
+                        }}
+                ) 
+            })
+            .then(userDocDeletedTag => {
                 return Tag.insertMany(
                     req.body
                 )
             })
             .then(tagDocs => {
-                let arrayIds = tagDocs.map( tagItem => { return tagItem._id })
+                arrayIds = tagDocs.map( tagItem => { return tagItem._id })
 
                 return User.findByIdAndUpdate(
                         req.session.userId,
-                        {"tags": arrayIds},
-                        { new: true }
+                        {$push: {
+                            "tags": {
+                                $each: arrayIds
+                            }
+                        }}
                     ) 
             })
             .then(userDoc => {
                 return Entry.findByIdAndUpdate(
                     req.params.entryId,
-                    {"tags": userDoc.tags}
+                    {"tags": arrayIds}
                 ) 
             })
             .then(secondEntryDoc => {
@@ -105,48 +170,37 @@ const tagCtrl = {
             })
     },
 
-    postTagToEntryAndUser: (req, res) => {
-        Tag.insertMany(
-                req.body
-            )
-            .then(tagDocs => {
-                let arrayIds = tagDocs.map( tagItem => { return tagItem._id })
 
-                return User.findByIdAndUpdate(
-                        req.session.userId,
-                        {"tags": arrayIds},
-                        { new: true }
-                    ) 
-            })
-            .then(userDoc => {
-                return Entry.findByIdAndUpdate(
-                    req.params.entryId,
-                    {"tags": userDoc.tags}
-                ) 
-            })
-            .then(entryDoc => {
-                res.status(200).send("Tag Array Updated")
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(404).send(err.message);
-            })
-    },
+
+
+
+
 
     // NOT NEEDED IN OUR APP
     getOneTagOfUser: (req, res) => {
         User.aggregate([
-                {$match: { $expr : { $eq: ['$_id' , { $toObjectId: req.session.userId }] } }},
+                {$match: { 
+                    $expr : { 
+                        $eq: ['$_id' , { $toObjectId: req.session.userId }] 
+                    } 
+                }},
                 {$unwind: "$tags"},
-                {$match: { $expr : { $eq: ['$tags' , { $toObjectId: req.params.tagId }] } }},
+                {$match: { 
+                    $expr : { 
+                        $eq: ['$tags' , { $toObjectId: req.params.tagId }] 
+                    } 
+                }},
                 {$lookup: { 
-                localField: 'tags', 
-                from: 'Tag', 
-                foreignField: '_id', 
-                as: 'tag' 
+                    localField: 'tags', 
+                    from: 'Tag', 
+                    foreignField: '_id', 
+                    as: 'tag' 
                 }},
                 {$unwind: "$tag"},
-                {$project: {tag: 1, _id: 0}}
+                {$project: {
+                    tag: 1, 
+                    _id: 0
+                }}
             ])
             .then(listTags => {
                 if (listTags.length === 0) {

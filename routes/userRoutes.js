@@ -16,9 +16,11 @@ router.get('/entries', authenticate, entryCtrl.getEntriesOfUser);
 router.post('/entries', authenticate, entryCtrl.postEntry);
 // router.get('/entries/:entryId', authenticate, entryCtrl.getOneEntryOfUser);
 router.put('/entries/:entryId', authenticate, entryCtrl.putEntry);
+router.get('/entries/dateRange', authenticate, entryCtrl.getEntriesWithDateRange);
 // router.delete('/entries/:entryId', authenticate, entryCtrl.deleteEntry);
 
-router.get('/tags', authenticate, tagCtrl.getTagsOfUser);
+// router.get('/tags', authenticate, tagCtrl.getTagsOfUser);
+router.get('/insight/tags', authenticate, tagCtrl.getInsightTags)
 router.get('/recent/tags', authenticate, tagCtrl.getRecentTags);
 router.get('/table/tags', authenticate, tagCtrl.getTableTags);
 // router.post('/tags', authenticate, tagCtrl.postTag);

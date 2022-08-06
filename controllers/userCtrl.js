@@ -9,11 +9,10 @@ const userCtrl = {
                 {email: req.body.email, password: req.body.password}
             )
             .then(userDoc => {
-                console.log(userDoc)
                 if (userDoc != null) {
 		            req.session.userId = userDoc._id
                     
-                    var token = jwt.sign({ userId: userDoc._id}, process.env.SECRET_KEY , {expiresIn: '2h'});
+                    var token = jwt.sign({ userId: userDoc._id}, process.env.SECRET_KEY , {expiresIn: '1d'});
 
                     res.status(200).json(token)
                 } else {
@@ -60,9 +59,9 @@ const userCtrl = {
             .then(userDoc => {
                 console.log("New user created sucessfully!")
                 
-		        req.session.userId = userDoc._id;
-                console.log(req.session.userId)
-                res.status(201).json(userDoc)
+                var token = jwt.sign({ userId: userDoc._id}, process.env.SECRET_KEY , {expiresIn: '1d'});
+
+                res.status(201).json(token)
             })
             .catch(err => {
                 console.log(err)

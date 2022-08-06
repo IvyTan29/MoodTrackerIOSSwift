@@ -2,9 +2,7 @@ import mongoose from 'mongoose';
 
 const entrySchema = new mongoose.Schema({ 
     dateTime: {
-        type: Date, 
-        default: () => Date.now()
-        // immutable: true
+        type: Number
     }, 
     moodValue: {
         type: Number,

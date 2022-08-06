@@ -7,8 +7,7 @@ const tagSchema = new mongoose.Schema({
         maxlength: 50
     },
     dateTime: {
-        type: Date,
-        default: () => Date.now(), 
+        type: Number
     },
     moodValue: {
         type: Number
