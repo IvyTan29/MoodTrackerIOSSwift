@@ -60,29 +60,28 @@ struct HttpEntry {
     }
     
     func getEntriesWithDateRangeHTTP(dateType: DateType, fromDate: Date) {
-        let fromDateStr = DateFormat.ISOToString(date: fromDate)
+        let fromDateMS = fromDate.timeIntervalSince1970
+        let oneDayMS = 24*60*60*1.0
         
-        let toDate = { () -> Date in 
+        let toDateMS = { () -> Double in
             switch dateType {
             case .dayControl:
-                return fromDate.advanced(by: 24*60*60)
+                return fromDateMS + oneDayMS
             case .weekControl:
-                return fromDate.advanced(by: 7*24*60*60)
+                return fromDateMS + 7 * oneDayMS
             case .monthControl:
                 var  comp = DateComponents()
                 comp.month = 1
                 comp.day = -1
                 var temp = Calendar.current.date(byAdding: comp, to: fromDate) ?? Date()
-                return temp.advanced(by: 24*60*60)
+                return temp.advanced(by: oneDayMS).timeIntervalSince1970
             default:
-                return fromDate
+                return fromDateMS
             }
         }()
         
-        let toDateStr = DateFormat.ISOToString(date: toDate)
-        
         NetworkHelper.performDataTask(
-            urlString: "\(NetworkHelper.BASE_URL)/user/entries/dateRange?fromDate=\(fromDateStr)&toDate=\(toDateStr)",
+            urlString: "\(NetworkHelper.BASE_URL)/user/entries/dateRange?fromDate=\(fromDateMS)&toDate=\(toDateMS)",
             httpMethod: "GET",
             jsonData: nil,
             authorization: moodStore.state.jwtClient) { data, response, error in
@@ -165,7 +164,7 @@ struct HttpEntry {
                     
                     moodLogs.append(MoodLog(
                         id: item._id,
-                        dateTime: DateFormat.ISOToDate(dateStr: item.dateTime),
+                        dateTime: item.dateTime,
                         moodValue: item.moodValue,
                         tags: self.getTagSet(item.tags),
                         note: note)
@@ -174,7 +173,7 @@ struct HttpEntry {
                     print(error)
                     moodLogs.append(MoodLog(
                         id: item._id,
-                        dateTime: DateFormat.ISOToDate(dateStr: item.dateTime),
+                        dateTime: item.dateTime,
                         moodValue: item.moodValue,
                         tags: self.getTagSet(item.tags))
                     )

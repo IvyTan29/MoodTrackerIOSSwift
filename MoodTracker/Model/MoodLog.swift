@@ -9,7 +9,7 @@ import Foundation
 
 struct MoodLog : Codable {
     var id: String?
-    var dateTime: Date?
+    var dateTime: Double?
     var moodValue: Float?
     var tags: Set<Tag>?
     var note: String?

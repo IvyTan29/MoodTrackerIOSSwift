@@ -14,7 +14,7 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
 
     switch action {
     case let editorDateLevelAction as EditorDateLevelAction:
-        state?.editorMood?.dateTime = editorDateLevelAction.dateTime
+        state?.editorMood?.dateTime = editorDateLevelAction.dateTime 
         state?.editorMood?.moodValue = editorDateLevelAction.moodValue
         
     case let editorTagsAction as EditorTagsAction:
@@ -99,11 +99,11 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
             
         } else if (state?.dateTypeFilter == .monthControl &&
                     Calendar.current.isDate(
-                        state?.editorMood?.dateTime ?? Date(),
+                        Date(timeIntervalSince1970: state?.editorMood?.dateTime ?? Date().timeIntervalSince1970),
                         equalTo: state?.dateFilter ?? Date(),
                         toGranularity: .month) &&
                     Calendar.current.isDate(
-                        state?.editorMood?.dateTime ?? Date(),
+                        Date(timeIntervalSince1970: state?.editorMood?.dateTime ?? Date().timeIntervalSince1970),
                         equalTo: state?.dateFilter ?? Date(),
                         toGranularity: .year)) {
             
@@ -113,7 +113,7 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
             state?.filterMoodList.append(moodLog)
             
         } else if (Calendar.current.isDate(
-            state?.editorMood?.dateTime ?? Date(),
+            Date(timeIntervalSince1970: state?.editorMood?.dateTime ?? Date().timeIntervalSince1970),
             equalTo: state?.dateFilter ?? Date(),
             toGranularity: granularity)) {
             

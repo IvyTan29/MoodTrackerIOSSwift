@@ -22,6 +22,8 @@ class EntriesController : ASDKViewController<EntriesNode> {
     
     var httpEntry = HttpEntry()
     
+    let alert = UIAlertController(title: nil, message: "Loading...", preferredStyle: .alert)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -53,6 +55,7 @@ class EntriesController : ASDKViewController<EntriesNode> {
         
         // Calendar Segment Control
         (self.node.calendarSegmentControl.view as? UISegmentedControl)?.rx.selectedSegmentIndex
+            .skip(1)
             .subscribe(
                 onNext: { [unowned self] index in
                     self.displayLoadingScreen()
@@ -83,11 +86,15 @@ class EntriesController : ASDKViewController<EntriesNode> {
         
         // Day Date Picker
         (self.node.dayDatePicker.view as? UIDatePicker)?.rx.date
+            .skip(2)
             .distinctUntilChanged()
             .subscribe(
                 onNext: { date in
-                    self.dismiss(animated: true) // dismiss date picker
-                    self.displayLoadingScreen()
+                    print(date)
+                    self.dismiss(animated: true)
+//                    self.view.endEditing(true)
+//                    (self.node.dayDatePicker.view as? UIDatePicker)?.dismiss(animated: true) // dismiss date picker
+//                    self.displayLoadingScreen()
                     
                     let newDate = Calendar.current.startOfDay(for: date)
                     
@@ -97,6 +104,7 @@ class EntriesController : ASDKViewController<EntriesNode> {
         
         // Week Picker
         self.node.weekPicker.rxTap
+            .skip(1)
             .subscribe(
                 onNext: { [unowned self] tap in
                     let vc = WeekTableController(node: WeekTableNode())
@@ -121,7 +129,7 @@ class EntriesController : ASDKViewController<EntriesNode> {
         // select the latest month
         (self.node.monthPicker.view as? UIPickerView)?.selectRow(self.months.count - 1, inComponent: 0, animated: true)
         
-        self.displayLoadingScreen()
+//        self.displayLoadingScreen()
         
         httpEntry.delegate = self
         httpEntry.getEntriesWithDateRangeHTTP(dateType: .dayControl, fromDate: Date())
@@ -132,8 +140,6 @@ class EntriesController : ASDKViewController<EntriesNode> {
     }
     
     func displayLoadingScreen() {
-        let alert = UIAlertController(title: nil, message: "Loading...", preferredStyle: .alert)
-
         let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
         loadingIndicator.hidesWhenStopped = true
         loadingIndicator.style = UIActivityIndicatorView.Style.medium
@@ -157,7 +163,12 @@ extension EntriesController : ASTableDataSource {
         
         cell.designCell()
         
-        cell.timeLabel.attributedText = NSAttributedString(string: DateFormat.dateFormatToString(format: "h:mm a", date: moodStore.state.filterMoodList[indexPath.row].dateTime ?? Date()), attributes: AttributesFormat.timeLabelAttr)
+        cell.timeLabel.attributedText = NSAttributedString(
+            string: DateFormat.dateFormatToString(
+                format: "h:mm a",
+                date: Date(timeIntervalSince1970: moodStore.state.filterMoodList[indexPath.row].dateTime ?? Date().timeIntervalSince1970)),
+            attributes: AttributesFormat.timeLabelAttr
+        )
         (cell.moodSlider.view as? UISlider)?.value = moodStore.state.filterMoodList[indexPath.row].moodValue ?? 0
         
         if entryNote != nil || !(entryNote?.isEmpty ?? true) {
@@ -297,14 +308,13 @@ extension EntriesController : HttpEntryDelegate {
     func didGetEntries(_ statusCode: Int, _ entries: [MoodLog], _ dateType: DateType, _ fromDate: Date) {
         if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
             DispatchQueue.main.async {
-                print("HEY WENT IN THE DELEGATE")
                 moodStore.dispatch(UpdateEntriesAction.init(
                     entriesArray: entries,
                     dateType: dateType,
                     date: fromDate
                 ))
                 
-                self.dismiss(animated: true, completion: nil)
+                self.alert.dismiss(animated: true, completion: nil)
             }
         }
     }

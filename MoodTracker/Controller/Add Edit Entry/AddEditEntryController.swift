@@ -51,7 +51,10 @@ class AddEditEntryController : ASDKViewController<AddEditEntryNode> {
     }
     
     func nextPressed() {
-        moodStore.dispatch(EditorDateLevelAction.init(dateTime: (self.node.dateTimePicker.view as? UIDatePicker)?.date ?? Date(), moodValue: (self.node.moodSlider.view as? UISlider)?.value ?? 0))
+        moodStore.dispatch(EditorDateLevelAction.init(
+            dateTime: (self.node.dateTimePicker.view as? UIDatePicker)?.date.timeIntervalSince1970 ?? Date().timeIntervalSince1970,
+            moodValue: (self.node.moodSlider.view as? UISlider)?.value ?? 0
+        ))
         
         let editorTag = AddTagsController(node: AddTagNode())
         
@@ -70,7 +73,7 @@ class AddEditEntryController : ASDKViewController<AddEditEntryNode> {
         self.indexPath = indexPath
         
         // assign values
-        (self.node.dateTimePicker.view as? UIDatePicker)?.date = moodStore.state.filterMoodList[indexPath.row].dateTime ?? Date()
+        (self.node.dateTimePicker.view as? UIDatePicker)?.date = Date(timeIntervalSince1970: moodStore.state.filterMoodList[indexPath.row].dateTime ?? Date().timeIntervalSince1970)
         (self.node.moodSlider.view as? UISlider)?.value = moodStore.state.filterMoodList[indexPath.row].moodValue ?? 50
     }
     

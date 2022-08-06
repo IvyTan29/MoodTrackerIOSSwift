@@ -9,7 +9,7 @@ import Foundation
 import ReSwift
 
 struct EditorDateLevelAction : Action {
-    var dateTime: Date
+    var dateTime: Double
     var moodValue: Float
 }
 
