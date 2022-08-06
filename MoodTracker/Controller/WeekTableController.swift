@@ -24,6 +24,18 @@ class WeekTableController : ASDKViewController<WeekTableNode> {
         self.node.weeksTable.delegate = self
         self.node.weeksTable.dataSource = self
     }
+    
+    func displayLoadingScreen() {
+        let alert = UIAlertController(title: nil, message: "Loading...", preferredStyle: .alert)
+
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.style = UIActivityIndicatorView.Style.medium
+        loadingIndicator.startAnimating();
+
+        alert.view.addSubview(loadingIndicator)
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 // MARK: - ASTableDataSource
@@ -48,9 +60,30 @@ extension WeekTableController : ASTableDataSource {
 // MARK: - ASTableDelegate
 extension WeekTableController : ASTableDelegate {
     func tableNode(_ tableNode: ASTableNode, didSelectRowAt indexPath: IndexPath) {
-        moodStore.dispatch(FilterMoodAction.init(dateType: .weekControl,
-                                                 date: self.weeks[indexPath.row].from))
         self.delegate?.didSelectWeek(from: self.weeks[indexPath.row].from, to: self.weeks[indexPath.row].to, weekIndex: indexPath.row)
         self.dismiss(animated: true)
+        
+        self.displayLoadingScreen()
+        
+        var httpEntry = HttpEntry()
+        httpEntry.delegate = self
+        httpEntry.getEntriesWithDateRangeHTTP(dateType: .weekControl, fromDate: self.weeks[indexPath.row].from)
+    }
+}
+
+// MARK: - HttpEntryDelegate
+extension WeekTableController : HttpEntryDelegate {
+    func didGetEntries(_ statusCode: Int, _ entries: [MoodLog], _ dateType: DateType, _ fromDate: Date) {
+        if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
+            DispatchQueue.main.async {
+                moodStore.dispatch(UpdateEntriesAction.init(
+                    entriesArray: entries,
+                    dateType: dateType,
+                    date: fromDate
+                ))
+                
+                self.dismiss(animated: false, completion: nil)
+            }
+        }
     }
 }

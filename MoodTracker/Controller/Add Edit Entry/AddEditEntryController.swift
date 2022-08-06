@@ -70,8 +70,8 @@ class AddEditEntryController : ASDKViewController<AddEditEntryNode> {
         self.indexPath = indexPath
         
         // assign values
-        (self.node.dateTimePicker.view as? UIDatePicker)?.date = moodStore.state.allMoodList[indexPath.row].dateTime ?? Date()
-        (self.node.moodSlider.view as? UISlider)?.value = moodStore.state.allMoodList[indexPath.row].moodValue ?? 50
+        (self.node.dateTimePicker.view as? UIDatePicker)?.date = moodStore.state.filterMoodList[indexPath.row].dateTime ?? Date()
+        (self.node.moodSlider.view as? UISlider)?.value = moodStore.state.filterMoodList[indexPath.row].moodValue ?? 50
     }
     
 }

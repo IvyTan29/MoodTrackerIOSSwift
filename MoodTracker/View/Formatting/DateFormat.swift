@@ -41,4 +41,15 @@ struct DateFormat {
         
         return iSO8601DateFormatter.date(from: dateStr) ?? Date()
     }
+    
+    static func ISOToString(date: Date) -> String {
+        iSO8601DateFormatter.formatOptions = [
+            .withFullDate,
+            .withTime,
+            .withDashSeparatorInDate,
+            .withColonSeparatorInTime
+        ]
+        
+        return iSO8601DateFormatter.string(from: date)
+    }
 }

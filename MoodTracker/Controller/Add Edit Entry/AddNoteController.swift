@@ -62,7 +62,7 @@ class AddNoteController: ASDKViewController<AddNoteNode> {
         // assign value
         if let safeIndexPath = self.indexPath {
             if self.noteOperation == .edit {
-                self.node.noteTextView.textView.text = moodStore.state.allMoodList[safeIndexPath.row].note
+                self.node.noteTextView.textView.text = moodStore.state.filterMoodList[safeIndexPath.row].note
             }
            
             if self.noteOperation == .display {

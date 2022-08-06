@@ -20,6 +20,8 @@ class EntriesController : ASDKViewController<EntriesNode> {
     var monthIndex: Int = 11
     var weekIndex: Int = 51
     
+    var httpEntry = HttpEntry()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -53,26 +55,28 @@ class EntriesController : ASDKViewController<EntriesNode> {
         (self.node.calendarSegmentControl.view as? UISegmentedControl)?.rx.selectedSegmentIndex
             .subscribe(
                 onNext: { [unowned self] index in
+                    self.displayLoadingScreen()
+                    
                     switch index {
                     case 0:
                         self.node.dateType = .dayControl
-                        moodStore.dispatch(FilterMoodAction.init(dateType: self.node.dateType,
-                                                                 date: (self.node.dayDatePicker.view as? UIDatePicker)?.date))
+                        self.httpEntry.getEntriesWithDateRangeHTTP(
+                            dateType: self.node.dateType,
+                            fromDate: (self.node.dayDatePicker.view as? UIDatePicker)?.date ?? Date()
+                        )
                         
                     case 1:
                         self.node.dateType = .weekControl
-                        moodStore.dispatch(FilterMoodAction.init(dateType: self.node.dateType,
-                                                                 date: self.weeks[self.weekIndex].from))
+                        self.httpEntry.getEntriesWithDateRangeHTTP(dateType: self.node.dateType, fromDate: self.weeks[self.weekIndex].from)
                         
                     case 2:
                         self.node.dateType = .monthControl
-                        moodStore.dispatch(FilterMoodAction.init(dateType: self.node.dateType,
-                                                                 date: self.months[self.monthIndex]))
+                        self.httpEntry.getEntriesWithDateRangeHTTP(dateType: self.node.dateType, fromDate: self.months[self.monthIndex])
+
                         
                     default:
                         self.node.dateType = .allControl
-                        moodStore.dispatch(FilterMoodAction.init(dateType: self.node.dateType))
-                        
+                        self.httpEntry.getEntriesOfUserHTTP(dateType: self.node.dateType, fromDate: Date())
                     }
                 }
             ).disposed(by: disposeBag)
@@ -82,8 +86,12 @@ class EntriesController : ASDKViewController<EntriesNode> {
             .distinctUntilChanged()
             .subscribe(
                 onNext: { date in
-                    moodStore.dispatch(FilterMoodAction.init(dateType: .dayControl,
-                                                             date: date))
+                    self.dismiss(animated: true) // dismiss date picker
+                    self.displayLoadingScreen()
+                    
+                    let newDate = Calendar.current.startOfDay(for: date)
+                    
+                    self.httpEntry.getEntriesWithDateRangeHTTP(dateType: .dayControl, fromDate: newDate)
                 }
             ).disposed(by: disposeBag)
         
@@ -113,6 +121,17 @@ class EntriesController : ASDKViewController<EntriesNode> {
         // select the latest month
         (self.node.monthPicker.view as? UIPickerView)?.selectRow(self.months.count - 1, inComponent: 0, animated: true)
         
+        self.displayLoadingScreen()
+        
+        httpEntry.delegate = self
+        httpEntry.getEntriesWithDateRangeHTTP(dateType: .dayControl, fromDate: Date())
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+    }
+    
+    func displayLoadingScreen() {
         let alert = UIAlertController(title: nil, message: "Loading...", preferredStyle: .alert)
 
         let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
@@ -122,10 +141,6 @@ class EntriesController : ASDKViewController<EntriesNode> {
 
         alert.view.addSubview(loadingIndicator)
         self.present(alert, animated: true, completion: nil)
-        
-        var httpEntry = HttpEntry()
-        httpEntry.delegate = self
-        httpEntry.getEntriesOfUserHTTP()
     }
 }
 
@@ -256,8 +271,10 @@ extension EntriesController : UIPickerViewDataSource, UIPickerViewDelegate {
     
     // when a row in the picker is selected
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        moodStore.dispatch(FilterMoodAction.init(dateType: .monthControl,
-                                                 date: months[row]))
+        self.displayLoadingScreen()
+        
+        httpEntry.getEntriesWithDateRangeHTTP(dateType: .monthControl, fromDate: months[row])
+
         self.monthIndex = row
     }
 }
@@ -277,13 +294,17 @@ extension EntriesController : WeekTableControllerDelegate {
 
 // MARK: - HttpEntryDelegate
 extension EntriesController : HttpEntryDelegate {
-    func didGetEntries(_ statusCode: Int, _ entries: [MoodLog]) {
+    func didGetEntries(_ statusCode: Int, _ entries: [MoodLog], _ dateType: DateType, _ fromDate: Date) {
         if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
             DispatchQueue.main.async {
-                moodStore.dispatch(UpdateEntriesAction.init(entriesArray: entries))
-                moodStore.dispatch(FilterMoodAction.init(dateType: .dayControl, date: Date()))
+                print("HEY WENT IN THE DELEGATE")
+                moodStore.dispatch(UpdateEntriesAction.init(
+                    entriesArray: entries,
+                    dateType: dateType,
+                    date: fromDate
+                ))
                 
-                self.dismiss(animated: false, completion: nil)
+                self.dismiss(animated: true, completion: nil)
             }
         }
     }

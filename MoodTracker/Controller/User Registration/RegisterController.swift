@@ -49,9 +49,11 @@ class RegisterController : ASDKViewController<RegisterNode> {
 
 extension RegisterController : HttpUserDelegate {
     func didRegister(_ statusCode: Int, _ strData: String) {
-        print(statusCode)
         if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
+            
             DispatchQueue.main.async {
+                moodStore.dispatch(StoreJWTAction.init(jwt: strData))
+                
                 let mainVC = TabBarController()
                 mainVC.modalPresentationStyle = .fullScreen
                 

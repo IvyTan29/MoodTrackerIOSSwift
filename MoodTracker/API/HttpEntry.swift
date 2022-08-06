@@ -8,7 +8,7 @@
 import Foundation
 
 protocol HttpEntryDelegate : AnyObject {
-    func didGetEntries(_ statusCode: Int, _ entries: [MoodLog])
+    func didGetEntries(_ statusCode: Int, _ entries: [MoodLog], _ dateType: DateType, _ fromDate: Date)
     
     func didAddEntry(_ statusCode: Int, _ entryJsonData: EntryJsonData)
     
@@ -16,7 +16,7 @@ protocol HttpEntryDelegate : AnyObject {
 }
 
 extension HttpEntryDelegate {
-    func didGetEntries(_ statusCode: Int, _ entries: [MoodLog]) {
+    func didGetEntries(_ statusCode: Int, _ entries: [MoodLog], _ dateType: DateType, _ fromDate: Date) {
         // leave empty
     }
     
@@ -35,7 +35,7 @@ struct HttpEntry {
     
     weak var delegate: HttpEntryDelegate?
     
-    func getEntriesOfUserHTTP() {
+    func getEntriesOfUserHTTP(dateType: DateType, fromDate: Date) {
         NetworkHelper.performDataTask(
             urlString: "\(NetworkHelper.BASE_URL)/user/entries",
             httpMethod: "GET",
@@ -50,7 +50,52 @@ struct HttpEntry {
                 if let response = response as? HTTPURLResponse, let data = data {
                     if NetworkHelper.goodStatusResponseCode.contains(response.statusCode) {
                         if let entries = decodeEntries(data) {
-                            delegate?.didGetEntries(response.statusCode, entries)
+                            delegate?.didGetEntries(response.statusCode, entries, dateType, fromDate)
+                        }
+                    } else {
+                        print(String(data: data, encoding: .utf8))
+                    }
+                }
+            }
+    }
+    
+    func getEntriesWithDateRangeHTTP(dateType: DateType, fromDate: Date) {
+        let fromDateStr = DateFormat.ISOToString(date: fromDate)
+        
+        let toDate = { () -> Date in 
+            switch dateType {
+            case .dayControl:
+                return fromDate.advanced(by: 24*60*60)
+            case .weekControl:
+                return fromDate.advanced(by: 7*24*60*60)
+            case .monthControl:
+                var  comp = DateComponents()
+                comp.month = 1
+                comp.day = -1
+                var temp = Calendar.current.date(byAdding: comp, to: fromDate) ?? Date()
+                return temp.advanced(by: 24*60*60)
+            default:
+                return fromDate
+            }
+        }()
+        
+        let toDateStr = DateFormat.ISOToString(date: toDate)
+        
+        NetworkHelper.performDataTask(
+            urlString: "\(NetworkHelper.BASE_URL)/user/entries/dateRange?fromDate=\(fromDateStr)&toDate=\(toDateStr)",
+            httpMethod: "GET",
+            jsonData: nil,
+            authorization: moodStore.state.jwtClient) { data, response, error in
+                
+                if let error = error {
+                    print("Error took place \(error)")
+                    return
+                }
+                
+                if let response = response as? HTTPURLResponse, let data = data {
+                    if NetworkHelper.goodStatusResponseCode.contains(response.statusCode) {
+                        if let entries = decodeEntries(data) {
+                            delegate?.didGetEntries(response.statusCode, entries, dateType, fromDate)
                         }
                     } else {
                         print(String(data: data, encoding: .utf8))

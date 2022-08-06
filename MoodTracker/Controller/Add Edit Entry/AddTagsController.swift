@@ -22,7 +22,7 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         
         if let index = self.indexPath {
             self.navigationItem.title = "Edit Tags"
-            moodStore.dispatch(EditorNoteAction.init(note: moodStore.state.allMoodList[index.row].note ?? "",
+            moodStore.dispatch(EditorNoteAction.init(note: moodStore.state.filterMoodList[index.row].note ?? "",
                                                      index: index))
         } else {
             self.navigationItem.title = "Add Tags"
@@ -341,15 +341,13 @@ extension AddTagsController : HttpTagDelegate {
     func didAddTags(_ statusCode: Int, _ strData: String) {
         if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
             DispatchQueue.main.async {
-                print("IN DID ADD TAGS \(moodStore.state.editorMood)")
                 moodStore.dispatch(EditorTagsAction.init())
-                print("IN DID ADD TAGS \(moodStore.state.editorMood)")
                 moodStore.dispatch(AddMoodAction.init())
                 
-                moodStore.dispatch(FilterMoodAction.init(
-                    dateType: moodStore.state.dateTypeFilter,
-                    date: moodStore.state.dateFilter)
-                )
+//                moodStore.dispatch(FilterMoodAction.init(
+//                    dateType: moodStore.state.dateTypeFilter,
+//                    date: moodStore.state.dateFilter)
+//                )
                 
                 self.dismiss(animated: false, completion: nil)
                 self.navigationController?.popToRootViewController(animated: true)
@@ -366,15 +364,13 @@ extension AddTagsController : HttpTagDelegate {
     func didEditTags(_ statusCode: Int, _ strData: String, _ indexPath: IndexPath) {
         if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
             DispatchQueue.main.async {
-                print("IN DID EDIT TAGS \(moodStore.state.editorMood)")
                 moodStore.dispatch(EditorTagsAction.init())
-                print("IN DID EDIT TAGS \(moodStore.state.editorMood)")
                 moodStore.dispatch(EditMoodAction.init(index: indexPath))
                 
-                moodStore.dispatch(FilterMoodAction.init(
-                    dateType: moodStore.state.dateTypeFilter,
-                    date: moodStore.state.dateFilter)
-                )
+//                moodStore.dispatch(FilterMoodAction.init(
+//                    dateType: moodStore.state.dateTypeFilter,
+//                    date: moodStore.state.dateFilter)
+//                )
                 
                 self.dismiss(animated: false, completion: nil)
                 self.navigationController?.popToRootViewController(animated: true)

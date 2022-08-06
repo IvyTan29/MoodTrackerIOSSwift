@@ -11,7 +11,7 @@ import ReSwift
 struct MoodState {
     static func createInitialState() -> MoodState {
         return MoodState(
-            allMoodList: [],
+//            allMoodList: [],
             filterMoodList: [],
             editorMood: MoodLog(),
             chosenTags: [],
@@ -24,7 +24,7 @@ struct MoodState {
         )
     }
     
-    var allMoodList = [MoodLog]()
+//    var allMoodList = [MoodLog]()
     var filterMoodList = [MoodLog]()
     var editorMood: MoodLog?
     var chosenTags: Set<Tag> = []

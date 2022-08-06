@@ -58,10 +58,10 @@ struct DeleteMoodAction : Action {
     var index: IndexPath
 }
 
-struct FilterMoodAction : Action {
-    var dateType: DateType
-    var date: Date?
-}
+//struct FilterMoodAction : Action {
+//    var dateType: DateType
+//    var date: Date?
+//}
 
 struct GetInsightsAction : Action {
     var insightDateType: Int
@@ -70,6 +70,8 @@ struct GetInsightsAction : Action {
 
 struct UpdateEntriesAction : Action {
     var entriesArray: [MoodLog]
+    var dateType: DateType
+    var date: Date
 }
 
 struct StoreJWTAction : Action {

@@ -134,6 +134,5 @@ class TabBarController : UITabBarController {
                     
                 }
             ).disposed(by: disposeBag)
-        
     }
 }

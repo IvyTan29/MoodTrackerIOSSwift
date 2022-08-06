@@ -47,8 +47,10 @@ class LoginController : ASDKViewController<LoginNode> {
 extension LoginController : HttpUserDelegate {
     func didLogin(_ statusCode: Int, _ strData: String) {
         if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
-            moodStore.dispatch(StoreJWTAction.init(jwt: strData))
+            
             DispatchQueue.main.async {
+                moodStore.dispatch(StoreJWTAction.init(jwt: strData))
+                
                 let mainVC = TabBarController()
                 mainVC.modalPresentationStyle = .fullScreen
                 
