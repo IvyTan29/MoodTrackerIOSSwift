@@ -63,6 +63,10 @@ struct HttpEntry {
         let fromDateMS = fromDate.timeIntervalSince1970
         let oneDayMS = 24*60*60*1.0
         
+        if #available(iOS 15.0, *) {
+            print(fromDate.formatted())
+        }
+        
         let toDateMS = { () -> Double in
             switch dateType {
             case .dayControl:

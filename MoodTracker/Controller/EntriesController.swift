@@ -65,12 +65,15 @@ class EntriesController : ASDKViewController<EntriesNode> {
                         self.node.dateType = .dayControl
                         self.httpEntry.getEntriesWithDateRangeHTTP(
                             dateType: self.node.dateType,
-                            fromDate: (self.node.dayDatePicker.view as? UIDatePicker)?.date ?? Date()
+                            fromDate: Calendar.current.startOfDay(for: (self.node.dayDatePicker.view as? UIDatePicker)?.date ?? Date())
                         )
                         
                     case 1:
                         self.node.dateType = .weekControl
-                        self.httpEntry.getEntriesWithDateRangeHTTP(dateType: self.node.dateType, fromDate: self.weeks[self.weekIndex].from)
+                        self.httpEntry.getEntriesWithDateRangeHTTP(
+                            dateType: self.node.dateType,
+                            fromDate: Calendar.current.startOfDay(for: self.weeks[self.weekIndex].from)
+                        )
                         
                     case 2:
                         self.node.dateType = .monthControl
@@ -90,7 +93,6 @@ class EntriesController : ASDKViewController<EntriesNode> {
             .distinctUntilChanged()
             .subscribe(
                 onNext: { date in
-                    print(date)
                     self.dismiss(animated: true)
 //                    self.view.endEditing(true)
 //                    (self.node.dayDatePicker.view as? UIDatePicker)?.dismiss(animated: true) // dismiss date picker
@@ -132,7 +134,10 @@ class EntriesController : ASDKViewController<EntriesNode> {
 //        self.displayLoadingScreen()
         
         httpEntry.delegate = self
-        httpEntry.getEntriesWithDateRangeHTTP(dateType: .dayControl, fromDate: Date())
+        httpEntry.getEntriesWithDateRangeHTTP(
+            dateType: .dayControl,
+            fromDate: Calendar.current.startOfDay(for: Date())
+        )
     }
     
     override func viewDidAppear(_ animated: Bool) {

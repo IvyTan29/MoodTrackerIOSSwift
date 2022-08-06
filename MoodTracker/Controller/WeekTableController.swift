@@ -67,7 +67,10 @@ extension WeekTableController : ASTableDelegate {
         
         var httpEntry = HttpEntry()
         httpEntry.delegate = self
-        httpEntry.getEntriesWithDateRangeHTTP(dateType: .weekControl, fromDate: self.weeks[indexPath.row].from)
+        httpEntry.getEntriesWithDateRangeHTTP(
+            dateType: .weekControl,
+            fromDate: Calendar.current.startOfDay(for: self.weeks[indexPath.row].from)
+        )
     }
 }
 
