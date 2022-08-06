@@ -17,12 +17,15 @@ class WeekTableController : ASDKViewController<WeekTableNode> {
     
     var weeks: [WeekRange] = []
     weak var delegate: WeekTableControllerDelegate?
+    weak var pvc : UIViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.node.weeksTable.delegate = self
         self.node.weeksTable.dataSource = self
+        
+        self.pvc = self.presentingViewController
     }
     
     func displayLoadingScreen() {
@@ -34,7 +37,7 @@ class WeekTableController : ASDKViewController<WeekTableNode> {
         loadingIndicator.startAnimating();
 
         alert.view.addSubview(loadingIndicator)
-        self.present(alert, animated: true, completion: nil)
+        self.pvc?.present(alert, animated: true, completion: nil)
     }
 }
 
@@ -85,7 +88,7 @@ extension WeekTableController : HttpEntryDelegate {
                     date: fromDate
                 ))
                 
-                self.dismiss(animated: false, completion: nil)
+                self.pvc?.dismiss(animated: false, completion: nil)
             }
         }
     }

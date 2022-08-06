@@ -106,7 +106,6 @@ class EntriesController : ASDKViewController<EntriesNode> {
         
         // Week Picker
         self.node.weekPicker.rxTap
-            .skip(1)
             .subscribe(
                 onNext: { [unowned self] tap in
                     let vc = WeekTableController(node: WeekTableNode())

@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol HttpEntryDelegate : AnyObject {
+protocol HttpEntryDelegate {
     func didGetEntries(_ statusCode: Int, _ entries: [MoodLog], _ dateType: DateType, _ fromDate: Date)
     
     func didAddEntry(_ statusCode: Int, _ entryJsonData: EntryJsonData)
@@ -33,7 +33,7 @@ struct HttpEntry {
     let encoder = JSONEncoder()
     let decoder = JSONDecoder()
     
-    weak var delegate: HttpEntryDelegate?
+    var delegate: HttpEntryDelegate?
     
     func getEntriesOfUserHTTP(dateType: DateType, fromDate: Date) {
         NetworkHelper.performDataTask(
@@ -98,6 +98,7 @@ struct HttpEntry {
                 if let response = response as? HTTPURLResponse, let data = data {
                     if NetworkHelper.goodStatusResponseCode.contains(response.statusCode) {
                         if let entries = decodeEntries(data) {
+                            print(delegate)
                             delegate?.didGetEntries(response.statusCode, entries, dateType, fromDate)
                         }
                     } else {
