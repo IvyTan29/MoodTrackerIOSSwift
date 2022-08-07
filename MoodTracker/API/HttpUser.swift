@@ -11,6 +11,8 @@ protocol HttpUserDelegate : AnyObject {
     func didRegister(_ statusCode: Int, _ strData: String)
     
     func didLogin(_ statusCode: Int, _ strData: String)
+    
+    func didLogout(_ statusCode: Int, _ strData: String)
 }
 
 // PARA THE DELEGATE DOES NOT NEED TO INHERIT EVERY FUNCTION
@@ -20,6 +22,10 @@ extension HttpUserDelegate {
     }
     
     func didLogin(_ statusCode: Int, _ strData: String) {
+        // leave empty
+    }
+    
+    func didLogout(_ statusCode: Int, _ strData: String) {
         // leave empty
     }
 }
@@ -47,7 +53,6 @@ struct HttpUser {
     }
     
     func loginUserHttp(_ login: LoginJsonData) {
-        
         NetworkHelper.performDataTask(
             urlString: "\(NetworkHelper.BASE_URL)/user/login",
             httpMethod: "POST",
@@ -60,6 +65,23 @@ struct HttpUser {
                 
                 if let response = response as? HTTPURLResponse, let data = data {
                     delegate?.didLogin(response.statusCode, String(data: data, encoding: .utf8) ?? "")
+                }
+            }
+    }
+    
+    func logOutUserHttp() {
+        NetworkHelper.performDataTask(
+            urlString: "\(NetworkHelper.BASE_URL)/user/logout",
+            httpMethod: "POST",
+            jsonData: nil,
+            authorization: moodStore.state.jwtClient) { data, response, error in
+                if let error = error {
+                    print("Error took place \(error)")
+                    return
+                }
+                
+                if let response = response as? HTTPURLResponse, let data = data {
+                    delegate?.didLogout(response.statusCode, String(data: data, encoding: .utf8) ?? "")
                 }
             }
     }

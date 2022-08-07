@@ -29,9 +29,9 @@ class InsightsController : ASDKViewController<InsightsNode> {
         self.navigationItem.rightBarButtonItem?.rx.tap
             .subscribe(
                 onNext: { tap in
-                    let landingVC = LandingPageController(node: LandingPageNode())
-                    landingVC.modalPresentationStyle = .overFullScreen
-                    self.present(landingVC, animated: true, completion: nil)
+                    var httpUser = HttpUser()
+                    httpUser.delegate = self
+                    httpUser.logOutUserHttp()
                 }
             ).disposed(by: disposeBag)
         
@@ -56,6 +56,8 @@ class InsightsController : ASDKViewController<InsightsNode> {
                     print(levelValue)
                     let selectedIndex = (self.node.dateComponentSegmentControl.view as? UISegmentedControl)?.selectedSegmentIndex ?? 0
                     
+                    self.displayLoadingScreen()
+                    
                     var httpTag = HttpTag()
                     httpTag.delegate = self
                     
@@ -73,29 +75,41 @@ class InsightsController : ASDKViewController<InsightsNode> {
                 }
             ).disposed(by: disposeBag)
     }
+    
+    func displayLoadingScreen() {
+        let alert = UIAlertController(title: nil, message: "Loading...", preferredStyle: .alert)
+
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.style = UIActivityIndicatorView.Style.medium
+        loadingIndicator.startAnimating();
+
+        alert.view.addSubview(loadingIndicator)
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
-//extension InsightsController : StoreSubscriber {
-//    override func viewWillAppear(_ animated: Bool) {
-//       moodStore.subscribe(self)
-//    }
-//
-//    override func viewWillDisappear(_ animated: Bool) {
-//       moodStore.unsubscribe(self)
-//    }
-//
-//    func newState(state: MoodState) {
-//        print("NEW STATE IN INSIGHT CONTROLLER")
-//        self.node.setUpTagFrequency()
-//        self.node.setNeedsLayout()
-//    }
-//}
-
+// MARK: - HttpTagDelegate
 extension InsightsController : HttpTagDelegate {
     func didGetInsightTags(_ statusCode: Int, _ insightTags: [TagCountJsonData]) {
         DispatchQueue.main.async {
             self.node.setUpTagFrequency(insightTags)
             self.node.setNeedsLayout()
+            
+            self.dismiss(animated: true)
+        }
+    }
+}
+
+// MARK: - HttpUserDelegate
+extension InsightsController : HttpUserDelegate {
+    func didLogout(_ statusCode: Int, _ strData: String) {
+        DispatchQueue.main.async {
+            moodStore.dispatch(StoreJWTAction.init(jwt: "")) // remove jwt token from the client side
+            
+            let landingVC = LandingPageController(node: LandingPageNode())
+            landingVC.modalPresentationStyle = .overFullScreen
+            self.present(landingVC, animated: true, completion: nil)
         }
     }
 }

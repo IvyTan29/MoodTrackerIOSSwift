@@ -38,9 +38,9 @@ class EntriesController : ASDKViewController<EntriesNode> {
         self.navigationItem.rightBarButtonItem?.rx.tap
             .subscribe(
                 onNext: { tap in
-                    let landingVC = LandingPageController(node: LandingPageNode())
-                    landingVC.modalPresentationStyle = .overFullScreen
-                    self.present(landingVC, animated: true, completion: nil)
+                    var httpUser = HttpUser()
+                    httpUser.delegate = self
+                    httpUser.logOutUserHttp()
                 }
             ).disposed(by: disposeBag)
         
@@ -320,6 +320,19 @@ extension EntriesController : HttpEntryDelegate {
                 
                 self.alert.dismiss(animated: true, completion: nil)
             }
+        }
+    }
+}
+
+// MARK: - HttpUserDelegate
+extension EntriesController : HttpUserDelegate {
+    func didLogout(_ statusCode: Int, _ strData: String) {
+        DispatchQueue.main.async {
+            moodStore.dispatch(StoreJWTAction.init(jwt: "")) // remove jwt token from the client side
+            
+            let landingVC = LandingPageController(node: LandingPageNode())
+            landingVC.modalPresentationStyle = .overFullScreen
+            self.present(landingVC, animated: true, completion: nil)
         }
     }
 }

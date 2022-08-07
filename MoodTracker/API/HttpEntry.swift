@@ -98,7 +98,6 @@ struct HttpEntry {
                 if let response = response as? HTTPURLResponse, let data = data {
                     if NetworkHelper.goodStatusResponseCode.contains(response.statusCode) {
                         if let entries = decodeEntries(data) {
-                            print(delegate)
                             delegate?.didGetEntries(response.statusCode, entries, dateType, fromDate)
                         }
                     } else {
