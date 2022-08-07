@@ -12,6 +12,8 @@ protocol HttpTagDelegate : AnyObject {
     
     func didGetTableTags(_ statusCode: Int, _ tags: Set<Tag>)
     
+    func didGetInsightTags(_ statusCode: Int, _ insightTags: [TagCountJsonData])
+    
     func didAddTags(_ statusCode: Int, _ strData: String)
     
     func didEditTags(_ statusCode: Int, _ strData: String, _ indexPath: IndexPath)
@@ -23,6 +25,10 @@ extension HttpTagDelegate {
     }
     
     func didGetTableTags(_ statusCode: Int, _ tags: Set<Tag>) {
+        // leave empty
+    }
+    
+    func didGetInsightTags(_ statusCode: Int, _ insightTags: [TagCountJsonData]) {
         // leave empty
     }
     
@@ -90,6 +96,104 @@ struct HttpTag {
             }
     }
     
+    func getAllInsightsTagHttp(moodValue: Float) {
+        // MOODLEVEL
+        let floorVal = floor(moodValue)
+        let ceilVal = ceil(moodValue)
+        
+        NetworkHelper.performDataTask(
+            urlString: "\(NetworkHelper.BASE_URL)/user/insightAll/tags?floorMoodValue=\(floorVal)&ceilMoodValue=\(ceilVal)",
+            httpMethod: "GET",
+            jsonData: nil,
+            authorization: moodStore.state.jwtClient) { data, response, error in
+                if let error = error {
+                    print("Error took place \(error)")
+                    return
+                }
+                
+                if let response = response as? HTTPURLResponse, let data = data {
+                    if NetworkHelper.goodStatusResponseCode.contains(response.statusCode) {
+                        if let insightTags = decodeTagCount(data) {
+                            delegate?.didGetInsightTags(response.statusCode, insightTags)
+                        }
+                    } else {
+                        print(String(data: data, encoding: .utf8))
+//                        self.dismiss(animated: true)
+                    }
+                }
+            }
+    }
+    
+    func getInsightsTagWithDateRangeHttp(insightDateType: Int, moodValue: Float) {
+        // MOODLEVEL
+        let floorVal = floor(moodValue)
+        let ceilVal = ceil(moodValue)
+        
+        // DATES CODE
+        let todayStartDate = Calendar.current.startOfDay(for: Date())
+        let todayStartDateSec = todayStartDate.timeIntervalSince1970 // para time is 12:00 AM
+        let todayComponents = Calendar.current.dateComponents([.weekday], from: todayStartDate)
+        let oneDaySec = 24*60*60*1.0
+        
+        let thisWeekSundaySec = todayStartDateSec - ((Double(todayComponents.weekday ?? 0) - 1) * oneDaySec)
+        let components = Calendar.current.dateComponents([.year, .month], from: todayStartDate)
+        let thisMonthStartDate = Calendar.current.date(from: components) ?? Date()
+        
+        let fromDateSec = { () -> Double in
+            switch insightDateType {
+            case 0: // this week
+                return thisWeekSundaySec
+            case 1: // last week
+                return thisWeekSundaySec - 7 * oneDaySec // minus 7 days
+            case 2: // last month
+                let lastMonthDate = Calendar.current.date(byAdding: .month, value: -1, to: thisMonthStartDate) ?? Date()
+                return lastMonthDate.timeIntervalSince1970
+            default:
+                return thisWeekSundaySec
+            }
+        }()
+
+        let toDateSec = { () -> Double in
+            switch insightDateType {
+            case 0: // this week
+                return thisWeekSundaySec + 7 * oneDaySec
+            case 1: // last week
+                return thisWeekSundaySec
+            case 2: // last month
+                return thisMonthStartDate.timeIntervalSince1970
+            default:
+                return thisWeekSundaySec
+            }
+        }()
+        
+        if #available(iOS 15.0, *) {
+            print(Date(timeIntervalSince1970: fromDateSec).formatted())
+            print(Date(timeIntervalSince1970: toDateSec).formatted())
+        }
+        
+        NetworkHelper.performDataTask(
+            urlString: "\(NetworkHelper.BASE_URL)/user/insight/tags?fromDate=\(fromDateSec)&toDate=\(toDateSec)&floorMoodValue=\(floorVal)&ceilMoodValue=\(ceilVal)",
+            httpMethod: "GET",
+            jsonData: nil,
+            authorization: moodStore.state.jwtClient) { data, response, error in
+                if let error = error {
+                    print("Error took place \(error)")
+                    return
+                }
+                
+                if let response = response as? HTTPURLResponse, let data = data {
+                    if NetworkHelper.goodStatusResponseCode.contains(response.statusCode) {
+                        if let insightTags = decodeTagCount(data) {
+                            delegate?.didGetInsightTags(response.statusCode, insightTags)
+                        }
+                    } else {
+                        print(String(data: data, encoding: .utf8))
+//                        self.dismiss(animated: true)
+                    }
+                }
+            }
+    }
+    
     func postTagsToUserAndEntryHttp(_ entryId: String, _ tagArray: [TagJsonData]) {
         NetworkHelper.performDataTask(
             urlString: "\(NetworkHelper.BASE_URL)/user/entry/\(entryId)/tags",
@@ -148,6 +252,16 @@ struct HttpTag {
             })
             
             return tagSet
+        } catch {
+            print(error)
+            return nil
+        }
+    }
+    
+    func decodeTagCount(_ data: Data) -> [TagCountJsonData]? {
+        do {
+            let decodedData = try decoder.decode([TagCountJsonData].self, from: data)
+            return decodedData
         } catch {
             print(error)
             return nil

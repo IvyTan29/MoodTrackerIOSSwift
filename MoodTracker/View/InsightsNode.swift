@@ -50,6 +50,8 @@ class InsightsNode : ASDisplayNode {
     
     let grayBackground = ASDisplayNode()
     
+    var insightTags = [TagCountJsonData]()
+    
     override init() {
         super.init()
         
@@ -101,8 +103,6 @@ class InsightsNode : ASDisplayNode {
         grayBackground.backgroundColor = .systemGray6
         grayBackground.style.height = .init(unit: .points, value: 200)
         grayBackground.style.width = .init(unit: .fraction, value: 1.0)
-        
-        setUpTagFrequency()
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
@@ -174,7 +174,7 @@ class InsightsNode : ASDisplayNode {
         let tagLabelsStack = ASStackLayoutSpec(
             direction: .horizontal,
             spacing: 20,
-            justifyContent: .start,
+            justifyContent: .center,
             alignItems: .center,
             flexWrap: .wrap,
             alignContent: .center,
@@ -186,7 +186,7 @@ class InsightsNode : ASDisplayNode {
             direction: .vertical,
             spacing: 10,
             justifyContent: .start,
-            alignItems: .center,
+            alignItems: .stretch,
             children: [oftenLabelCenter, tagLabelsStack]
         )
         
@@ -194,7 +194,7 @@ class InsightsNode : ASDisplayNode {
         
         if !self.movedToggle {
             lastStack.append(secTitleLabelCenter)
-        } else if moodStore.state.insightTags.count != 0 {
+        } else if self.insightTags.count != 0 {
             lastStack.append(titleTagStack)
         } else {
             lastStack.append(noTagFoundStack)
@@ -214,18 +214,26 @@ class InsightsNode : ASDisplayNode {
         )
     }
     
-    func setUpTagFrequency() {
+    func setUpTagFrequency(_ insightTags: [TagCountJsonData]) {
+        self.insightTags = insightTags
+        
         self.tags = []
-        for (tag, freq) in moodStore.state.insightTags {
+        for item in self.insightTags {
             let tagFreq = TagFregComponent()
             
-            tagFreq.tagLabel.attributedText = NSAttributedString(string: tag, attributes: AttributesFormat.tagBtnAttr)
+            tagFreq.tagLabel.attributedText = NSAttributedString(
+                string: item._id,
+                attributes: AttributesFormat.tagBtnAttr
+            )
             tagFreq.tagLabel.borderWidth = 1
             tagFreq.tagLabel.borderColor = UIColor.lightGray.cgColor
             tagFreq.tagLabel.cornerRadius = 15
             tagFreq.tagLabel.textContainerInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
             
-            tagFreq.freqLabel.attributedText = NSAttributedString(string: "x \(freq)", attributes: AttributesFormat.numEntryAttr)
+            tagFreq.freqLabel.attributedText = NSAttributedString(
+                string: "x \(item.count)",
+                attributes: AttributesFormat.numEntryAttr
+            )
             
             self.tags.append(tagFreq)
         }

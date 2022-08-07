@@ -51,13 +51,10 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         
         
     case let deleteTagAction as DeleteTagAction:
-        print("REDUCER \(state?.chosenTags)")
-        print(deleteTagAction.tag)
         state?.chosenTags.remove(deleteTagAction.tag)
         
         let removedChosenTags = state?.chosenTags.filter { $0.name != deleteTagAction.tag.name}
         state?.chosenTags = removedChosenTags ?? []
-        print("REDUCER \(state?.chosenTags)")
         
         if deleteTagAction.tag.recent == 1 {
             state?.recentTags.insert(deleteTagAction.tag)
@@ -123,7 +120,6 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
             state?.filterMoodList.append(moodLog)
         }
         
-        
         // reset editor values
         state?.editorMood = MoodLog()
         state?.chosenTags = []
@@ -139,118 +135,6 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         
     case let deleteAction as DeleteMoodAction:
         state?.filterMoodList.remove(at: deleteAction.index.row)
-        
-    
-//    case let filterMoodAction as FilterMoodAction:
-//        var filterResult: [MoodLog] = []
-//
-//        switch filterMoodAction.dateType {
-//        case .dayControl:
-//            break
-//            filterResult = state?.allMoodList.filter({
-//                Calendar.current.isDate($0.dateTime ?? Date(),
-//                                        equalTo: filterMoodAction.date ?? Date(),
-//                                        toGranularity: .day)
-//            }) ?? []
-            
-//        case .weekControl:
-//            break
-//            filterResult = state?.allMoodList.filter({
-//                Calendar.current.isDate($0.dateTime ?? Date(),
-//                                        equalTo: filterMoodAction.date ?? Date(),
-//                                        toGranularity: .weekOfYear)
-//            }) ?? []
-            
-//        case .monthControl:
-//            break
-//            filterResult = state?.allMoodList.filter({
-//                Calendar.current.isDate($0.dateTime ?? Date(),
-//                                        equalTo: filterMoodAction.date ?? Date(),
-//                                        toGranularity: .month) &&
-//                Calendar.current.isDate($0.dateTime ?? Date(),
-//                                        equalTo: filterMoodAction.date ?? Date(),
-//                                        toGranularity: .year)
-//            }) ?? []
-            
-//        default: //all
-//            break
-//            filterResult = state?.allMoodList ?? []
-//        }
-        
-    
-    case let getInsightsAction as GetInsightsAction:
-        state?.insightTags = [:] // reset
-        var count = [String: Int]()
-        
-        let floorVal = floor(getInsightsAction.moodLevel)
-        let ceilVal = ceil(getInsightsAction.moodLevel)
-        
-        switch getInsightsAction.insightDateType {
-        case 0: // this week
-//            let insightsResult = state?.allMoodList.filter({
-//                Calendar.current.isDate($0.dateTime ?? Date(),
-//                                        equalTo: Date(),
-//                                        toGranularity: .weekOfYear) &&
-//                ($0.moodValue ?? -5.00) >= floorVal &&
-//                ($0.moodValue ?? -5.00) <= ceilVal
-//            }) ?? []
-//
-//            // FIXME: - O(n^2) find a way to improve this
-//            for mood in insightsResult {
-//                mood.tags?.forEach({ count[$0, default: 0] += 1 })
-//            }
-            break
-            
-        case 1: // last week
-//            let lastWeekDateInSeconds = Date().timeIntervalSince1970 - (7 * 24 * 60 * 60) // minus a week
-//            let lastWeekDate = Date(timeIntervalSince1970: lastWeekDateInSeconds)
-//
-//            let insightsResult = state?.allMoodList.filter({
-//                Calendar.current.isDate($0.dateTime ?? Date(),
-//                                        equalTo: lastWeekDate,
-//                                        toGranularity: .weekOfYear) &&
-//                ($0.moodValue ?? -5.00) >= floorVal &&
-//                ($0.moodValue ?? -5.00) <= ceilVal
-//            }) ?? []
-//
-//            // FIXME: - O(n^2) find a way to improve this
-//            for mood in insightsResult {
-//                mood.tags?.forEach({ count[$0, default: 0] += 1 })
-//            }
-            break
-            
-        case 2: // last month
-//            let lastMonthDate = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()
-//
-//            let insightsResult = state?.allMoodList.filter({
-//                Calendar.current.isDate($0.dateTime ?? Date(),
-//                                        equalTo: lastMonthDate,
-//                                        toGranularity: .month) &&
-//                ($0.moodValue ?? -5.00) >= floorVal &&
-//                ($0.moodValue ?? -5.00) <= ceilVal
-//            }) ?? []
-//
-//            // FIXME: - O(n^2) find a way to improve this
-//            for mood in insightsResult {
-//                mood.tags?.forEach({ count[$0, default: 0] += 1 })
-//            }
-            break
-            
-        default: // overall
-            break
-//            let insightsResult = state?.filterMoodList.filter({
-//                ($0.moodValue ?? -5.00) >= floorVal &&
-//                ($0.moodValue ?? -5.00) <= ceilVal
-//            }) ?? []
-            
-            // FIXME: - O(n^2) find a way to improve this
-//            for mood in insightsResult {
-//                mood.tags?.forEach({ count[$0, default: 0] += 1 })
-//            }
-        }
-        
-        state?.insightTags = count
-        
     
     case let updateEntries as UpdateEntriesAction:
         state?.filterMoodList = updateEntries.entriesArray

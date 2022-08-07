@@ -35,7 +35,7 @@ struct HttpEntry {
     
     var delegate: HttpEntryDelegate?
     
-    func getEntriesOfUserHTTP(dateType: DateType, fromDate: Date) {
+    func getEntriesOfUserHttp(dateType: DateType, fromDate: Date) {
         NetworkHelper.performDataTask(
             urlString: "\(NetworkHelper.BASE_URL)/user/entries",
             httpMethod: "GET",
@@ -59,33 +59,33 @@ struct HttpEntry {
             }
     }
     
-    func getEntriesWithDateRangeHTTP(dateType: DateType, fromDate: Date) {
-        let fromDateMS = fromDate.timeIntervalSince1970
-        let oneDayMS = 24*60*60*1.0
+    func getEntriesWithDateRangeHttp(dateType: DateType, fromDate: Date) {
+        let fromDateSec = fromDate.timeIntervalSince1970
+        let oneDaySec = 24*60*60*1.0
         
-        if #available(iOS 15.0, *) {
-            print(fromDate.formatted())
-        }
-        
-        let toDateMS = { () -> Double in
+        let toDateSec = { () -> Double in
             switch dateType {
             case .dayControl:
-                return fromDateMS + oneDayMS
+                return fromDateSec + oneDaySec
             case .weekControl:
-                return fromDateMS + 7 * oneDayMS
+                return fromDateSec + 7 * oneDaySec
             case .monthControl:
-                var  comp = DateComponents()
+                var comp = DateComponents()
                 comp.month = 1
-                comp.day = -1
                 var temp = Calendar.current.date(byAdding: comp, to: fromDate) ?? Date()
-                return temp.advanced(by: oneDayMS).timeIntervalSince1970
+                return temp.timeIntervalSince1970
             default:
-                return fromDateMS
+                return fromDateSec
             }
         }()
         
+        if #available(iOS 15.0, *) {
+            print(fromDate.formatted())
+            print(Date(timeIntervalSince1970: toDateSec).formatted())
+        }
+        
         NetworkHelper.performDataTask(
-            urlString: "\(NetworkHelper.BASE_URL)/user/entries/dateRange?fromDate=\(fromDateMS)&toDate=\(toDateMS)",
+            urlString: "\(NetworkHelper.BASE_URL)/user/entries/dateRange?fromDate=\(fromDateSec)&toDate=\(toDateSec)",
             httpMethod: "GET",
             jsonData: nil,
             authorization: moodStore.state.jwtClient) { data, response, error in
@@ -108,7 +108,7 @@ struct HttpEntry {
             }
     }
     
-    func postEntryHTTP(_ entry: MoodLog) {
+    func postEntryHttp(_ entry: MoodLog) {
         NetworkHelper.performDataTask(
             urlString: "\(NetworkHelper.BASE_URL)/user/entries",
             httpMethod: "POST",
@@ -132,7 +132,7 @@ struct HttpEntry {
             }
     }
     
-    func putEntryHTTP(_ indexPath: IndexPath, _ entry: MoodLog) {
+    func putEntryHttp(_ indexPath: IndexPath, _ entry: MoodLog) {
         NetworkHelper.performDataTask(
             urlString: "\(NetworkHelper.BASE_URL)/user/entries/\(moodStore.state.filterMoodList[indexPath.row].id ?? "")",
             httpMethod: "PUT",

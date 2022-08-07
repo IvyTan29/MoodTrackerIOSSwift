@@ -11,7 +11,6 @@ import ReSwift
 struct MoodState {
     static func createInitialState() -> MoodState {
         return MoodState(
-//            allMoodList: [],
             filterMoodList: [],
             editorMood: MoodLog(),
             chosenTags: [],
@@ -19,12 +18,10 @@ struct MoodState {
             tableTags: [],
             dateTypeFilter: .dayControl,
             dateFilter: Date(),
-            insightTags: [:],
             jwtClient: ""
         )
     }
     
-//    var allMoodList = [MoodLog]()
     var filterMoodList = [MoodLog]()
     var editorMood: MoodLog?
     var chosenTags: Set<Tag> = []
@@ -32,7 +29,6 @@ struct MoodState {
     var tableTags: Set<Tag> = []
     var dateTypeFilter: DateType = .dayControl
     var dateFilter: Date = Date()
-    var insightTags = [String: Int]()
     var jwtClient: String?
 }
 

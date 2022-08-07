@@ -54,10 +54,19 @@ class InsightsController : ASDKViewController<InsightsNode> {
             .subscribe(
                 onNext: { [unowned self] levelValue in
                     print(levelValue)
-                    moodStore.dispatch(GetInsightsAction.init(
-                        insightDateType: (self.node.dateComponentSegmentControl.view as? UISegmentedControl)?.selectedSegmentIndex ?? 0,
-                        moodLevel: levelValue
-                    ))
+                    let selectedIndex = (self.node.dateComponentSegmentControl.view as? UISegmentedControl)?.selectedSegmentIndex ?? 0
+                    
+                    var httpTag = HttpTag()
+                    httpTag.delegate = self
+                    
+                    if selectedIndex == 3 {
+                        httpTag.getAllInsightsTagHttp(moodValue: levelValue)
+                    } else {
+                        httpTag.getInsightsTagWithDateRangeHttp(
+                            insightDateType: selectedIndex,
+                            moodValue: levelValue
+                        )
+                    }
                     
                     self.node.movedToggle = true
                     self.node.setNeedsLayout()
@@ -66,18 +75,27 @@ class InsightsController : ASDKViewController<InsightsNode> {
     }
 }
 
-extension InsightsController : StoreSubscriber {
-    override func viewWillAppear(_ animated: Bool) {
-       moodStore.subscribe(self)
-    }
+//extension InsightsController : StoreSubscriber {
+//    override func viewWillAppear(_ animated: Bool) {
+//       moodStore.subscribe(self)
+//    }
+//
+//    override func viewWillDisappear(_ animated: Bool) {
+//       moodStore.unsubscribe(self)
+//    }
+//
+//    func newState(state: MoodState) {
+//        print("NEW STATE IN INSIGHT CONTROLLER")
+//        self.node.setUpTagFrequency()
+//        self.node.setNeedsLayout()
+//    }
+//}
 
-    override func viewWillDisappear(_ animated: Bool) {
-       moodStore.unsubscribe(self)
-    }
-
-    func newState(state: MoodState) {
-        print("NEW STATE IN INSIGHT CONTROLLER")
-        self.node.setUpTagFrequency()
-        self.node.setNeedsLayout()
+extension InsightsController : HttpTagDelegate {
+    func didGetInsightTags(_ statusCode: Int, _ insightTags: [TagCountJsonData]) {
+        DispatchQueue.main.async {
+            self.node.setUpTagFrequency(insightTags)
+            self.node.setNeedsLayout()
+        }
     }
 }

@@ -128,9 +128,9 @@ class AddTagsController : ASDKViewController<AddTagNode> {
         print("DONE PRESSED")
         print(moodStore.state.editorMood)
         if let indexPath = self.indexPath {
-            httpEntry.putEntryHTTP(indexPath, moodStore.state.editorMood ?? MoodLog())
+            httpEntry.putEntryHttp(indexPath, moodStore.state.editorMood ?? MoodLog())
         } else {
-            httpEntry.postEntryHTTP(moodStore.state.editorMood ?? MoodLog())
+            httpEntry.postEntryHttp(moodStore.state.editorMood ?? MoodLog())
         }
     }
     

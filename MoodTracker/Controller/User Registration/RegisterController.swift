@@ -26,7 +26,7 @@ class RegisterController : ASDKViewController<RegisterNode> {
                     var httpUser = HttpUser()
                     httpUser.delegate = self
                     
-                    httpUser.registerUserHTTP(
+                    httpUser.registerUserHttp(
                         UserJsonData(name: self.node.nameTF.customTF.textField.text ?? "",
                              email: self.node.emailTF.customTF.textField.text ?? "",
                              password: self.node.passwordTF.customTF.textField.text ?? "",

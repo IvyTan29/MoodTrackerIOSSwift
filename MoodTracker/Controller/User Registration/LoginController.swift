@@ -26,7 +26,7 @@ class LoginController : ASDKViewController<LoginNode> {
                     var httpUser = HttpUser()
                     httpUser.delegate = self
                     
-                    httpUser.loginUserHTTP(
+                    httpUser.loginUserHttp(
                         LoginJsonData(email: self.node.emailTF.customTF.textField.text ?? "",
                              password: self.node.passwordTF.customTF.textField.text ?? "")
                     )

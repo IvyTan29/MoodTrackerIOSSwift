@@ -63,26 +63,26 @@ class EntriesController : ASDKViewController<EntriesNode> {
                     switch index {
                     case 0:
                         self.node.dateType = .dayControl
-                        self.httpEntry.getEntriesWithDateRangeHTTP(
+                        self.httpEntry.getEntriesWithDateRangeHttp(
                             dateType: self.node.dateType,
                             fromDate: Calendar.current.startOfDay(for: (self.node.dayDatePicker.view as? UIDatePicker)?.date ?? Date())
                         )
                         
                     case 1:
                         self.node.dateType = .weekControl
-                        self.httpEntry.getEntriesWithDateRangeHTTP(
+                        self.httpEntry.getEntriesWithDateRangeHttp(
                             dateType: self.node.dateType,
                             fromDate: Calendar.current.startOfDay(for: self.weeks[self.weekIndex].from)
                         )
                         
                     case 2:
                         self.node.dateType = .monthControl
-                        self.httpEntry.getEntriesWithDateRangeHTTP(dateType: self.node.dateType, fromDate: self.months[self.monthIndex])
+                        self.httpEntry.getEntriesWithDateRangeHttp(dateType: self.node.dateType, fromDate: self.months[self.monthIndex])
 
                         
                     default:
                         self.node.dateType = .allControl
-                        self.httpEntry.getEntriesOfUserHTTP(dateType: self.node.dateType, fromDate: Date())
+                        self.httpEntry.getEntriesOfUserHttp(dateType: self.node.dateType, fromDate: Date())
                     }
                 }
             ).disposed(by: disposeBag)
@@ -98,9 +98,9 @@ class EntriesController : ASDKViewController<EntriesNode> {
 //                    (self.node.dayDatePicker.view as? UIDatePicker)?.dismiss(animated: true) // dismiss date picker
 //                    self.displayLoadingScreen()
                     
-                    let newDate = Calendar.current.startOfDay(for: date)
+                    let newDate = Calendar.current.startOfDay(for: date) // 12:00 AM if not it's going to current time
                     
-                    self.httpEntry.getEntriesWithDateRangeHTTP(dateType: .dayControl, fromDate: newDate)
+                    self.httpEntry.getEntriesWithDateRangeHttp(dateType: .dayControl, fromDate: newDate)
                 }
             ).disposed(by: disposeBag)
         
@@ -133,7 +133,7 @@ class EntriesController : ASDKViewController<EntriesNode> {
 //        self.displayLoadingScreen()
         
         httpEntry.delegate = self
-        httpEntry.getEntriesWithDateRangeHTTP(
+        httpEntry.getEntriesWithDateRangeHttp(
             dateType: .dayControl,
             fromDate: Calendar.current.startOfDay(for: Date())
         )
@@ -288,7 +288,7 @@ extension EntriesController : UIPickerViewDataSource, UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.displayLoadingScreen()
         
-        httpEntry.getEntriesWithDateRangeHTTP(dateType: .monthControl, fromDate: months[row])
+        httpEntry.getEntriesWithDateRangeHttp(dateType: .monthControl, fromDate: months[row])
 
         self.monthIndex = row
     }
