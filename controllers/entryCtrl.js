@@ -11,7 +11,12 @@ const entryCtrl = {
                 populate : {
                     path: 'tags',
                     model: Tag
-                  }
+                },
+                options: {
+                    sort: {
+                        'dateTime': 1
+                    }
+                }
             })
             .then(result => {
                 res.status(200).json(result.entries)
@@ -41,11 +46,12 @@ const entryCtrl = {
                 },
                 options: {
                     sort: {
-                        'entries.dateTime': 'desc'
+                        'dateTime': 1
                     }
                 }
             })
             .then(result => {
+                console.log(result)
                 res.status(200).json(result.entries)
             })
             .catch(err => {
