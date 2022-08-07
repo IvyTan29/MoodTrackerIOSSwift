@@ -35,8 +35,8 @@ const entryCtrl = {
                 },
                 match: {
                     'dateTime': {
-                        $gte: req.query.fromDate, 
-                        $lt: req.query.toDate
+                        $gte: parseInt(req.query.fromDate), 
+                        $lt: parseInt(req.query.toDate)
                     }
                 },
                 options: {

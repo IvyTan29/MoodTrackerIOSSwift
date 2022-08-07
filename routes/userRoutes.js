@@ -20,9 +20,10 @@ router.get('/entries/dateRange', authenticate, entryCtrl.getEntriesWithDateRange
 // router.delete('/entries/:entryId', authenticate, entryCtrl.deleteEntry);
 
 // router.get('/tags', authenticate, tagCtrl.getTagsOfUser);
-router.get('/insight/tags', authenticate, tagCtrl.getInsightTags)
 router.get('/recent/tags', authenticate, tagCtrl.getRecentTags);
 router.get('/table/tags', authenticate, tagCtrl.getTableTags);
+router.get('/insightAll/tags', authenticate, tagCtrl.getAllInsightTags)
+router.get('/insight/tags', authenticate, tagCtrl.getInsightTagsWithDateRange)
 // router.post('/tags', authenticate, tagCtrl.postTag);
 router.post('/entry/:entryId/tags', authenticate, tagCtrl.postTagToEntryAndUser);
 router.put('/entry/:entryId/tags', authenticate, tagCtrl.putTags);

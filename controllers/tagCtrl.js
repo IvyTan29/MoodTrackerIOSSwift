@@ -40,50 +40,101 @@ const tagCtrl = {
         });
     },
 
-    getInsightTags: (req, res) => {
+    getAllInsightTags: (req, res) => {
+        console.log(req.query.floorMoodValue)
+        console.log(req.query.ceilMoodValue)
         User.aggregate([
-            {$match: { 
-                $expr : { 
-                    $eq: ['$_id' , { $toObjectId: req.session.userId }] 
-                } 
-            }},
-            {$lookup: { 
-                localField: 'tags', 
-                from: 'Tag', 
-                foreignField: '_id', 
-                as: 'tag' 
-            }},
-            {$unwind: "$tag"},
-            {$project: {
-                name: "$tag.name", 
-                dateTime: "$tag.dateTime", 
-                moodValue: "$tag.moodValue"
-            }},
-            {$match: {
-                $and: [
-                    {moodValue: { 
-                        $eq: req.query.moodValue
-                    }},
-                    {dateTime: {
-                        $gte: req.query.fromDate, 
-                        $lt: req.query.toDate
-                    }}
-                ]
-            }},
-            {$group: {
-                _id: "$name", 
-                count: {$sum: 1}
-            }}
-        ])
-        .then(listTags => {
-            console.log(listTags)
+                {$match: { 
+                    $expr: { 
+                        $eq: ['$_id' , { $toObjectId: req.session.userId }] 
+                    } 
+                }},
+                {$lookup: { 
+                    localField: 'tags', 
+                    from: 'Tag', 
+                    foreignField: '_id', 
+                    as: 'tag' 
+                }},
+                {$unwind: "$tag"},
+                {$project: {
+                    name: "$tag.name", 
+                    dateTime: "$tag.dateTime", 
+                    moodValue: "$tag.moodValue"
+                }},
+                {$match: {
+                    moodValue: { 
+                        $gte: parseInt(req.query.floorMoodValue),
+                        $lte: parseInt(req.query.ceilMoodValue)
+                    }
+                }},
+                {$group: {
+                    _id: "$name", 
+                    count: {$sum: 1}
+                }}
+            ])
+            .then(listTags => {
+                console.log(listTags)
 
-            res.status(200).json(listTags)
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(404).send('Tags not found');
-        });
+                res.status(200).json(listTags)
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(404).send('Tags not found');
+            });
+    },
+
+    getInsightTagsWithDateRange: (req, res) => {
+        console.log(req.query.ceilMoodValue)
+        console.log(req.query.floorMoodValue)
+        console.log(typeof req.query.fromDate)
+        console.log(req.query.toDate)
+        User.aggregate([
+                {$match: { 
+                    $expr : { 
+                        $eq: ['$_id' , { $toObjectId: req.session.userId }] 
+                    } 
+                }},
+                {$lookup: { 
+                    localField: 'tags', 
+                    from: 'Tag', 
+                    foreignField: '_id', 
+                    as: 'tag' 
+                }},
+                {$unwind: "$tag"},
+                {$project: {
+                    name: "$tag.name", 
+                    dateTime: "$tag.dateTime", 
+                    moodValue: "$tag.moodValue"
+                }},
+                {$match: {
+                    $and: [
+                        {moodValue: { 
+                            $gte: parseInt(req.query.floorMoodValue),
+                            $lte: parseInt(req.query.ceilMoodValue)
+                        }},
+                        {dateTime: {
+                            $gte: parseInt(req.query.fromDate), 
+                            $lt: parseInt(req.query.toDate)
+                        }}
+                    ]
+                }},
+                {$group: {
+                    _id: "$name", 
+                    count: {$sum: 1}
+                }}
+            ])
+            .then(listTags => {
+                console.log(listTags)
+
+                res.status(200).json(listTags)
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(404).send('Tags not found');
+            });
+
+            // 1659801600.0
+            // 1660406400.0
     },
 
     postTagToEntryAndUser: (req, res) => {
