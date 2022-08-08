@@ -25,7 +25,7 @@ const userCtrl = {
                 if (result) {
                     req.session.userId = userDetails._id
             
-                    var token = jwt.sign({ userId: userDetails._id}, process.env.SECRET_KEY , {expiresIn: '1d'});
+                    var token = jwt.sign({ userId: userDetails._id}, process.env.SECRET_KEY , {expiresIn: '2h'});
 
                     res.status(200).json(token)
                 } else {
@@ -88,8 +88,6 @@ const userCtrl = {
             })
             .catch(err => {
                 console.log(err)
-
-                //FIXME: place if statement
                 res.status(404).send(err.message);
             })
     },

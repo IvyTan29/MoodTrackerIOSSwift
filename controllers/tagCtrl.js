@@ -84,10 +84,6 @@ const tagCtrl = {
     },
 
     getInsightTagsWithDateRange: (req, res) => {
-        console.log(req.query.ceilMoodValue)
-        console.log(req.query.floorMoodValue)
-        console.log(typeof req.query.fromDate)
-        console.log(req.query.toDate)
         User.aggregate([
                 {$match: { 
                     $expr : { 
