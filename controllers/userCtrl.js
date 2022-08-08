@@ -2,17 +2,30 @@ import { User } from '../model/User.js';
 import { Entry } from '../model/Entry.js';
 import { Tag } from '../model/Tag.js';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+const saltRounds = 10;
 
 const userCtrl = {
+    
     login: (req, res) => {
+        let userDetails
+
         User.findOne(
-                {email: req.body.email, password: req.body.password}
+                {email: req.body.email}
             )
             .then(userDoc => {
                 if (userDoc != null) {
-		            req.session.userId = userDoc._id
-                    
-                    var token = jwt.sign({ userId: userDoc._id}, process.env.SECRET_KEY , {expiresIn: '1d'});
+                    userDetails = userDoc
+                    return bcrypt.compare(req.body.password, userDoc.password)
+                } else {
+                    throw new Error("Incorrect email or password!")
+                }
+            })
+            .then(result => {
+                if (result) {
+                    req.session.userId = userDetails._id
+            
+                    var token = jwt.sign({ userId: userDetails._id}, process.env.SECRET_KEY , {expiresIn: '1d'});
 
                     res.status(200).json(token)
                 } else {
@@ -54,14 +67,22 @@ const userCtrl = {
     },
 
     postUser: (req, res) => {
-        let user = new User(req.body);
 
-        // FIXME: ADD HASHING
-        user.save()
+        if (!(req.body.email && req.body.password && req.body.name)) {
+            return res.status(404).send('Fields cannot be empty')
+        } 
+
+        bcrypt.hash(req.body.password, saltRounds)
+            .then(hashPassword => {
+                let user = new User(req.body)
+                user.password = hashPassword
+
+                return user.save()
+            })
             .then(userDoc => {
                 console.log("New user created sucessfully!")
                 
-                var token = jwt.sign({ userId: userDoc._id}, process.env.SECRET_KEY , {expiresIn: '1d'});
+                var token = jwt.sign({ userId: userDoc._id}, process.env.SECRET_KEY , {expiresIn: '1d'})
 
                 res.status(201).json(token)
             })

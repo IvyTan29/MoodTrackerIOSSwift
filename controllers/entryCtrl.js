@@ -112,7 +112,6 @@ const entryCtrl = {
     },
 
     putEntry: (req, res) => {
-        // FIXME: checks first if user exists
         Entry.findOneAndUpdate(
                 { _id: req.params.entryId},
                 req.body,
