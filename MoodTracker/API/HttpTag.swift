@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol HttpTagDelegate : AnyObject {
+protocol HttpTagDelegate {
     func didGetRecentTags(_ statusCode: Int, _ tags: Set<Tag>)
     
     func didGetTableTags(_ statusCode: Int, _ tags: Set<Tag>)
@@ -17,6 +17,8 @@ protocol HttpTagDelegate : AnyObject {
     func didAddTags(_ statusCode: Int, _ strData: String)
     
     func didEditTags(_ statusCode: Int, _ strData: String, _ indexPath: IndexPath)
+    
+    func didHaveError(strData: String)
 }
 
 extension HttpTagDelegate {
@@ -45,7 +47,7 @@ struct HttpTag {
     let encoder = JSONEncoder()
     let decoder = JSONDecoder()
     
-    weak var delegate: HttpTagDelegate?
+    var delegate: HttpTagDelegate?
     
     func getRecentTagsHttp() {
         NetworkHelper.performDataTask(
@@ -64,8 +66,7 @@ struct HttpTag {
                             delegate?.didGetRecentTags(response.statusCode, recentTags)
                         }
                     } else {
-                        print(String(data: data, encoding: .utf8))
-//                        self.dismiss(animated: true)
+                        delegate?.didHaveError(strData: String(data: data, encoding: .utf8) ?? "")
                     }
                     
                 }
@@ -89,8 +90,7 @@ struct HttpTag {
                             delegate?.didGetTableTags(response.statusCode, tableTags)
                         }
                     } else {
-                        print(String(data: data, encoding: .utf8))
-//                        self.dismiss(animated: true)
+                        delegate?.didHaveError(strData: String(data: data, encoding: .utf8) ?? "")
                     }
                 }
             }
@@ -117,8 +117,7 @@ struct HttpTag {
                             delegate?.didGetInsightTags(response.statusCode, insightTags)
                         }
                     } else {
-                        print(String(data: data, encoding: .utf8))
-//                        self.dismiss(animated: true)
+                        delegate?.didHaveError(strData: String(data: data, encoding: .utf8) ?? "")
                     }
                 }
             }
@@ -187,8 +186,7 @@ struct HttpTag {
                             delegate?.didGetInsightTags(response.statusCode, insightTags)
                         }
                     } else {
-                        print(String(data: data, encoding: .utf8))
-//                        self.dismiss(animated: true)
+                        delegate?.didHaveError(strData: String(data: data, encoding: .utf8) ?? "")
                     }
                 }
             }
@@ -206,7 +204,12 @@ struct HttpTag {
                 }
                 
                 if let response = response as? HTTPURLResponse, let data = data {
-                    delegate?.didAddTags(response.statusCode, String(data: data, encoding: .utf8) ?? "")
+                    if NetworkHelper.goodStatusResponseCode.contains(response.statusCode) {
+                        delegate?.didAddTags(response.statusCode, String(data: data, encoding: .utf8) ?? "")
+                    } else {
+                        delegate?.didHaveError(strData: String(data: data, encoding: .utf8) ?? "")
+                    }
+                    
                 }
             }
     }
@@ -223,7 +226,11 @@ struct HttpTag {
                 }
                 
                 if let response = response as? HTTPURLResponse, let data = data {
-                    delegate?.didEditTags(response.statusCode, String(data: data, encoding: .utf8) ?? "", indexPath)
+                    if NetworkHelper.goodStatusResponseCode.contains(response.statusCode) {
+                        delegate?.didEditTags(response.statusCode, String(data: data, encoding: .utf8) ?? "", indexPath)
+                    } else {
+                        delegate?.didHaveError(strData: String(data: data, encoding: .utf8) ?? "")
+                    }
                 }
             }
     }

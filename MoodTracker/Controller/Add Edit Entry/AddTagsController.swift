@@ -272,7 +272,9 @@ extension AddTagsController : HttpEntryDelegate {
                                              recent: tag.recent))
             })
             
-            moodStore.dispatch(EditorIdAction.init(id: entryJsonData._id ?? ""))
+            DispatchQueue.main.async {
+                moodStore.dispatch(EditorIdAction.init(id: entryJsonData._id ?? ""))
+            }
             
             var httpTag = HttpTag()
             httpTag.delegate = self
@@ -292,7 +294,9 @@ extension AddTagsController : HttpEntryDelegate {
                                              recent: tag.recent))
             })
             
-            moodStore.dispatch(EditorIdAction.init(id: entryJsonData._id ?? ""))
+            DispatchQueue.main.async {
+                moodStore.dispatch(EditorIdAction.init(id: entryJsonData._id ?? ""))
+            }
             
             var httpTag = HttpTag()
             httpTag.delegate = self
@@ -301,6 +305,22 @@ extension AddTagsController : HttpEntryDelegate {
             DispatchQueue.main.async {
                 self.dismiss(animated: false, completion: nil)
             }
+        }
+    }
+    
+    func didHaveError(strData: String) {
+        DispatchQueue.main.async {
+            let errorAlert = UIAlertController(
+                title: "Error",
+                message: strData,
+                preferredStyle: UIAlertController.Style.alert
+            )
+
+            errorAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+                errorAlert.dismiss(animated: true)
+            }))
+
+            self.present(errorAlert, animated: true, completion: nil)
         }
     }
 }

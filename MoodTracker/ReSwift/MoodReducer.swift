@@ -76,44 +76,7 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         
         
     case _ as AddMoodAction:
-        let granularity = { () -> Calendar.Component in
-            switch state?.dateTypeFilter {
-            case .dayControl:
-                return .day
-            case .weekControl:
-                return .weekOfYear
-            default:
-                return .month
-            }
-        }()
-        
-        if (state?.dateTypeFilter == .allControl) {
-            
-            var moodLog = state?.editorMood ?? MoodLog()
-            moodLog.tags = state?.chosenTags
-            
-            state?.filterMoodList.append(moodLog)
-            
-        } else if (state?.dateTypeFilter == .monthControl &&
-                    Calendar.current.isDate(
-                        Date(timeIntervalSince1970: state?.editorMood?.dateTime ?? Date().timeIntervalSince1970),
-                        equalTo: state?.dateFilter ?? Date(),
-                        toGranularity: .month) &&
-                    Calendar.current.isDate(
-                        Date(timeIntervalSince1970: state?.editorMood?.dateTime ?? Date().timeIntervalSince1970),
-                        equalTo: state?.dateFilter ?? Date(),
-                        toGranularity: .year)) {
-            
-            var moodLog = state?.editorMood ?? MoodLog()
-            moodLog.tags = state?.chosenTags
-            
-            state?.filterMoodList.append(moodLog)
-            
-        } else if (Calendar.current.isDate(
-            Date(timeIntervalSince1970: state?.editorMood?.dateTime ?? Date().timeIntervalSince1970),
-            equalTo: state?.dateFilter ?? Date(),
-            toGranularity: granularity)) {
-            
+        if isPartOfFilter(state) {
             var moodLog = state?.editorMood ?? MoodLog()
             moodLog.tags = state?.chosenTags
             
@@ -126,9 +89,13 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
         
         
     case let editAction as EditMoodAction:
-        let moodLog = state?.editorMood ?? MoodLog()
+        if isPartOfFilter(state) {
+            let moodLog = state?.editorMood ?? MoodLog()
+            state?.filterMoodList[editAction.index.row] = moodLog
+        } else {
+            state?.filterMoodList.remove(at: editAction.index.row)
+        }
         
-        state?.filterMoodList[editAction.index.row] = moodLog
         state?.editorMood = MoodLog()
         state?.chosenTags = []
         
@@ -150,4 +117,41 @@ func moodReducer(action: Action, state: MoodState?) -> MoodState {
     }
 
     return state ?? MoodState()
+}
+
+func isPartOfFilter(_ state: MoodState?) -> Bool {
+    let granularity = { () -> Calendar.Component in
+        switch state?.dateTypeFilter {
+        case .dayControl:
+            return .day
+        case .weekControl:
+            return .weekOfYear
+        default:
+            return .month
+        }
+    }()
+    
+    if (state?.dateTypeFilter == .allControl) {
+        return true
+        
+    } else if (state?.dateTypeFilter == .monthControl &&
+                Calendar.current.isDate(
+                    Date(timeIntervalSince1970: state?.editorMood?.dateTime ?? Date().timeIntervalSince1970),
+                    equalTo: state?.dateFilter ?? Date(),
+                    toGranularity: .month) &&
+                Calendar.current.isDate(
+                    Date(timeIntervalSince1970: state?.editorMood?.dateTime ?? Date().timeIntervalSince1970),
+                    equalTo: state?.dateFilter ?? Date(),
+                    toGranularity: .year)) {
+        
+        return true
+        
+    } else if (Calendar.current.isDate(
+        Date(timeIntervalSince1970: state?.editorMood?.dateTime ?? Date().timeIntervalSince1970),
+        equalTo: state?.dateFilter ?? Date(),
+        toGranularity: granularity)) {
+        
+        return true
+    }
+    return false
 }

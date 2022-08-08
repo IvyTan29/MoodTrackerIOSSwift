@@ -13,6 +13,8 @@ protocol HttpEntryDelegate {
     func didAddEntry(_ statusCode: Int, _ entryJsonData: EntryJsonData)
     
     func didEditEntry(_ statusCode: Int, _ entryJsonData: EntryJsonData, _ indexPath: IndexPath)
+    
+    func didHaveError(strData: String)
 }
 
 extension HttpEntryDelegate {
@@ -53,7 +55,7 @@ struct HttpEntry {
                             delegate?.didGetEntries(response.statusCode, entries, dateType, fromDate)
                         }
                     } else {
-                        print(String(data: data, encoding: .utf8))
+                        delegate?.didHaveError(strData: String(data: data, encoding: .utf8) ?? "")
                     }
                 }
             }
@@ -79,11 +81,6 @@ struct HttpEntry {
             }
         }()
         
-        if #available(iOS 15.0, *) {
-            print(fromDate.formatted())
-            print(Date(timeIntervalSince1970: toDateSec).formatted())
-        }
-        
         NetworkHelper.performDataTask(
             urlString: "\(NetworkHelper.BASE_URL)/user/entries/dateRange?fromDate=\(fromDateSec)&toDate=\(toDateSec)",
             httpMethod: "GET",
@@ -101,7 +98,7 @@ struct HttpEntry {
                             delegate?.didGetEntries(response.statusCode, entries, dateType, fromDate)
                         }
                     } else {
-                        print(String(data: data, encoding: .utf8))
+                        delegate?.didHaveError(strData: String(data: data, encoding: .utf8) ?? "")
                     }
                 }
             }
@@ -124,8 +121,7 @@ struct HttpEntry {
                             delegate?.didAddEntry(response.statusCode, entryJson)
                         }
                     } else {
-                        print(String(data: data, encoding: .utf8))
-//                        self.dismiss(animated: true)
+                        delegate?.didHaveError(strData: String(data: data, encoding: .utf8) ?? "")
                     }
                 }
             }
@@ -148,8 +144,7 @@ struct HttpEntry {
                             delegate?.didEditEntry(response.statusCode, entryJson, indexPath)
                         }
                     } else {
-                        print(String(data: data, encoding: .utf8))
-//                        self.dismiss(animated: true)
+                        delegate?.didHaveError(strData: String(data: data, encoding: .utf8) ?? "")
                     }
                 }
             }
