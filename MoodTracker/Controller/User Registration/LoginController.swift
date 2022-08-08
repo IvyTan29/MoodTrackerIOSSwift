@@ -47,25 +47,14 @@ class LoginController : ASDKViewController<LoginNode> {
 extension LoginController : HttpUserDelegate {
     func didLogin(_ statusCode: Int, _ strData: String) {
         if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
-            
             DispatchQueue.main.async {
                 moodStore.dispatch(StoreJWTAction.init(jwt: strData))
                 
                 let mainVC = TabBarController()
                 mainVC.modalPresentationStyle = .fullScreen
-                
-//                let transition = CATransition()
-//                transition.duration = 0.5
-//                transition.type = CATransitionType.push
-//                transition.subtype = CATransitionSubtype.fromRight
-//                transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
-//
-//                self.view.window!.layer.add(transition, forKey: kCATransition)
+
                 self.present(mainVC, animated: true, completion: nil)
             }
-        } else {
-            // FIXME: add error message display
-            print(strData)
         }
     }
     

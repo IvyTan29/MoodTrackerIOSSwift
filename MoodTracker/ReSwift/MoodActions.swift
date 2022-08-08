@@ -18,7 +18,7 @@ struct EditorTagsAction : Action {
 }
 
 struct EditorNoteAction : Action {
-    var note: String
+    var note: String?
     var index: IndexPath?
 }
 

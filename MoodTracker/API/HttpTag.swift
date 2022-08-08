@@ -129,8 +129,8 @@ struct HttpTag {
         let ceilVal = ceil(moodValue)
         
         // DATES CODE
-        let todayStartDate = Calendar.current.startOfDay(for: Date())
-        let todayStartDateSec = todayStartDate.timeIntervalSince1970 // para time is 12:00 AM
+        let todayStartDate = Calendar.current.startOfDay(for: Date()) // para time is 12:00 AM
+        let todayStartDateSec = todayStartDate.timeIntervalSince1970
         let todayComponents = Calendar.current.dateComponents([.weekday], from: todayStartDate)
         let oneDaySec = 24*60*60*1.0
         
@@ -164,11 +164,6 @@ struct HttpTag {
                 return thisWeekSundaySec
             }
         }()
-        
-        if #available(iOS 15.0, *) {
-            print(Date(timeIntervalSince1970: fromDateSec).formatted())
-            print(Date(timeIntervalSince1970: toDateSec).formatted())
-        }
         
         NetworkHelper.performDataTask(
             urlString: "\(NetworkHelper.BASE_URL)/user/insight/tags?fromDate=\(fromDateSec)&toDate=\(toDateSec)&floorMoodValue=\(floorVal)&ceilMoodValue=\(ceilVal)",
