@@ -68,4 +68,20 @@ extension LoginController : HttpUserDelegate {
             print(strData)
         }
     }
+    
+    func didHaveError(strData: String) {
+        DispatchQueue.main.async {
+            let errorAlert = UIAlertController(
+                title: "Error",
+                message: strData,
+                preferredStyle: UIAlertController.Style.alert
+            )
+
+            errorAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+                errorAlert.dismiss(animated: true)
+            }))
+
+            self.present(errorAlert, animated: true, completion: nil)
+        }
+    }
 }

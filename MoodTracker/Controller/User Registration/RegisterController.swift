@@ -50,25 +50,29 @@ class RegisterController : ASDKViewController<RegisterNode> {
 extension RegisterController : HttpUserDelegate {
     func didRegister(_ statusCode: Int, _ strData: String) {
         if NetworkHelper.goodStatusResponseCode.contains(statusCode) {
-            
             DispatchQueue.main.async {
                 moodStore.dispatch(StoreJWTAction.init(jwt: strData))
                 
                 let mainVC = TabBarController()
                 mainVC.modalPresentationStyle = .fullScreen
-                
-//                let transition = CATransition()
-//                transition.duration = 0.5
-//                transition.type = CATransitionType.push
-//                transition.subtype = CATransitionSubtype.fromRight
-//                transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
-//                
-//                self.view.window!.layer.add(transition, forKey: kCATransition)
                 self.present(mainVC, animated: true, completion: nil)
             }
-        } else if statusCode == 404 {
-            print(strData)
-            // FIXME: add error message display
+        }
+    }
+    
+    func didHaveError(strData: String) {
+        DispatchQueue.main.async {
+            let errorAlert = UIAlertController(
+                title: "Error",
+                message: strData,
+                preferredStyle: UIAlertController.Style.alert
+            )
+
+            errorAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+                errorAlert.dismiss(animated: true)
+            }))
+
+            self.present(errorAlert, animated: true, completion: nil)
         }
     }
 }

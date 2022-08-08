@@ -13,6 +13,8 @@ protocol HttpUserDelegate : AnyObject {
     func didLogin(_ statusCode: Int, _ strData: String)
     
     func didLogout(_ statusCode: Int, _ strData: String)
+    
+    func didHaveError(strData: String)
 }
 
 // PARA THE DELEGATE DOES NOT NEED TO INHERIT EVERY FUNCTION
@@ -47,7 +49,11 @@ struct HttpUser {
                 }
                 
                 if let response = response as? HTTPURLResponse, let data = data {
-                    delegate?.didRegister(response.statusCode, String(data: data, encoding: .utf8) ?? "")
+                    if NetworkHelper.goodStatusResponseCode.contains(response.statusCode) {
+                        delegate?.didRegister(response.statusCode, String(data: data, encoding: .utf8) ?? "")
+                    } else {
+                        delegate?.didHaveError(strData: String(data: data, encoding: .utf8) ?? "")
+                    }
                 }
             }
     }
@@ -64,7 +70,12 @@ struct HttpUser {
                 }
                 
                 if let response = response as? HTTPURLResponse, let data = data {
-                    delegate?.didLogin(response.statusCode, String(data: data, encoding: .utf8) ?? "")
+                    if NetworkHelper.goodStatusResponseCode.contains(response.statusCode) {
+                        delegate?.didLogin(response.statusCode, String(data: data, encoding: .utf8) ?? "")
+                    } else {
+                        delegate?.didHaveError(strData: String(data: data, encoding: .utf8) ?? "")
+                    }
+                    
                 }
             }
     }
@@ -81,7 +92,11 @@ struct HttpUser {
                 }
                 
                 if let response = response as? HTTPURLResponse, let data = data {
-                    delegate?.didLogout(response.statusCode, String(data: data, encoding: .utf8) ?? "")
+                    if NetworkHelper.goodStatusResponseCode.contains(response.statusCode) {
+                        delegate?.didLogout(response.statusCode, String(data: data, encoding: .utf8) ?? "")
+                    } else {
+                        delegate?.didHaveError(strData: "Logging out encountered some issues.")
+                    }
                 }
             }
     }
