@@ -27,8 +27,7 @@ The user can add a mood entry by clicking the ```+``` button on the bottom of th
     <img src="https://user-images.githubusercontent.com/49770088/184527749-fa3bb5ad-43ea-4302-b0b7-23f14ab7915f.png" width="250">
 </kbd>
 
-<br>
-The user can pick a date and time not later than the current time. They can use the slider to depict the mood level for that entry. The user can also add tags and a note to the mood entry.
+<br> The user can pick a date and time not later than the current time. They can use the slider to depict the mood level for that entry. The user can also add tags and a note to the mood entry.
 
 <p float="left">
     <kbd>
@@ -42,8 +41,7 @@ The user can pick a date and time not later than the current time. They can use 
     </kbd>
 </p>
 
-<br>
-Aside from clicking on the tags listed under recent, the user can opt to type a new tag or click on the ```...``` button to see more tags which is also clickable. 
+<br> Aside from clicking on the tags listed under recent, the user can opt to type a new tag or click on the ```...``` button to see more tags which is also clickable. 
 
 <p float="left">
     <kbd>
@@ -56,7 +54,7 @@ Aside from clicking on the tags listed under recent, the user can opt to type a 
 
 ### Filter by day, week, month, and overall
 
-Users can filter mood entries based on different date units through clicking on the segment control.
+Users can filter mood entries based on different date units by clicking on the segment control.
 
 #### By day
 
@@ -72,7 +70,7 @@ The user can select a date from the date picker.
 </p>
 
 #### By last 52 weeks
-The user can choose a week period from the list.
+The user can choose a week from the list.
 
 <p float="left">
     <kbd>
@@ -101,3 +99,16 @@ The user can view all their mood entries.
 <kbd>
     <img src="https://user-images.githubusercontent.com/49770088/184528591-b42a13c5-0cdc-4d81-b510-46734bee692c.png" width="250">
 </kbd>
+
+### Get insights/summary of tags
+
+The user can also view the frequency of tags for the mood entries based on the time period and mood level.
+
+<p float="left">
+    <kbd>
+        <img src="https://user-images.githubusercontent.com/49770088/184529014-33551311-8b4c-4c23-a3d3-3d96dcab6855.png" width="250">
+    </kbd>
+    <kbd>
+        <img src="https://user-images.githubusercontent.com/49770088/184529019-80bc2416-e45e-4d39-8148-248f2a28d65b.png" width="250">
+    </kbd>
+</p>
