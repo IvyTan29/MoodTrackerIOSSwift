@@ -8,9 +8,15 @@ MoodTracker is an iOS application that enables user to log their mood according 
 ### Registration & login
 User can register an account by providing their name, email address, and password. This allows the user to login or be authenticated before viewing their corresponding mood entries.
 <p float="left">
-    <img src="https://user-images.githubusercontent.com/49770088/184527120-45594066-4152-462d-9a0b-ca1466efe034.png" width="300">
-    <img src="https://user-images.githubusercontent.com/49770088/184527123-a0a1d75d-8cd6-4a4f-bbf9-de2cbccb916a.png" width="300">
-    <img src="https://user-images.githubusercontent.com/49770088/184527124-14d9ee98-48e1-4458-bbcf-a67d0440f2bc.png" width="300">
+<kbd>
+    <img src="https://user-images.githubusercontent.com/49770088/184527120-45594066-4152-462d-9a0b-ca1466efe034.png" width="250">
+</kbd>
+<kbd>
+    <img src="https://user-images.githubusercontent.com/49770088/184527123-a0a1d75d-8cd6-4a4f-bbf9-de2cbccb916a.png" width="250">
+</kbd>
+<kbd>
+    <img src="https://user-images.githubusercontent.com/49770088/184527124-14d9ee98-48e1-4458-bbcf-a67d0440f2bc.png" width="250">
+</kbd>
 </p>
 
 ### Add mood entry
