@@ -1,0 +1,6 @@
+framework module ASTextFieldNode {
+  umbrella header "ASTextFieldNode-umbrella.h"
+
+  export *
+  module * { export * }
+}
