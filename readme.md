@@ -3,6 +3,14 @@
 ## Description
 MoodTracker is an iOS application that enables user to log their mood according to date. When logging a mood entry, the user should provide a date, time, and mood level (low to high). The user can optionally add tags and note corresponding to that mood entry. Users can choose to view all the mood entries by day, last 52 weeks, or last 12 months. Users can also display the summary of tags based on a specific period and the mood level.
 
+## Built with
+- [Swift](https://developer.apple.com/swift/) - Frontend iOS
+    - [Texture](https://texturegroup.org/)
+    - [ReSwift](https://github.com/ReSwift/ReSwift)
+    - [RxSwift](https://github.com/ReactiveX/RxSwift)
+- [Express.js](https://expressjs.com/) - Backend server
+- [MongoDB](https://www.mongodb.com/) - Database
+
 ## Features
 
 ### Registration & login
