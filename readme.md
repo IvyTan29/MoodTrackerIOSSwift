@@ -27,6 +27,7 @@ The user can add a mood entry by clicking the ```+``` button on the bottom of th
     <img src="https://user-images.githubusercontent.com/49770088/184527749-fa3bb5ad-43ea-4302-b0b7-23f14ab7915f.png" width="250">
 </kbd>
 
+<br>
 The user can pick a date and time not later than the current time. They can use the slider to depict the mood level for that entry. The user can also add tags and a note to the mood entry.
 
 <p float="left">
@@ -41,6 +42,7 @@ The user can pick a date and time not later than the current time. They can use 
     </kbd>
 </p>
 
+<br>
 Aside from clicking on the tags listed under recent, the user can opt to type a new tag or click on the ```...``` button to see more tags which is also clickable. 
 
 <p float="left">
@@ -52,4 +54,50 @@ Aside from clicking on the tags listed under recent, the user can opt to type a 
     </kbd>
 </p>
 
-### Filter by date, week, month, and overall
+### Filter by day, week, month, and overall
+
+Users can filter mood entries based on different date units through clicking on the segment control.
+
+#### By day
+
+The user can select a date from the date picker.
+
+<p float="left">
+    <kbd>
+        <img src="https://user-images.githubusercontent.com/49770088/184527611-eaf6f47e-9a97-40d7-83e4-7301ee1f5d90.png" width="250">
+    </kbd>
+    <kbd>
+        <img src="https://user-images.githubusercontent.com/49770088/184528294-ede1cac2-3022-4378-abed-a35103ac82f3.png" width="250">
+    </kbd>
+</p>
+
+#### By last 52 weeks
+The user can choose a week period from the list.
+
+<p float="left">
+    <kbd>
+        <img src="https://user-images.githubusercontent.com/49770088/184528512-9e2ae2cb-811c-4dde-9dd3-3e6c61e6fd0b.png" width="250">
+    </kbd>
+    <kbd>
+        <img src="https://user-images.githubusercontent.com/49770088/184528544-996ef3ce-619c-42d7-877a-e5bb5caa2edf.png" width="250">
+    </kbd>
+</p>
+
+#### By last 12 months
+The user can pick a month by sliding up and down from the picker.
+
+<p float="left">
+    <kbd>
+        <img src="https://user-images.githubusercontent.com/49770088/184528572-aaf7f7d4-1d24-4adb-8157-0b55a7282689.png" width="250">
+    </kbd>
+    <kbd>
+        <img src="https://user-images.githubusercontent.com/49770088/184528586-2475fa70-c561-4b02-aedf-3ba3d32cc3a7.png" width="250">
+    </kbd>
+</p>
+
+#### All
+The user can view all their mood entries.
+
+<kbd>
+    <img src="https://user-images.githubusercontent.com/49770088/184528591-b42a13c5-0cdc-4d81-b510-46734bee692c.png" width="250">
+</kbd>
