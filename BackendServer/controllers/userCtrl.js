@@ -2,7 +2,7 @@ import { User } from '../model/User.js';
 import { Entry } from '../model/Entry.js';
 import { Tag } from '../model/Tag.js';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 const saltRounds = 10;
 
 const userCtrl = {
